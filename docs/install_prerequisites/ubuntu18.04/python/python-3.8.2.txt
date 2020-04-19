@@ -25,3 +25,12 @@ sudo rm -f Python-3.8.2.tgz
 // upgrade pip installer
 python -m pip install --upgrade pip
 
+// install jupyter for editing code only
+pip install jupyter
+
+
+logout & login needed
+
+// testing the installation of jupyter notebook
+jupyter notebook
+
