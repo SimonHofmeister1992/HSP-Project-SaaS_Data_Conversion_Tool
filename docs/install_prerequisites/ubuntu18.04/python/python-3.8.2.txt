@@ -1,0 +1,27 @@
+// installation of python 3.8.2 on ubuntu 18.04 according to https://tecadmin.net/install-python-3-8-ubuntu/
+
+// prerequisites
+sudo apt-get install build-essential checkinstall
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev \
+    libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+
+// download python 3.8.2
+cd /opt
+sudo wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+sudo tar xzf Python-3.8.2.tgz
+
+// compile source
+cd Python-3.8.2
+sudo ./configure --enable-optimizations
+sudo make altinstall
+
+// check installation
+python3.8 -V
+
+// clean
+cd /opt
+sudo rm -f Python-3.8.2.tgz
+
+// upgrade pip installer
+python -m pip install --upgrade pip
+
