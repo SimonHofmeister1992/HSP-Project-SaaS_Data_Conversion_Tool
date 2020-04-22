@@ -1,0 +1,4 @@
+\babel@toc {ngerman}{}
+\babel@toc {ngerman}{}
+\contentsline {chapter}{Abbildungsverzeichnis}{5}{chapter*.2}
+\contentsline {chapter}{Tabellenverzeichnis}{7}{chapter*.3}

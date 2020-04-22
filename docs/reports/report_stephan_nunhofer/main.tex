@@ -1,0 +1,180 @@
+\documentclass[11pt,a4paper, parskip=half]{scrbook}
+% one page view
+%\documentclass[11pt,a4paper, parskip=half]{scrreprt}
+\usepackage[utf8]{inputenc} %Codierung
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks,colorlinks=false, breaklinks]{hyperref} %Links/Verweise %Breaklines für Zeilenumbruch
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm}
+\usepackage{multirow}
+\usepackage{nomencl}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{varioref}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{xcolor}
+
+\pagestyle{plain}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\usepackage{caption}
+
+% Andere Schriftart
+\usepackage{lmodern}
+
+%% Set line spacing accordingly
+\usepackage[onehalfspacing]{setspace}
+
+%% Use PDFs
+\usepackage{pdfpages}
+
+%% Citation styles
+\usepackage{babelbib}
+
+% Set spacing accordingly
+% Add additional space to compensate book format (printed and tied)
+\usepackage{geometry}
+% View Setting
+\geometry{a4paper, top=2cm, inner=3cm, outer=3cm, bottom=3cm}
+ % Print Setting
+%\geometry{a4paper, top=2cm, inner=4cm, outer=2cm, bottom=3cm}
+
+%% Include eps graphics
+\usepackage{epstopdf}
+
+%% Zeilenumbruch fuer lange Links optimieren
+\usepackage{url}
+\usepackage{breakurl}
+%% allow line break after Slash and Dash
+\def\UrlBreaks{\do\/\do-}
+
+%% Include literature in TOC
+\usepackage[nottoc]{tocbibind}
+
+%% Abkürzungsverzeichnis
+\usepackage[printonlyused,withpage]{acronym}
+%\usepackage{acronym}
+
+% schönerer Blocksatz!!
+\usepackage{microtype}
+
+% Make the standard latex tables look so much better
+\usepackage{array,booktabs}
+
+% For table headers
+\usepackage{multirow}
+
+%For uniform tables
+\usepackage{tabularx}
+
+% For units
+\usepackage{units}
+
+% For adjusted page numbering in appendix 'by chapter'
+\usepackage[auto]{chappg}
+
+% Set up how figure and table captions are displayed
+\usepackage{caption}
+\captionsetup{
+  font=small,% set font size to footnotesize
+  labelfont=bf, % bold label (e.g., Figure 3.2) font
+  justification=centering % centering for captions
+}
+
+%% Kapitelueberschriften formatieren
+%%\usepackage{titlesec}
+%%\titleformat{\chapter}[display]
+%%  {\bfseries\Large}
+%%  {\filright\MakeUppercase{\chaptertitlename} \Huge\thechapter}
+%%  {1ex}
+%%  {\titlerule\filcenter}
+%%  [\titlerule]
+
+\usepackage{ifpdf} % part of the hyperref bundle
+\ifpdf % if pdflatex is used
+
+% Mehr Platz zwischen Tabelle und Untertitel
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}
+
+%% Zeilenumbruch fuer lange Links optimieren
+\usepackage{url}
+\usepackage{breakurl}
+
+%% To force image palcement via [H] option
+\usepackage{float}
+
+%% Für Querbilder
+\usepackage{rotating}
+
+%% Define nice green color
+\definecolor{ao}{rgb}{0.0, 0.5, 0.0}
+
+\author{Stephan Nunhofer}
+
+%% Shortcut command for including images
+\newcommand{\newImg}[4]{ % 4 = Number of parameters
+\begin{figure}[H]
+\centering
+	\includegraphics[width=#1\columnwidth]{Bilder/#2} %Dateiname ist variabel als Parameter
+	\caption{#3} % 2. Parameter
+	\label{img:#4} % 3. Parameter
+\end{figure}
+}
+
+\usepackage[ngerman]{cleveref}
+
+%--------------------------------------------%
+
+\begin{document}
+%% Titelseite
+\input{titelseite} 
+
+%% Reset page counter
+\clearpage
+%% Page numbering Roman
+%\pagenumbering{Roman}
+
+%% Inhaltsverzeichnis
+\tableofcontents
+
+%% Reset page counter
+\clearpage
+\cleardoublepage
+
+%% Set page numbering to arabic
+%\pagenumbering{arabic}
+
+%%Main text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Main text end
+
+%% Abkürzungsverzeichnis
+%\input{Kapitel/acronyms}
+
+%% Abbildungsverzeichnis
+\listoffigures
+
+\listoftables
+
+%% Literaturverzeichnis
+\bibliographystyle{babunsrt}
+\bibliography{./Literatur/bib/quellen}
+
+%\appendix
+%\addpart{Anhang}
+%\input{Kapitel/anhang}
+%\input{chapters/anhang}
+
+\end{document}
