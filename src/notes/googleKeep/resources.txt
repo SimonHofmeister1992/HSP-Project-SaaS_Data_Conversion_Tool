@@ -1,0 +1,3 @@
+Python 3.7 (Kann auch über Microsoft Store installiert werden)#
+über PiP installiertes Packet gkeepapi
+Google Konto
