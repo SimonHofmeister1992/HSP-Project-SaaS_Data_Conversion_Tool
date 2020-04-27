@@ -1,0 +1,13 @@
+Quellen:
+	https://developers.google.com/calendar/v3/reference
+	http://googleapis.github.io/google-api-python-client/docs/dyn/calendar_v3.html
+
+READ:
+
+kalender:
+	calendar_list_entry = service.calendarList().get(calendarId='calendarId').execute()
+	print calendar_list_entry['summary']
+kalender_einträge:
+	calendar = service.calendars().get(calendarId='primary').execute()
+	print calendar['summary']
+
