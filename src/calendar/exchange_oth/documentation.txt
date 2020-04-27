@@ -1,0 +1,4 @@
+https://pypi.org/project/exchangelib/1.9.6/
+
+needed installation:
+pip install import_ipynb

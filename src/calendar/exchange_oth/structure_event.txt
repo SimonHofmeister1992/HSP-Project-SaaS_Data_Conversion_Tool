@@ -1,0 +1,34 @@
+subject: Einladung: Besprechung HSP - Mi 29. Apr. 2020 2PM - 3PM (MESZ) (simon1.hofmeister@st.othr.de) bzw. WIS Herr Hofmeister
+sensitivity: Normal
+last_modified_time: 2020-04-27 04:48:17+00:00
+datetime_received: 2020-04-27 04:48:17+00:00
+importance: Normal
+is_submitted: False
+is_from_me: False
+is_resend: False
+is_unmodified: False
+datetime_sent: 2020-04-27 04:48:17+00:00
+datetime_created: 2020-04-27 04:48:17+00:00
+reminder_due_by: 2020-04-27 00:00:00+00:00
+reminder_is_set: True
+reminder_minutes_before_start: 15
+last_modified_name: user
+start: 2020-04-29 12:00:00+00:00
+end: 2020-04-29 13:00:00+00:00
+is_all_day: False
+legacy_free_busy_status: 'Tentative'
+location: <string>
+is_meeting: True
+is_cancelled: False
+is_recurring: False
+is_response_requested: True
+meeting_request_was_sent: True
+type: 'Single'
+my_response_type: 'NoResponseReceived'
+organizer: name, email
+required_attendees: name, email, ...
+conflicting_meeting_count: 0
+adjacent_meeting_count: 0
+duration: PT1H
+is_online_meeting: False
+
