@@ -1,4 +1,7 @@
 calendar: calendar
+kind: calendar#event
+etag: '"3175925788770000"'
+id: '2fillhqo4s48g407be9jitdl3c'
 status: confirmed
 htmlLink: url
 created: 2020-04-27T04:47:41.000Z (yyyy-mm-dd'T'hh:mm:ss:milis UTC)
@@ -10,6 +13,8 @@ creator: email, self?(boolean)
 organizer: email, self?(boolean)
 start: 2020-04-27T04:47:41.+02:00 (yyyy-mm-dd'T'hh:mm:ss+02:00 (Zeitzone))
 end: 2020-04-27T04:47:41.+02:00 (yyyy-mm-dd'T'hh:mm:ss+02:00 (Zeitzone))
+iCalUID: '2fillhqo4s48g407be9jitdl3c@google.com'
+sequence: 0
 attendees: [{'email': 'hofisi92dev@gmail.com', 'organizer': True, 'self': True, 'responseStatus': 'accepted'}, {'email': 	'hofisi92@gmail.com', 'responseStatus': 'needsAction'}, {'email': 'simon1.hofmeister@st.othr.de', 'responseStatus': 	    		'needsAction'}]
 hangoutLink: url
 conferenceData: {'createRequest': {'requestId': '5a68re764e65br0d7e3p1oi6jq', 'conferenceSolutionKey': {'type': 'eventHangout'}, 'status': {'statusCode': 'success'}}, 'entryPoints': [{'entryPointType': 'video', 'uri': <url>}], 'conferenceSolution': {'key': {'type': 'eventHangout'}, 'name': 'Hangouts', 'iconUri': <url>}, 'signature': <string>}, 'reminders': {'useDefault': True}}

@@ -1,4 +1,4 @@
-id: event-id
+id: id
 series_id: serien_id
 remote_id: None
 subcalendar_id: subkalender_id
@@ -29,3 +29,4 @@ comments_privacy: 1
 comments_visibility: 'users_with_modify_permission'
 custom: {}
 signups: []
+
