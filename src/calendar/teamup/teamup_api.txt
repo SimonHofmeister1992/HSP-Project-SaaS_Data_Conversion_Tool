@@ -1,0 +1,15 @@
+src: https://apidocs.teamup.com/#teamup-api-overview
+
+requests only calendar specific
+
+
+example:
+https://api.teamup.com/kst496bmane3rty9b7/events?startDate=2017-08-01&endDate=2020-05-01
+url/calendar-specific-key/events
+
+possible attributes:
+
+startDate: YYYY-MM-DD, default:today
+endDate: YYYY-MM-DD, default: tomorrow. If defined, also startDate is needed
+format: html or markdown. default: html
+subcalendarID[]: restrict to selected subcalendars, multiple-requests possible. i.e. &subcalendarId[]=1234&subcalendarId[]=6789
