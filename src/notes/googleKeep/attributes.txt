@@ -1,0 +1,21 @@
+Notes and Lists
+node.TopLevelNode.id (Read only)
+node.TopLevelNode.parent (Read only)
+node.TopLevelNode.title
+node.TopLevelNode.text
+node.TopLevelNode.color
+node.TopLevelNode.archived
+node.TopLevelNode.pinned
+node.TopLevelNode.labels
+node.TopLevelNode.annotations
+node.TopLevelNode.timestamps (Read only)
+node.TopLevelNode.collaborators
+node.TopLevelNode.blobs (Read only)
+
+ListItems
+node.TopLevelNode.id (Read only)
+node.TopLevelNode.parent (Read only)
+node.TopLevelNode.parent_item (Read only)
+node.TopLevelNode.indented (Read only)
+node.TopLevelNode.text
+node.TopLevelNode.checked
