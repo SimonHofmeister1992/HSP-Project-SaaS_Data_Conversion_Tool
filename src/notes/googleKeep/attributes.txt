@@ -19,3 +19,10 @@ node.TopLevelNode.parent_item (Read only)
 node.TopLevelNode.indented (Read only)
 node.TopLevelNode.text
 node.TopLevelNode.checked
+
+timestamps
+node.timestamps.created
+node.timestamps.deleted
+node.timestamps.trashed
+node.timestamps.updated
+node.timestamps.edited
