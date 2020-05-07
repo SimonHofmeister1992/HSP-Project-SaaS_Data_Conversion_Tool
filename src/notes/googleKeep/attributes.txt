@@ -1,13 +1,13 @@
 Notes and Lists
 node.TopLevelNode.id (Read only)
 node.TopLevelNode.parent (Read only)
-node.TopLevelNode.title
-node.TopLevelNode.text
-node.TopLevelNode.color
-node.TopLevelNode.archived
-node.TopLevelNode.pinned
-node.TopLevelNode.labels
-node.TopLevelNode.annotations
+node.TopLevelNode.title = string
+node.TopLevelNode.text = string
+node.TopLevelNode.color = string
+node.TopLevelNode.archived = boolean
+node.TopLevelNode.pinned = boolean
+node.TopLevelNode.labels = string
+node.TopLevelNode.annotations = string
 node.TopLevelNode.timestamps (Read only)
 node.TopLevelNode.collaborators
 node.TopLevelNode.blobs (Read only)
