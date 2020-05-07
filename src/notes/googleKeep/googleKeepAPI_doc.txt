@@ -1,0 +1,20 @@
+-----------------------------------------------------
+Requirements:
+pip install gkeepapi
+
+-----------------------------------------------------
+Login:
+- get an keep-object with gkeepapi.Keep()
+- authorize it with its method login()
+	- 1. Parameter: google account name or email
+	- 2. Parameter: password for this account
+You have now an authorized client
+
+-----------------------------------------------------
+Usage of API:
+- to create notes use createNote()
+	- synchronize the Service with sync() method
+- get notes with find(parameters of search)
+	- return parameter contains a list of node-objects with all information
+- Parameters and functions are described in the documentation:
+	https://gkeepapi.readthedocs.io/en/latest/

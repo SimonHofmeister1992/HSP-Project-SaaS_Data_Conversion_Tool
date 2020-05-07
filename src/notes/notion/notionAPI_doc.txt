@@ -1,0 +1,22 @@
+-----------------------------------------------------
+Requirements:
+pip install notion
+token_v2 from the cookies of an active notion.so session
+
+-----------------------------------------------------
+Login:
+- create a client with the token_v2 as Parameter
+You have now an authorized client
+
+-----------------------------------------------------
+Usage of API:
+- Every block in Notion has a url to identify it
+	- you can get it as an block with client.get_block(url)
+	- or you use the collection_view from client.get_collection_view(url)
+		- with this you treat the block as an list
+- The blocks are organized as a tree. Every block can have children an a parent.
+- You traverse through this tree with the block-attributes children and parent.
+- To create a block use the add_new(blocktype, attributes) on the children attribute of a block
+- For all information of an block you call the method _get_record_data()
+- Documentation: https://pypi.org/project/notion/
+

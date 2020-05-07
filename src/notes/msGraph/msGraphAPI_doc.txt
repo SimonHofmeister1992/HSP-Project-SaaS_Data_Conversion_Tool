@@ -1,0 +1,52 @@
+-----------------------------------------------------
+Requirements:
+pip install microsoftgraph-python
+Azure Registration with microsoft account:
+	get the clientID
+	set a clientSecret
+	define redirectUri (e.g. http://localhost:5000)
+	grant all security and notebook permissions
+pip install webbrowser
+
+
+-----------------------------------------------------
+Preparations in skript:
+- imported all necessary libraries 
+	sys
+	HTTPServer, BaseHTTPRequestHandler from http.server
+	socketserver
+	webbrowser
+	requests
+	Client from microsoftgraph.client
+- defined a simple TCP-Server on Port 5000
+	=> data of this Server gets handled by a custom made HttpRequestHandler, 
+	   which returns an empty response and copies the recievied requestline into an variable
+- defined wrapper method getAnswer() to tell the server to handle one request
+- function extractCode() extracts the authorization Code from the Azure answer
+
+-----------------------------------------------------
+Login:
+- create a client with the ClientID and ClientSecret from Azure
+- define the access scope for office 365 in a list
+- create authentication url with the function authorization_url() from client
+	Parameters are the redirectUri defined in Azure and the scope list
+	last parameter ist standard
+- access this url through the webbrowser with the function open_new() from webbrowser class
+- getAnswer()
+- extractCode()
+- exchange the recieved Azure code for an authorization token with client.exchange_code()
+	Parameter ist the redirectUri and the code you extracted from last answer
+- copy the recieved token into the office365_token and the token from client
+You have now an authorized client
+
+-----------------------------------------------------
+Usage of Graph:
+- Get the data by calling the respective methodes of the client
+	(e.g. client.list_notebooks() returns a dict with lists with dicts 
+	containing a list and all attributes from the notebooks)
+- If you want to get the contents from the contentUrl from the pages or any other url you can use client._get(url)
+- client._get(url) is a httpRequest wrapper class from client
+	- it sends the url with the graph authentication header and returns the answer
+	- with this method you can send every request in the MS Graph API (given you have authorized the scopes)
+	- Graph API Documentation: https://docs.microsoft.com/en-us/graph/overview?view=graph-rest-beta
+

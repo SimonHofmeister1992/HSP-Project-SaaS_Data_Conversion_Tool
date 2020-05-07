@@ -1,0 +1,37 @@
+Properties Notion:
+
+id = string
+version = int
+type = string
+title = string
+prop_2(tags) = string/string collection
+content (content IDs) = string/string collection (only by blocks with subblocks)
+created_by = string
+created_time = long int
+last_edited_by = string
+last_edited_time = long int
+parent_id = string
+parent_table = string
+alive = boolean
+copied_from = string
+created_by_table = string
+created_by_id = string
+last_edited_by_table = string
+last_edited_by_id = string
+ignore_block_count = boolean
+
+Always available:
+
+id = string
+version = int
+type = string
+created_time = long int
+last_edited_by = string
+last_edited_time = long int
+parent_id = string
+parent_table = string
+alive = boolean
+created_by_table = string
+created_by_id = string
+last_edited_by_table = string
+last_edited_by_id = string

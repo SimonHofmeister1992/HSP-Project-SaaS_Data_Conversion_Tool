@@ -1,9 +1,0 @@
-for all:
-	title
-
-possible attributes:
-	toDo-Lists
-	Text
-	Videos
-	Graphics
-	Databases

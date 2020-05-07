@@ -1,0 +1,16 @@
+Properties:
+id = string
+self = url(string)
+createdDateTime = DateTime
+title = string
+createdByAppId = string
+contentURL = url(string) => if opened: "content" = string (no real given name for attribute)
+lastModifiedDateTime = DateTime
+links:
+	oneNoteClientUrl = url(string)
+	oneNoteWebUrl = url(string)
+parentSection@odata.context = url(string)
+parentSection: 
+	id = string
+	displayName = string
+	self = url(string)
