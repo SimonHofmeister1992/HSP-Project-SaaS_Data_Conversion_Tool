@@ -46,3 +46,17 @@ for child1 in page3.children:
     for child in test2.children:
         print(child.title)
         
+#################################################################################
+print("###############################################################")
+print("Query of Collection")
+result = page2.default_query().execute()
+for row in result:
+    print(row.id)
+    temp = client.get_block(row.id)
+    print("----------------------------------------------------------------------------------")
+    print(temp.title)
+    print(temp._get_record_data())
+    for block in temp.children:
+        print("  ", block.title)
+        print("  ", block._get_record_data())
+        
