@@ -1,8 +1,9 @@
-#KeepServiceAPI
-#gkeepapi version 0.11.14
+#NotionServiceAPI
 import sys, os
+from datetime import datetime
 from notion.client import NotionClient
-from notion.block import TodoBlock
+from notion.block import TextBlock
+from notion.block import PageBlock
 from notion.collection import Collection
 path = os.path.abspath(os.getcwd())
 path = path.split("\\")
@@ -17,29 +18,30 @@ class NotionServiceAPI (apiBase):
     def inject_in_API (self, attributes):
         """function for the injection of given data from JSON into the service"""
         client = self.login()
-        page = client.get_collection_view("https://www.notion.so/4d9514bea6a74f68963116dd7824aa38?v=32c0ab4841714d09a01ee13be1565047")
-        #for a in attributes:
+        notes = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
+        for a in attributes:
+            child = notes.children.add_new(PageBlock, title=a['title'], created_time=a['created'])
+            child.created_time = a['created']
+            text = a['text'].split("\\n")
+            for line in text:
+                child.children.add_new(TextBlock, title=line)
             
-               
     
     def extract_from_API (self):
         """function for the injection of given data from the service into JSON"""
         client = self.login()
-        page = client.get_collection_view("https://www.notion.so/4d9514bea6a74f68963116dd7824aa38?v=32c0ab4841714d09a01ee13be1565047")
-        
         datastore = []
-        result = page.default_query().execute()
-        for row in result:
-            note = client.get_block(row.id)
+        result = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
+        for note in result.children:
             data = note._get_record_data()
             text =""
             for textline in note.children:
-                text = text + " " + textline.title
+                text = text + "\\n " + textline.title
             notionNote = {
             "title" : note.title,
             "text" : text,
-            "edited" : data.get('last_edited_time'), 
-            "created" : data.get('created_time'),
+            "edited" : datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%d%m%Y, %H:%M:%S"), 
+            "created" : datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%d%m%Y, %H:%M:%S"),
             "version" : data.get('version'),
             "type" : data.get('type'),
             "parent" : data.get('parent_id'), 
@@ -62,7 +64,10 @@ class NotionServiceAPI (apiBase):
 
 
 test = NotionServiceAPI()
-#dictionary = {"title" : "test", "text" : "testtext"}
+#dictionary = {"title" : "test", "text" : "testtext\\n neue Linie", "created" : 1589969512218}
 #liste = [dictionary]
-#print(test.inject_in_API(liste))
-print(test.extract_from_API())
+#test.inject_in_API(liste)
+result = test.extract_from_API()
+for res in result:
+    print(res)
+    print()

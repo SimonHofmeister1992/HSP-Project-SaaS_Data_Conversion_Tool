@@ -17,29 +17,31 @@ class KeepServiceAPI (apiBase):
         """function for the injection of given data from JSON into the service"""
         k = self.login()
         for a in attributes:
-            gnote = k.createNote(a.get('title'), a.get('text'))
-            #if('created' in a):
-                #print("inside", ('created' in a))
-                #gnote.timestamps._created = gnote.timestamps.str_to_dt(a.get('created'))
-            #if('edited' in a):
-                #print("inside", ('edited' in a))
-                #gnote.timestamps._edited = gnote.timestamps.str_to_dt(a.get('edited'))
-            k.sync()    
+            gnote = k.createNote(a['title'], a['text'])
+            if('created' in a):
+                print("inside", ('created' in a))
+                gnote.timestamps._created = gnote.timestamps.str_to_dt(a.get('created'))
+            if('edited' in a):
+                print("inside", ('edited' in a))
+                gnote.timestamps._edited = gnote.timestamps.str_to_dt(a.get('edited'))
+            k.sync()  
+            return gnote
     
     def extract_from_API (self):
         """function for the injection of given data from the service into JSON"""
         k = self.login()
         gnotes = k.find()
+        print(gnotes)
         datastore = []
         for n in gnotes:
             keepNote = {
             "title" : n.title, 
-            #"parent" : n.parent, 
+            "parent" : n.parent, 
             "id" : n.id, 
-            #"server_id" : n.server_id, 
-            #"parent_id" : n.parent_id, 
-            "version" : n._version, 
-            "text" : n._text, 
+            "server_id" : n.server_id, 
+            "parent_id" : n.parent_id, 
+            "version" : n.version, 
+            "text" : n.text, 
             "color" : n._color.name, 
             "archived" : n._archived, 
             "pinned" : n._pinned, 
@@ -65,4 +67,7 @@ class KeepServiceAPI (apiBase):
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
-#print(test.extract_from_API())
+#result = test.extract_from_API()
+#for res in result:
+    #print(res)
+    #print()
