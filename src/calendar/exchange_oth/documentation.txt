@@ -1,4 +1,11 @@
 https://pypi.org/project/exchangelib/1.9.6/
 
 needed installation:
-pip install import_ipynb
+pip install exchangelib[kerberos]
+or: pip install exchangelib[complete]
+
+make sure the python version which installs this package is also used to execute the scripts,
+due to the fact, that the exchangelib library is often installed to /home/$USER/.local/lib/<pythonversion>/site-packages/
+if the wrong python version calls the script, the library will also not be found.
+
+example: for me it makes a difference if i call python3 <scriptname> or python3.8 <scriptname> whereby the library is located in /home/$USER/.local/lib/python3.8/ which works and python3 references python3.6 which does not work.
