@@ -1,5 +1,6 @@
 #OneNoteServiceAPI
-import sys, os
+import sys
+import os
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import socketserver
@@ -15,7 +16,8 @@ path = path[:len(path)-2]
 path = "\\".join(path)
 path = path+"\\general"
 sys.path.insert(0, path)
-from apiBase import apiBase
+from baseApiInterface import baseApiInterface
+from oneNoteDataObject import oneNoteDataObject
 
 answer = ""
 
@@ -27,7 +29,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         global answer
         answer = self.requestline
 
-class OneNoteServiceAPI (apiBase):
+class oneNoteApiInterface (baseApiInterface):
     
     def getAnwser(self, httpd):
         """get the answer from the webserver"""
@@ -48,26 +50,26 @@ class OneNoteServiceAPI (apiBase):
         root = ET.fromstring(xml)
         page = root[1][0]
         content = ""
-        for paragraphs in list(page):
+        for paragraph in list(page):
             if(paragraph.text is not None):
                 content = content + paragraph.text
             else:
-                content = content + paragraph.text
+                content = content
         return content
         
-    def inject_in_API (self, attributes, section_id = '0-84C461DF521C020F!116'):
+    def injectInAPI (self, dataObjects, section_id = '0-84C461DF521C020F!116'):
         """function for the injection of given data from JSON into the service"""
         
         client = self.login()
-        for page in attributes:
+        for dataObject in dataObjects:
             root = ET.Element("html", {"lang" : "de-DE"})
             head = ET.SubElement(root, "head")
             body = ET.SubElement(root, "body", {"style" : "font-family:Calibri;font-size:11pt", "data-absolute-enabled" : "true"})
-            ET.SubElement(head, "title").text = page['title']
+            ET.SubElement(head, "title").text = dataObject.title
             ET.SubElement(head, "meta", {"content" : "text/html; charset=utf-8", "http-equiv" : "Content-Type"})
-            ET.SubElement(head, "meta", {"content" : page['created'].strftime("%d&m&Y, %H:%M:%S"), "name" : "created"})
+            ET.SubElement(head, "meta", {"content" : dataObject.created, "name" : "created"})
             div = ET.SubElement(body, "div", {"style" : "position:absolute;left:48px;top:115px;width:624px"})
-            ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = page[text]
+            ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = DataObject.text
             content_xml = ET.tostring(root, encoding='utf8', method='xml')
             content_xml = content_xml[38:]
             content_xml = b'<!DOCTYPE html>\n'+content_xml
@@ -79,13 +81,13 @@ class OneNoteServiceAPI (apiBase):
             }
             add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))          
     
-    def extract_from_API (self):
+    def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
         
         client = self.login()
         pages = client.list_pages()
         
-        datastore = []
+        objectStore = []
         for page in pages['value']:
             content = self.extractContentFromPage(client._get(page['contentUrl']))
             oneNoteNote = {
@@ -99,8 +101,23 @@ class OneNoteServiceAPI (apiBase):
             "self" : page['self'],
             "createdByAppId" : page['createdByAppId']
             }
-            datastore.append(oneNoteNote)
-        return datastore
+            print(oneNoteNote)
+            print()
+            
+            dataObject = oneNoteDataObject()
+            dataObject.title = page['title']
+            dataObject.text = content
+            dataObject.edited = page['lastModifiedDateTime']
+            dataObject.created = page['createdDateTime']
+            dataObject.parentSection = page['parentSection']
+            dataObject.links = page['links']
+            dataObject.id = page['id']
+            dataObject.self = page['self']
+            dataObject.createdByAppId = page['createdByAppId']
+            
+            objectStore.append(dataObject)
+            
+        return objectStore
         
     def login (self):
         """establish a connection to the service an return an access object"""
@@ -127,8 +144,10 @@ class OneNoteServiceAPI (apiBase):
         return client
 
 
-test = OneNoteServiceAPI()
+test = oneNoteApiInterface()
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
-print(test.extract_from_API())
+result = test.extractFromAPI()
+for res in result:
+    print(res)

@@ -9,30 +9,27 @@ path = "\\".join(path)
 path = path+"\\general"
 sys.path.insert(0, path)
 #print(sys.path)
-from apiBase import apiBase
+from baseApiInterface import baseApiInterface
+from keepDataObject import keepDataObject
 
-class KeepServiceAPI (apiBase):
+class keepApiInterface (baseApiInterface):
     
-    def inject_in_API (self, attributes):
+    def injectiInAPI (self, dataObjects):
         """function for the injection of given data from JSON into the service"""
         k = self.login()
-        for a in attributes:
-            gnote = k.createNote(a['title'], a['text'])
-            if('created' in a):
-                print("inside", ('created' in a))
-                gnote.timestamps._created = gnote.timestamps.str_to_dt(a.get('created'))
-            if('edited' in a):
-                print("inside", ('edited' in a))
-                gnote.timestamps._edited = gnote.timestamps.str_to_dt(a.get('edited'))
+        for dataObject in dataObjects:
+            gnote = k.createNote(dataObject.title, dataObject.text)
+            gnote.timestamps._created = dataObject.created
+            gnote.timestamps._edited = dataObject.edited
             k.sync()  
             return gnote
     
-    def extract_from_API (self):
+    def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
         k = self.login()
         gnotes = k.find()
         print(gnotes)
-        datastore = []
+        objectStore = []
         for n in gnotes:
             keepNote = {
             "title" : n.title, 
@@ -52,8 +49,24 @@ class KeepServiceAPI (apiBase):
             "updated" : n.timestamps.dt_to_str(n.timestamps._updated), 
             "edited" : n.timestamps.dt_to_str(n.timestamps._edited)
             }
-            datastore.append(keepNote)
-        return datastore
+            print(keepNote)
+            print()
+            
+            dataObject = keepDataObject()
+            dataObject.title = n.title
+            dataObject.text = n.text
+            dataObject.edited = n.timestamps.dt_to_str(n.timestamps._edited)
+            dataObject.created = n.timestamps.dt_to_str(n.timestamps._created)
+            dataObject.parent_id = n.parent_id
+            dataObject.id = n.id
+            dataObject.version = n.version
+            dataObject.color = n._color.name
+            dataObject.trashed = n.timestamps.dt_to_str(n.timestamps._trashed)
+            dataObject.updated = n.timestamps.dt_to_str(n.timestamps._updated)
+            
+            objectStore.append(dataObject)
+            
+        return objectStore
         
     def login (self):
         print("Starting login")
@@ -63,11 +76,11 @@ class KeepServiceAPI (apiBase):
         return k
 
 
-#test = KeepServiceAPI()
+test = keepApiInterface()
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
-#result = test.extract_from_API()
-#for res in result:
-    #print(res)
-    #print()
+result = test.extractFromAPI()
+for res in result:
+    print(res)
+    print()

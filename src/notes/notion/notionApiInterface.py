@@ -11,37 +11,38 @@ path = path[:len(path)-2]
 path = "\\".join(path)
 path = path+"\\general"
 sys.path.insert(0, path)
-from apiBase import apiBase
+from baseApiInterface import baseApiInterface
+from notionDataObject import notionDataObject
 
-class NotionServiceAPI (apiBase):
+class notionApiInterface (baseApiInterface):
     
-    def inject_in_API (self, attributes):
+    def injectInAPI (self, dataObjects):
         """function for the injection of given data from JSON into the service"""
         client = self.login()
         notes = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
-        for a in attributes:
-            child = notes.children.add_new(PageBlock, title=a['title'], created_time=a['created'])
-            child.created_time = a['created']
-            text = a['text'].split("\\n")
+        for objects in dataObjects:
+            child = notes.children.add_new(PageBlock, title=objects.title, created_time=objects.created)
+            child.created_time = objects.created
+            text = objects.text.split("\n")
             for line in text:
                 child.children.add_new(TextBlock, title=line)
             
     
-    def extract_from_API (self):
+    def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
         client = self.login()
-        datastore = []
+        objectStore = []
         result = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
         for note in result.children:
             data = note._get_record_data()
             text =""
             for textline in note.children:
-                text = text + "\\n " + textline.title
+                text = text + "\n " + textline.title
             notionNote = {
             "title" : note.title,
             "text" : text,
-            "edited" : datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%d%m%Y, %H:%M:%S"), 
-            "created" : datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%d%m%Y, %H:%M:%S"),
+            "edited" : datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S"), 
+            "created" : datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S"),
             "version" : data.get('version'),
             "type" : data.get('type'),
             "parent" : data.get('parent_id'), 
@@ -53,8 +54,28 @@ class NotionServiceAPI (apiBase):
             "last_edited_by_id" : data.get('last_edited_by_id'),
             "id" : data.get('id'), 
             }
-            datastore.append(notionNote)
-        return datastore
+            print(notionNote)
+            print()
+            
+            dataObject = notionDataObject()
+            dataObject.title = note.title
+            dataObject.text = text
+            dataObject.edited = datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S")
+            dataObject.created = datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S")
+            dataObject.version = data.get('version')
+            dataObject.type = data.get('type')
+            dataObject.parent = data.get('parent_id')
+            dataObject.parent_table = data.get('parent_table')
+            dataObject.last_edited_by = data.get('last_edited_by')
+            dataObject.alive = data.get('alive')
+            dataObject.created_by_table = data.get('created_by_table')
+            dataObject.created_by_id = data.get('created_by_id')
+            dataObject.last_edited_by_id = data.get('last_edited_by_id')
+            dataObject.id = data.get('id')
+            
+            objectStore.append(dataObject)
+            
+        return objectStore
         
     def login (self):
         print("Starting login")
@@ -63,11 +84,11 @@ class NotionServiceAPI (apiBase):
         return client
 
 
-test = NotionServiceAPI()
+test = notionApiInterface()
 #dictionary = {"title" : "test", "text" : "testtext\\n neue Linie", "created" : 1589969512218}
 #liste = [dictionary]
-#test.inject_in_API(liste)
-result = test.extract_from_API()
+#test.injectInAPI(liste)
+result = test.extractFromAPI()
 for res in result:
     print(res)
     print()
