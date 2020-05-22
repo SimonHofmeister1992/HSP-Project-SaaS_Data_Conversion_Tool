@@ -3,11 +3,14 @@ import json
 
 import sys
 import loginData as crd
+import teamupCalendarDataObject as teamupCalendarDataObject
 sys.path.append("../../general/tools/")
 import jsonTokenExchanger as jsonTokenExchanger
 import bidict as bidict
+sys.path.append("../../general/")
+import baseApiInterface as baseApiInterface
 
-class teamupCalendarApiInterface(jsonTokenExchanger.jsonTokenExchanger):
+class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExchanger.jsonTokenExchanger):
     uniqueCalendarId='kst496bmane3rty9b7'
     
     bidirectionalDictionaryOfTokensAPIvsObject = bidict.bidict(
@@ -53,6 +56,11 @@ class teamupCalendarApiInterface(jsonTokenExchanger.jsonTokenExchanger):
 ti = teamupCalendarApiInterface()
 parsedEvents=ti.extractFromApi()
 print(parsedEvents)
+
+dataObject = teamupCalendarDataObject.teamupCalendarDataObject()
+dataObject.title=parsedEvents["title"]
+print("content title: ",dataObject.title)
+
 reparsedEvents=ti.injectInApi(parsedEvents)
 print(reparsedEvents)
 
