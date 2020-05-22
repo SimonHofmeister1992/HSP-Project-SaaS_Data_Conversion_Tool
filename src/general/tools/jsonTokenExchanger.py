@@ -1,16 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-import sys
-sys.path.append("../../general")
 import bidict as bidict
 
-# In[ ]:
-
-
-class tokenExchanger:
+class jsonTokenExchanger:
     bidirectionalDictionaryOfTokensAPIvsObject = bidict.bidict(
         {
             #name attribute api, name attribute python object

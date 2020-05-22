@@ -1,15 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
 import sys
 sys.path.append("../../general")
 import dataObject as dataObject
-
-# In[4]:
-
 
 class calendarDataObject(dataObject.dataObject):
     '''interface which contains attributes defined in all calendars'''
