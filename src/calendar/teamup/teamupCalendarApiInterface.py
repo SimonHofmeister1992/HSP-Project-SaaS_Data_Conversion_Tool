@@ -1,14 +1,17 @@
 import requests
 import json
 
-import sys
 import loginData as crd
 import teamupCalendarDataObject as teamupCalendarDataObject
+
+import sys
 sys.path.append("../../general/tools/")
 import jsonTokenExchanger as jsonTokenExchanger
 import bidict as bidict
 sys.path.append("../../general/")
 import baseApiInterface as baseApiInterface
+sys.path.append("../../general/datastore/")
+import jsonDatastore as jsonDatastore
 
 class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExchanger.jsonTokenExchanger):
     uniqueCalendarId='kst496bmane3rty9b7'
@@ -53,14 +56,25 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         #TODO: logic to write into the api
         return reparsedJSON
 
+
+
+#TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
+
 ti = teamupCalendarApiInterface()
 parsedEvents=ti.extractFromApi()
-print(parsedEvents)
+#print(parsedEvents)
 
 dataObject = teamupCalendarDataObject.teamupCalendarDataObject()
 dataObject.title=parsedEvents["title"]
-print("content title: ",dataObject.title)
+dataObject.text=parsedEvents["text"]
+dataObject.created=parsedEvents["created"]
+dataObject.edited=parsedEvents["edited"]
+dataObject.st_version=parsedEvents["st_version"]
+#print("content title: ",dataObject.title)
+
+jDatastore=jsonDatastore.jsonDatastore()
+jDatastore.convertDataObjectToJSON(dataObject)
 
 reparsedEvents=ti.injectInApi(parsedEvents)
-print(reparsedEvents)
+#print(reparsedEvents)
 
