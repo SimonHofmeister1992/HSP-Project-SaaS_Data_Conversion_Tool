@@ -9,13 +9,7 @@ import requests
 from datetime import datetime
 from xml.etree import cElementTree as ET
 from microsoftgraph.client import Client
-
-path = os.path.abspath(os.getcwd())
-path = path.split("\\")
-path = path[:len(path)-2]
-path = "\\".join(path)
-path = path+"\\general"
-sys.path.insert(0, path)
+sys.path.append("../../general/")
 from baseApiInterface import baseApiInterface
 from oneNoteDataObject import oneNoteDataObject
 

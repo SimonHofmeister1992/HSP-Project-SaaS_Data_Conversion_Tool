@@ -1,18 +1,14 @@
 #NotionServiceAPI
-import sys, os
+import sys
 from datetime import datetime
 from notion.client import NotionClient
 from notion.block import TextBlock
 from notion.block import PageBlock
 from notion.collection import Collection
-path = os.path.abspath(os.getcwd())
-path = path.split("\\")
-path = path[:len(path)-2]
-path = "\\".join(path)
-path = path+"\\general"
-sys.path.insert(0, path)
-from baseApiInterface import baseApiInterface
+sys.path.append("../../general/")
 from notionDataObject import notionDataObject
+from baseApiInterface import baseApiInterface
+
 
 class notionApiInterface (baseApiInterface):
     

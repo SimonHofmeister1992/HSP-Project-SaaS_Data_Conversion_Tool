@@ -1,3 +1,5 @@
+import sys
+sys.path.append("../../general/")
 from notesDataObject import notesDataObject
 
 class notionDataObject(notesDataObject):

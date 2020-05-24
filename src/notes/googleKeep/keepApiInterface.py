@@ -1,14 +1,9 @@
 #KeepServiceAPI
 #gkeepapi version 0.11.14
-import sys, os
+import sys
+import os
 import gkeepapi
-path = os.path.abspath(os.getcwd())
-path = path.split("\\")
-path = path[:len(path)-2]
-path = "\\".join(path)
-path = path+"\\general"
-sys.path.insert(0, path)
-#print(sys.path)
+sys.path.append("../../general/")
 from baseApiInterface import baseApiInterface
 from keepDataObject import keepDataObject
 
