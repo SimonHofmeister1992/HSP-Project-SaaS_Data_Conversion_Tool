@@ -23,14 +23,14 @@ class jsonDatastore(datastore.datastore):
 
     def convertDataObjectToJSON(self, dataObject):
         '''function to convert an object into json. input: object, output: json-string'''
-        dataObjectAsJson=json.loads(json.dumps(dataObject.__dict__))
+        dataObjectAsJson=json.dumps(dataObject.__dict__, default=lambda o: o.__dict__, sort_keys=True, indent=4)
         print(dataObjectAsJson)
-        return dataObjectAsJson
+        return dataObject
 
     def convertJSONToDataObject(self, dataObject):
         '''function to convert json strings into concrete objects. input: class, output: object'''
         # not yet implemented
-        return
+        return json.loads(dataObject)
 
 
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE

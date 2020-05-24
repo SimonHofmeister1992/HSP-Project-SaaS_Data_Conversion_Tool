@@ -14,8 +14,10 @@ sys.path.append("../../general/datastore/")
 import jsonDatastore as jsonDatastore
 
 class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExchanger.jsonTokenExchanger):
-    uniqueCalendarId='kst496bmane3rty9b7'
     
+    def __init__(self, uniqueCalendarId):
+        self.uniqueCalendarId=uniqueCalendarId
+
     bidirectionalDictionaryOfTokensAPIvsObject = bidict.bidict(
         {
             #name attribute api, name attribute python object
@@ -25,6 +27,16 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             'update_dt' : 'edited',
             'id': 'st_id',
             'version': 'st_version',
+           # 'duration': 'ul_duration',
+            'subcalendar_id': 'st_subcalendarId',
+            'subcalendar_ids': 'st_subcalendarIds',
+            'delete_dt': 'st_isCancelled',
+            'all_day': 'f_endTimeUnspecified',
+            'readonly': 'f_guestsCanModify',
+            'remote_id': 'st_remoteId',
+            'location': 'st_location',
+            'tz': 'st_timezone',
+            'series_id':'st_recurringEventId'
         }
     ) 
     
@@ -32,7 +44,14 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
     fieldsNotToWriteToAPI = list(
         {
             'id',
-            'version',
+           # 'duration',
+            'delete_dt',
+            'series_id',
+            'rsstart_dt',
+            'readonly',
+            'creation_dt',
+            'update_dt',
+            'delete_dt',
         }
     )
     
@@ -45,35 +64,63 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if response:
             responseContentPlain = response.text
             responseContentJson = json.loads(responseContentPlain)
-            events = responseContentJson['events'][0]
-            parsedEvents = self.convertJSONTokensFromAPIToObjectAsJSON(events)
-            return parsedEvents
-            # TODO: convert to object
-            #return response_content_json['events']
+            for events in responseContentJson['events']:
+                parsedEvents = self.convertJSONTokensFromAPIToObjectAsJSON(events)
+                parsedEvent= self.createSingleObjectByJSON(parsedEvents)
+
+
+                jDatastore=jsonDatastore.jsonDatastore()
+                jDatastore.convertDataObjectToJSON(parsedEvent)
+
+                return parsedEvent
     
     def injectInApi(self, jsonobject):
-        reparsedJSON = self.convertJSONTokensFromObjectAsJSONToAPI(jsonobject)
+        reparsedJSON = '' #self.convertJSONTokensFromObjectAsJSONToAPI(jsonobject)
         #TODO: logic to write into the api
         return reparsedJSON
 
+    def timeConverterApiToObject(datetime):
+        dt=teamupCalendarDataObject.teamupCalendarDataObject.datetime()
+        date=datetime.split("T")
+        dt.st_date=date[0]
+        dt.st_time=date[1][:8]
+        dt.st_timezone=date[1][8:]
+        return dt
 
-
+    def createSingleObjectByJSON(self, parsedEvent):
+        dataObject = teamupCalendarDataObject.teamupCalendarDataObject()
+        dataObject.title=parsedEvent["title"]
+        dataObject.text=parsedEvent["text"].replace("<p>","",1).replace("</p>","",1)
+        dataObject.created=parsedEvent["created"]
+        dataObject.edited=parsedEvent["edited"]
+        dataObject.st_version=parsedEvent["st_version"]
+        #dataObject.ul_duration=parsedEvent["ul_duration"]
+        dataObject.st_subcalendarId=parsedEvent["st_subcalendarId"]
+        dataObject.st_subcalendarIds=parsedEvent["st_subcalendarIds"]
+        dataObject.f_endTimeUnspecified=parsedEvent["f_endTimeUnspecified"]
+        dataObject.f_guestsCanModify=parsedEvent["f_guestsCanModify"]
+        dataObject.st_recurringEventId=parsedEvent["st_recurringEventId"]
+        dataObject.st_remoteId=parsedEvent["st_remoteId"]
+        dataObject.st_location=parsedEvent["st_location"]
+        dataObject.st_timezone=parsedEvent["st_timezone"]
+        if parsedEvent["st_isCancelled"] != None:
+            dataObject.st_isCancelled='cancelled'
+        else:
+            dataObject.st_isCancelled='confirmed'
+        dataObject.rg_attendees=list()
+        for attendee in parsedEvent["who"].split("; "):
+            att=teamupCalendarDataObject.teamupCalendarDataObject.attendee()
+            att.st_email=attendee  
+            dataObject.rg_attendees.append(att)
+        dataObject.dt_endTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["end_dt"])
+        dataObject.dt_startTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["start_dt"])
+        dataObject.dt_originalStartTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["rsstart_dt"])
+        return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
-ti = teamupCalendarApiInterface()
+ti = teamupCalendarApiInterface('kst496bmane3rty9b7')
 parsedEvents=ti.extractFromApi()
-#print(parsedEvents)
 
-dataObject = teamupCalendarDataObject.teamupCalendarDataObject()
-dataObject.title=parsedEvents["title"]
-dataObject.text=parsedEvents["text"]
-dataObject.created=parsedEvents["created"]
-dataObject.edited=parsedEvents["edited"]
-dataObject.st_version=parsedEvents["st_version"]
-#print("content title: ",dataObject.title)
-
-jDatastore=jsonDatastore.jsonDatastore()
-jDatastore.convertDataObjectToJSON(dataObject)
 
 reparsedEvents=ti.injectInApi(parsedEvents)
 #print(reparsedEvents)
