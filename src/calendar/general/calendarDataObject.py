@@ -1,4 +1,3 @@
-from typing import List
 import sys
 sys.path.append("../../general")
 import dataObject as dataObject
@@ -31,7 +30,11 @@ class calendarDataObject(dataObject.dataObject):
     class reminder(object):
         class override(object):
             ul_minutes=0
-        gr_overrides=List[override]
+        gr_overrides=list()
+
+        def __init__(self):
+            self.gr_overrides=list()
+        
     
     class datetime(object):
         st_date=''
@@ -47,9 +50,9 @@ class calendarDataObject(dataObject.dataObject):
     f_status=False # true if meeting is declined or deleted
     f_transparency=False # true if event blocks time-span of duration in calendar
     
-    rg_attendees=List[attendee] # structure defining attendees of the event
+    rg_attendees=list() # structure defining attendees of the event
     rg_conferenceData=conferenceData()
-    reminder=reminder()
+    rg_reminder=reminder()
     rg_recurrence= recurrence() # structure defining recurrence patterns
    
     st_iCalUid='' #calendar_internal id to be identified outside the calendar    
@@ -60,4 +63,8 @@ class calendarDataObject(dataObject.dataObject):
     st_visibility='' # text value indicating the privacy level, if the event shall be shown to others
 
     ul_duration=0 # duration of the event in minutes    
+    
+
+    def __init__(self):
+        self.rg_attendees=list()
 

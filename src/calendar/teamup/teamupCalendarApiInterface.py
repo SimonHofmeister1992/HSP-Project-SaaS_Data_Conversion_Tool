@@ -30,7 +30,7 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
            # 'duration': 'ul_duration',
             'subcalendar_id': 'st_subcalendarId',
             'subcalendar_ids': 'st_subcalendarIds',
-            'delete_dt': 'st_isCancelled',
+            'delete_dt': 'st_status',
             'all_day': 'f_endTimeUnspecified',
             'readonly': 'f_guestsCanModify',
             'remote_id': 'st_remoteId',
@@ -103,11 +103,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         dataObject.st_remoteId=parsedEvent["st_remoteId"]
         dataObject.st_location=parsedEvent["st_location"]
         dataObject.st_timezone=parsedEvent["st_timezone"]
-        if parsedEvent["st_isCancelled"] != None:
-            dataObject.st_isCancelled='cancelled'
+        if parsedEvent["st_status"] != None:
+            dataObject.st_status='cancelled'
         else:
-            dataObject.st_isCancelled='confirmed'
-        dataObject.rg_attendees=list()
+            dataObject.st_status='confirmed'
         for attendee in parsedEvent["who"].split("; "):
             att=teamupCalendarDataObject.teamupCalendarDataObject.attendee()
             att.st_email=attendee  
@@ -120,7 +119,6 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
 
 ti = teamupCalendarApiInterface('kst496bmane3rty9b7')
 parsedEvents=ti.extractFromApi()
-
 
 reparsedEvents=ti.injectInApi(parsedEvents)
 #print(reparsedEvents)
