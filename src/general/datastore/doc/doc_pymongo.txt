@@ -1,0 +1,8 @@
+Links for pymongo documentation:
+
+pip:
+https://pypi.org/project/pymongo/
+
+official documentation:
+https://pymongo.readthedocs.io/en/stable/tutorial.html
+https://pymongo.readthedocs.io/en/stable/api/index.html
