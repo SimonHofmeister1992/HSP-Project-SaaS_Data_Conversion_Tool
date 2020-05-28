@@ -1,8 +1,8 @@
 import sys
 sys.path.append("../../general/")
-from notesDataObject import notesDataObject
+from dataObject import dataObject
 
-class oneNoteDataObject(notesDataObject):
+class oneNoteDataObject(dataObject):
     parentSection = ""
     links = ""
     self = ""

@@ -1,8 +1,8 @@
 import sys
-sys.path.append("../../general/")
-from notesDataObject import notesDataObject
+sys.path.append("../../general")
+from dataObject import dataObject
 
-class keepDataObject(notesDataObject):
+class keepDataObject(dataObject):
     parent = ""
     parent_id = ""
     version = ""

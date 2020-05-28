@@ -67,7 +67,7 @@ class notionApiInterface (baseApiInterface):
             dataObject.created_by_table = data.get('created_by_table')
             dataObject.created_by_id = data.get('created_by_id')
             dataObject.last_edited_by_id = data.get('last_edited_by_id')
-            dataObject.id = data.get('id')
+            dataObject._id = "Notion " + str(data.get('id'))
             
             objectStore.append(dataObject)
             

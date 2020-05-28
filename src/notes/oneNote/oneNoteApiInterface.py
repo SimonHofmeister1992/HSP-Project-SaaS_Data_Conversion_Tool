@@ -105,7 +105,7 @@ class oneNoteApiInterface (baseApiInterface):
             dataObject.created = page['createdDateTime']
             dataObject.parentSection = page['parentSection']
             dataObject.links = page['links']
-            dataObject.id = page['id']
+            dataObject._id = "OneNote " +str(page['id'])
             dataObject.self = page['self']
             dataObject.createdByAppId = page['createdByAppId']
             
