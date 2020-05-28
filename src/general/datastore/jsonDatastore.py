@@ -1,10 +1,14 @@
 import json
+from collections import namedtuple
 import sys
 sys.path.append("../")
 import dataObject as dataObject
 import datastore as datastore
 
 class jsonDatastore(datastore.datastore):
+    def jsonObjectHook(self, d): 
+        return namedtuple('X', d.keys())(*d.values())
+
     def persist(self, dataObject):
         """abstract function to persist data objects in a concrete datastore"""
         return convertObjectToJSON(dataObject)
@@ -25,22 +29,15 @@ class jsonDatastore(datastore.datastore):
         '''function to convert an object into json. input: object, output: json-string'''
         dataObjectAsJson=json.dumps(dataObject.__dict__, default=lambda o: o.__dict__, sort_keys=True, indent=4)
         print(dataObjectAsJson)
-        return dataObject
+        return dataObjectAsJson
 
-    def convertJSONToDataObject(self, dataObject):
+    def convertJSONToDataObject(self, jsonObjects, dataObjectClass):
         '''function to convert json strings into concrete objects. input: class, output: object'''
-        # not yet implemented
-        return json.loads(dataObject)
-
-
-#TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
-
-#jD=jsonDatastore()
-#jD.get(dataObject.dataObject)
-#dO=dataObject.dataObject()
-#dO.title="Hannibal"
-#dO.text="description"
-#dOAJ=jD.persist(dO)
-#print("return values: ")
-#print("title: ", dOAJ["title"])
-#print("text: ", dOAJ["text"])
+        dataObjects=list()
+        for jsonObject in jsonObjects:
+            obj=json.loads(jsonObject,object_hook=self.jsonObjectHook)
+            dO=dataObjectClass()
+            dO.copyValues(obj)
+            dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
+            dataObjects.append(dO)
+        return dataObjects

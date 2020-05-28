@@ -64,33 +64,38 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if response:
             responseContentPlain = response.text
             responseContentJson = json.loads(responseContentPlain)
+            jsonEventList=list()
             for events in responseContentJson['events']:
                 parsedEvents = self.convertJSONTokensFromAPIToObjectAsJSON(events)
                 parsedEvent= self.createSingleObjectByJSON(parsedEvents)
 
 
                 jDatastore=jsonDatastore.jsonDatastore()
-                jDatastore.convertDataObjectToJSON(parsedEvent)
-
-                return parsedEvent
+                parsedEvent=jDatastore.convertDataObjectToJSON(parsedEvent)
+                jsonEventList.append(parsedEvent)
+            return jsonEventList
     
-    def injectInApi(self, jsonobject):
-        reparsedJSON = '' #self.convertJSONTokensFromObjectAsJSONToAPI(jsonobject)
-        #TODO: logic to write into the api
-        return reparsedJSON
+    def injectInApi(self, jsonEvents):
+        #TODO: logic to write into the api; yet only: conversion jsonDatastore->dataObject
+        jDatastore=jsonDatastore.jsonDatastore()
+        events=jDatastore.convertJSONToDataObject(jsonEvents, teamupCalendarDataObject.teamupCalendarDataObject)
+        
+        return events
 
     def timeConverterApiToObject(datetime):
-        dt=teamupCalendarDataObject.teamupCalendarDataObject.datetime()
-        date=datetime.split("T")
-        dt.st_date=date[0]
-        dt.st_time=date[1][:8]
-        dt.st_timezone=date[1][8:]
-        return dt
+        if datetime != None:
+            dt=teamupCalendarDataObject.teamupCalendarDataObject.datetime()
+            date=datetime.split("T")
+            dt.st_date=date[0]
+            dt.st_time=date[1][:8]
+            dt.st_timezone=date[1][8:]
+            return dt
 
     def createSingleObjectByJSON(self, parsedEvent):
         dataObject = teamupCalendarDataObject.teamupCalendarDataObject()
         dataObject.title=parsedEvent["title"]
-        dataObject.text=parsedEvent["text"].replace("<p>","",1).replace("</p>","",1)
+        if parsedEvent["text"] != None:
+            dataObject.text=parsedEvent["text"].replace("<p>","",1).replace("</p>","",1)
         dataObject.created=parsedEvent["created"]
         dataObject.edited=parsedEvent["edited"]
         dataObject.st_version=parsedEvent["st_version"]
@@ -117,9 +122,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
-ti = teamupCalendarApiInterface('kst496bmane3rty9b7')
+ti=teamupCalendarApiInterface('kst496bmane3rty9b7')
 parsedEvents=ti.extractFromApi()
 
-reparsedEvents=ti.injectInApi(parsedEvents)
-#print(reparsedEvents)
-
+#Yet only to test conversion json->dataObject
+events=ti.injectInApi(parsedEvents)
+for event in events:
+    print(event.__dict__)
