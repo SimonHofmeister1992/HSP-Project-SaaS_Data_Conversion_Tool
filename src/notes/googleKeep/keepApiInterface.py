@@ -4,8 +4,6 @@ import sys
 import os
 import gkeepapi
 sys.path.append("../../general/")
-#sys.path.append("../../general/datastore")
-#from mongodbDatastore import mongodbDatastore
 from baseApiInterface import baseApiInterface
 from keepDataObject import keepDataObject
 
@@ -24,7 +22,6 @@ class keepApiInterface (baseApiInterface):
     def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
         k = self.login()
-        #db = mongodbDatastore()
         gnotes = k.find()
         print(gnotes)
         objectStore = []
@@ -63,7 +60,7 @@ class keepApiInterface (baseApiInterface):
             dataObject.updated = n.timestamps.dt_to_str(n.timestamps._updated)
             
             objectStore.append(dataObject)
-            #db.persist(dataObject)
+            self.persist(dataObject)
             
         return objectStore
         

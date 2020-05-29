@@ -70,6 +70,7 @@ class notionApiInterface (baseApiInterface):
             dataObject._id = "Notion " + str(data.get('id'))
             
             objectStore.append(dataObject)
+            self.persist(dataObject)
             
         return objectStore
         

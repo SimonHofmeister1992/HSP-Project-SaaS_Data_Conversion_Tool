@@ -11,3 +11,4 @@ class dataObject(object):
     text=""
     created=""
     edited=""
+    _id=""

@@ -110,6 +110,7 @@ class oneNoteApiInterface (baseApiInterface):
             dataObject.createdByAppId = page['createdByAppId']
             
             objectStore.append(dataObject)
+            self.persist(dataObject)
             
         return objectStore
         
