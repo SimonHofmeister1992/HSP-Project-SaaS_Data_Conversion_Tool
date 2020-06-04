@@ -9,5 +9,3 @@ class keepDataObject(dataObject):
     color = ""
     trashed = ""
     updated = ""
-    
-    

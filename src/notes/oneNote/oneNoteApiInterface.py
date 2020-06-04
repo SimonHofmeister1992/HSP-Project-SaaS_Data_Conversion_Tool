@@ -24,6 +24,16 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         answer = self.requestline
 
 class oneNoteApiInterface (baseApiInterface):
+
+    azureID = ""
+    azureSecret = ""
+    id_tag = ""
+    
+    def __init__(self, azureID, azureSecret):
+        """provide the login information with object generation"""
+        self.azureID = azureID
+        self.azureSecret = azureSecret
+        self.id_tag = "notes#" + oneNoteApiInterface.__name__ + "#"
     
     def getAnwser(self, httpd):
         """get the answer from the webserver"""
@@ -105,7 +115,7 @@ class oneNoteApiInterface (baseApiInterface):
             dataObject.created = page['createdDateTime']
             dataObject.parentSection = page['parentSection']
             dataObject.links = page['links']
-            dataObject._id = "OneNote " +str(page['id'])
+            dataObject._id = self.id_tag +str(page['id'])
             dataObject.self = page['self']
             dataObject.createdByAppId = page['createdByAppId']
             
@@ -121,7 +131,7 @@ class oneNoteApiInterface (baseApiInterface):
         httpd = socketserver.TCPServer(("", 5000), SimpleHTTPRequestHandler)
         print("Starting login")
         #start login
-        client = Client('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg', account_type='by defect common', office365=True)
+        client = Client(self.azureID, self.azureSecret, account_type='by defect common', office365=True)
         scope = {'offline_access', 'user.read', 'notes.read', 'notes.readwrite'}
         url = client.authorization_url('http://localhost:5000', scope, state=None)
         
@@ -139,7 +149,7 @@ class oneNoteApiInterface (baseApiInterface):
         return client
 
 
-test = oneNoteApiInterface()
+test = oneNoteApiInterface('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg')
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))

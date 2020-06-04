@@ -8,6 +8,16 @@ from baseApiInterface import baseApiInterface
 from keepDataObject import keepDataObject
 
 class keepApiInterface (baseApiInterface):
+
+    username = ""
+    password = ""
+    id_tag = ""
+    
+    def __init__(self, username, password):
+        """provide the login information with object generation"""
+        self.username = username
+        self.password = password
+        self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
     
     def injectiInAPI (self, dataObjects):
         """function for the injection of given data from JSON into the service"""
@@ -53,7 +63,7 @@ class keepApiInterface (baseApiInterface):
             dataObject.edited = n.timestamps.dt_to_str(n.timestamps._edited)
             dataObject.created = n.timestamps.dt_to_str(n.timestamps._created)
             dataObject.parent_id = n.parent_id
-            dataObject._id = "Keep " + str(n.id)
+            dataObject._id = self.id_tag + str(n.id)
             dataObject.version = n.version
             dataObject.color = n._color.name
             dataObject.trashed = n.timestamps.dt_to_str(n.timestamps._trashed)
@@ -67,15 +77,20 @@ class keepApiInterface (baseApiInterface):
     def login (self):
         print("Starting login")
         k = gkeepapi.Keep()
-        k.login('thsp006@gmail.com', 'TestHSPT3st534')
+        k.login(self.username, self.password)
+        token = keep.getMasterToken()
+        print("token: ", token)
         print("login successfull")
         return k
 
 
-test = keepApiInterface()
-#dictionary = {"title" : "test", "text" : "testtext"}
-#liste = [dictionary]
-#print(test.inject_in_API(liste))
+test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
+#elem = dataObject()
+#elem.title = "InjectionTest"
+#elem.text = "Injectiontext"
+#elem.created = "
+#elem.edited = "
+#print(test.injectInAPI(elem))
 result = test.extractFromAPI()
 #for res in result:
     #print(res)
