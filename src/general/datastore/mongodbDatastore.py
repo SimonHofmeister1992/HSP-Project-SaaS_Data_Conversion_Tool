@@ -4,8 +4,13 @@ sys.path.append("../")
 from dataObject import dataObject
 from datastore import datastore
 import re
+import json
+from collections import namedtuple
 
 class mongodbDatastore(datastore.datastore):
+
+    def jsonObjectHook(self, d): 
+        return namedtuple('X', d.keys())(*d.values())
 
     def persist(self, dataObject):
         """abstract function to persist data objects in a concrete datastore"""
@@ -22,7 +27,18 @@ class mongodbDatastore(datastore.datastore):
         collection=db.SaaSCollection
         filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
         entries = collection.find({'id_tag': {'$regex':filterOption}})
-        return entries
+        objectList = list()
+        for entry in entries:
+            entry['id'] = entry.pop('_id')
+            obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
+            dO=dataObjectClass()
+            dO.copyValues(obj)
+            dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
+            print(dO.__dict__)
+            dO._id=entry["id"]
+            dO.__dict__.pop('id')
+            objectList.append(dO)
+        return objectList
         
         
     def login(self):
