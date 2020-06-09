@@ -31,10 +31,16 @@ class mongodbDatastore(datastore.datastore):
         for entry in entries:
             entry['id'] = entry.pop('_id')
             obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
+            i=0
+            # go dataObject hierarchy upwards until the id_tags at the viewed position matches, or at a maximum up to the dataObject class, to know the least common interface to fill in the data
+            while '#'.join(reversed(obj.id_tag.split('#')))[1:].split('#')[i] != '#'.join(reversed(dataObjectClass().id_tag.split('#')))[1:].split('#')[i]:
+                dataObjectClass=dataObjectClass.__mro__[i]
+                i=i+1
+                if dataObjectClass__name__ == "dataObject":
+                    break;
             dO=dataObjectClass()
             dO.copyValues(obj)
             dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
-            print(dO.__dict__)
             dO._id=entry["id"]
             dO.__dict__.pop('id')
             objectList.append(dO)
