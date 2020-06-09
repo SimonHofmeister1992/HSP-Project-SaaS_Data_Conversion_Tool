@@ -6,31 +6,31 @@ class calendarDataObject(dataObject.dataObject):
     '''interface which contains attributes defined in all calendars'''
     # the variables prefixes are defined as in the Hungarian Apps Style, Extension: dt=Date
 
-    class attendee(object):
+    class attendee(dict):
         '''person, room or thing attending the event'''
         st_displayName=''
         st_email=''
     
-    class recurrence(object):
+    class recurrence(dict):
         '''recurrence information of the event'''
         st_pattern=''
         st_recurringEventId=''
         
-    class attachment(object):
+    class attachment(dict):
         st_fileUrl=''
         st_title=''
     
-    class conferenceData(object):
-        class conferenceSolution(object):
+    class conferenceData(dict):
+        class conferenceSolution(dict):
             st_name=''
             
-        class entryPoint(object):
+        class entryPoint(dict):
             st_uri=''
         rg_conferenceSolution=conferenceSolution()
         rg_entryPoint=entryPoint()
             
-    class reminder(object):
-        class override(object):
+    class reminder(dict):
+        class override(dict):
             ul_minutes=0
         gr_overrides=list()
 
@@ -38,11 +38,11 @@ class calendarDataObject(dataObject.dataObject):
             self.gr_overrides=list()
         
     
-    class datetime(object):
+    class datetime(dict):
         st_date=''
         st_time=''
         st_timezone=''
-
+    
     dt_endTime=datetime()
     dt_originalStartTime=datetime()
     dt_startTime=datetime()
@@ -162,6 +162,5 @@ class calendarDataObject(dataObject.dataObject):
         return dataObject
 
     def __init__(self):
-        self.rg_attendees=list()
-        self.rg_attachments=list()
+        self.id_tag = "calendar#" + self.__class__.__name__ + "#" 
 

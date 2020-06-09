@@ -10,8 +10,8 @@ import jsonTokenExchanger as jsonTokenExchanger
 import bidict as bidict
 sys.path.append("../../general/")
 import baseApiInterface as baseApiInterface
-sys.path.append("../../general/datastore/")
-import jsonDatastore as jsonDatastore
+
+
 
 class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExchanger.jsonTokenExchanger):
     
@@ -64,16 +64,11 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if response:
             responseContentPlain = response.text
             responseContentJson = json.loads(responseContentPlain)
-            jsonEventList=list()
-            for events in responseContentJson['events']:
-                parsedEvents = self.convertJSONTokensFromAPIToObjectAsJSON(events)
-                parsedEvent= self.createSingleObjectByJSON(parsedEvents)
-
-
-                jDatastore=jsonDatastore.jsonDatastore()
-                parsedEvent=jDatastore.convertDataObjectToJSON(parsedEvent)
-                jsonEventList.append(parsedEvent)
-            return jsonEventList
+            for event in responseContentJson['events']:
+                parsedEvent = self.convertJSONTokensFromAPIToObjectAsJSON(event)
+                eventObject= self.createSingleObjectByJSON(parsedEvent)
+                self.persist(eventObject)
+            return
     
     def injectInApi(self, jsonEvents):
         #TODO: logic to write into the api; yet only: conversion jsonDatastore->dataObject
@@ -86,9 +81,9 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if datetime != None:
             dt=teamupCalendarDataObject.teamupCalendarDataObject.datetime()
             date=datetime.split("T")
-            dt.st_date=date[0]
-            dt.st_time=date[1][:8]
-            dt.st_timezone=date[1][8:]
+            dt["st_date"]=date[0]
+            dt["st_time"]=date[1][:8]
+            dt["st_timezone"]=date[1][8:]
             return dt
 
     def createSingleObjectByJSON(self, parsedEvent):
@@ -114,11 +109,14 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             dataObject.st_status='confirmed'
         for attendee in parsedEvent["who"].split("; "):
             att=teamupCalendarDataObject.teamupCalendarDataObject.attendee()
-            att.st_email=attendee  
+            att["st_email"]=attendee
             dataObject.rg_attendees.append(att)
         dataObject.dt_endTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["end_dt"])
         dataObject.dt_startTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["start_dt"])
         dataObject.dt_originalStartTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["rsstart_dt"])
+        dataObject._id = dataObject.id_tag + dataObject.st_id
+        if dataObject._id == dataObject.id_tag:
+            dataObject._id = dataObject.id_tag + "altKey_" + str(dataObject.st_subcalendarIds[0]) + '_' + parsedEvent["start_dt"] + '_' + dataObject.title
         return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
@@ -126,6 +124,6 @@ ti=teamupCalendarApiInterface('kst496bmane3rty9b7')
 parsedEvents=ti.extractFromApi()
 
 #Yet only to test conversion json->dataObject
-events=ti.injectInApi(parsedEvents)
-for event in events:
-    print(event.__dict__)
+#events=ti.injectInApi(parsedEvents)
+#for event in events:
+#    print(event.__dict__)
