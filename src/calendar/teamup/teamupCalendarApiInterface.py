@@ -122,7 +122,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
 
 ti=teamupCalendarApiInterface('kst496bmane3rty9b7')
 parsedEvents=ti.extractFromApi()
-
+#events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject)
+events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject, teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
+for event in events:
+    print(event)
 #Yet only to test conversion json->dataObject
 #events=ti.injectInApi(parsedEvents)
 #for event in events:

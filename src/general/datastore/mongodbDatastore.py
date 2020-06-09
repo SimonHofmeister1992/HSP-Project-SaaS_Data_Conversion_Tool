@@ -3,6 +3,7 @@ import pymongo
 sys.path.append("../")
 from dataObject import dataObject
 from datastore import datastore
+import re
 
 class mongodbDatastore(datastore.datastore):
 
@@ -14,9 +15,14 @@ class mongodbDatastore(datastore.datastore):
         dictObject = dataObject.__dict__
         collection.replace_one({'_id': dataObject._id}, dictObject, True)
 
-    def get(self, dataObject):
+    def get(self, dataObjectClass, substrIdTag):
         """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects"""
-        
+        # filteredIdTag is a substring of the id_tag value, like a split to the first or second # to retrieve all entries of a category like calendar / notes or of a concrete service
+        db = self.login()
+        collection=db.SaaSCollection
+        filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
+        entries = collection.find({'id_tag': {'$regex':filterOption}})
+        return entries
         
         
     def login(self):

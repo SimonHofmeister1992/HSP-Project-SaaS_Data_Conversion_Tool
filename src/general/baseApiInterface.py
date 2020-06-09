@@ -20,5 +20,6 @@ class baseApiInterface:
         """function for the injection of given dataObject into database"""
         self.db.persist(dataObject)
          
-    def get(self):
+    def get(self, dataObjectClass, substrIdTag):
         """function for the extraction of data from database into a dataObject"""
+        return self.db.get(dataObjectClass, substrIdTag)
