@@ -1,5 +1,5 @@
 #KeepServiceAPI
-#gkeepapi version 0.11.14
+#gkeepapi version 0.11.16
 import sys
 import os
 import gkeepapi
@@ -78,8 +78,6 @@ class keepApiInterface (baseApiInterface):
         print("Starting login")
         k = gkeepapi.Keep()
         k.login(self.username, self.password)
-        token = keep.getMasterToken()
-        print("token: ", token)
         print("login successfull")
         return k
 
