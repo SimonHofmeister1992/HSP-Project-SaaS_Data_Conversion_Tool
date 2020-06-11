@@ -10,7 +10,7 @@ class baseApiInterface:
         """requests the data for Injection into the service and provides the methode to do so"""
         #usually called to request data (calendarEvents, notes) from the database and persist it in the service api
         if substrIdTag  is None:
-            substrIdTag = serviceObject.id_tag
+            substrIdTag = self.id_tag
         self.get(dataObject, substrIdTag, self)
     
     def injectInAPI (self, dataObject):

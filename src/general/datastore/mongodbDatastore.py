@@ -27,7 +27,12 @@ class mongodbDatastore(datastore.datastore):
         collection=db.SaaSCollection
         filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
         entries = collection.find({'id_tag': {'$regex':filterOption}})
+        print("filterOption: ", filterOption, "substrIdTag: ", substrIdTag, "entries: ", entries)
+        print("Class: ", dataObjectClass, "serviceObject: ", serviceObject)
+        print("start")
         for entry in entries:
+            print("first loop")
+            print(entry)
             entry['id'] = entry.pop('_id')
             obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
             i=0
@@ -35,7 +40,7 @@ class mongodbDatastore(datastore.datastore):
             while '#'.join(reversed(obj.id_tag.split('#')))[1:].split('#')[i] != '#'.join(reversed(dataObjectClass().id_tag.split('#')))[1:].split('#')[i]:
                 dataObjectClass=dataObjectClass.__mro__[i]
                 i=i+1
-                if dataObjectClass__name__ == "dataObject":
+                if dataObjectClass.__name__ == "dataObject":
                     break;
             dO=dataObjectClass()
             dO.copyValues(obj)
