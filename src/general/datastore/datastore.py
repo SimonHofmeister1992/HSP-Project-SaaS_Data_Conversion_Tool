@@ -8,6 +8,6 @@ class datastore:
         """abstract function to persist data objects in a concrete datastore"""
         return     
 
-    def get(self, dataObject, substrIdTag):
+    def get(self, dataObject, substrIdTag, serviceObject):
         """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects"""
         return

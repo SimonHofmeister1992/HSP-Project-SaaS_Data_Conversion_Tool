@@ -27,7 +27,6 @@ class mongodbDatastore(datastore.datastore):
         collection=db.SaaSCollection
         filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
         entries = collection.find({'id_tag': {'$regex':filterOption}})
-        objectList = list()
         for entry in entries:
             entry['id'] = entry.pop('_id')
             obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
@@ -45,7 +44,7 @@ class mongodbDatastore(datastore.datastore):
             dO.__dict__.pop('id')
             objectList.append(dO)
             serviceObject.injectInAPI(dO)
-        return objectList
+        return
         
         
     def login(self):

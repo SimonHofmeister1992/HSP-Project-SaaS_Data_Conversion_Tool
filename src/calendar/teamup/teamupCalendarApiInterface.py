@@ -121,9 +121,9 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
 ti=teamupCalendarApiInterface('kst496bmane3rty9b7')
-parsedEvents=ti.extractFromApi()
+#parsedEvents=ti.extractFromApi()
 #events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject)
-events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject, teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
+events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject, teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0], self)
 for event in events:
     print(event.__dict__)
 #Yet only to test conversion json->dataObject

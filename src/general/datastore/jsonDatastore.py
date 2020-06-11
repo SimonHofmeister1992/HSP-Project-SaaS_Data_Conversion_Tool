@@ -13,7 +13,7 @@ class jsonDatastore(datastore.datastore):
         """abstract function to persist data objects in a concrete datastore"""
         return convertObjectToJSON(dataObject)
 
-    def get(self, dataObject):
+    def get(self, dataObject, substrIdTag, serviceObject):
         """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects"""
         #TODO: implement real functionality, not test functions
         # yet only playing how to pass a class / constructor to be able to create objects out of json
