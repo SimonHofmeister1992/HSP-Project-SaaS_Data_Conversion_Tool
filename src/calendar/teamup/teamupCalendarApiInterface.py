@@ -70,12 +70,9 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
                 self.persist(eventObject)
             return
     
-    def injectInApi(self, jsonEvents):
-        #TODO: logic to write into the api; yet only: conversion jsonDatastore->dataObject
-        jDatastore=jsonDatastore.jsonDatastore()
-        events=jDatastore.convertJSONToDataObject(jsonEvents, teamupCalendarDataObject.teamupCalendarDataObject)
-        
-        return events
+    def injectInAPI (self, dataObject):
+        print(dataObject.__dict__)        
+        return
 
     def timeConverterApiToObject(datetime):
         if datetime != None:
@@ -123,9 +120,7 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
 ti=teamupCalendarApiInterface('kst496bmane3rty9b7')
 #parsedEvents=ti.extractFromApi()
 #events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject)
-events=ti.get(teamupCalendarDataObject.teamupCalendarDataObject, teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0], self)
-for event in events:
-    print(event.__dict__)
+events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject,teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
 #Yet only to test conversion json->dataObject
 #events=ti.injectInApi(parsedEvents)
 #for event in events:

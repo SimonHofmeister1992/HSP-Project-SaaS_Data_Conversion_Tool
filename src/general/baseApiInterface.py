@@ -6,13 +6,18 @@ class baseApiInterface:
 
     db = mongodbDatastore()
     
-    def requestInjectionInAPI (self, filter = None):
+    def requestInjectionInAPI (self, dataObject ,substrIdTag = None):
         """requests the data for Injection into the service and provides the methode to do so"""
-        return
+        #usually called to request data (calendarEvents, notes) from the database and persist it in the service api
+        if substrIdTag  is None:
+            substrIdTag = serviceObject.id_tag
+        self.get(dataObject, substrIdTag, self)
     
     def injectInAPI (self, dataObject):
         """function for the injection of given data from dataObject into the service"""
+        #defines the logic how the dataObject is transformed and persisted in the service api, called automatically by wrapper methods
         #get attribute data from JSON and inject it into the service
+        print("hello")
         return     
     
     def extractFromAPI (self):

@@ -42,7 +42,6 @@ class mongodbDatastore(datastore.datastore):
             dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
             dO._id=entry["id"]
             dO.__dict__.pop('id')
-            objectList.append(dO)
             serviceObject.injectInAPI(dO)
         return
         
