@@ -61,11 +61,17 @@ class oneNoteApiInterface (baseApiInterface):
                 content = content
         return content
         
-    def injectInAPI (self, dataObjects, section_id = '0-84C461DF521C020F!116'):
+    def requestInjectionInAPI (self, filter = None):
+        """requests the data for Injection into the service and provides the methode to do so"""
+        if filter  is None:
+            filter = self.id_tag
+        self.get(oneNoteDataObject.__class__.__name__, filter, self)
+        
+    def injectInAPI (self, dataObject, section_id = '0-84C461DF521C020F!116'):
         """function for the injection of given data from JSON into the service"""
         
-        client = self.login()
-        for dataObject in dataObjects:
+        if dataObject != None:
+            client = self.login()
             root = ET.Element("html", {"lang" : "de-DE"})
             head = ET.SubElement(root, "head")
             body = ET.SubElement(root, "body", {"style" : "font-family:Calibri;font-size:11pt", "data-absolute-enabled" : "true"})
@@ -73,7 +79,7 @@ class oneNoteApiInterface (baseApiInterface):
             ET.SubElement(head, "meta", {"content" : "text/html; charset=utf-8", "http-equiv" : "Content-Type"})
             ET.SubElement(head, "meta", {"content" : dataObject.created, "name" : "created"})
             div = ET.SubElement(body, "div", {"style" : "position:absolute;left:48px;top:115px;width:624px"})
-            ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = DataObject.text
+            ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = dataObject.text
             content_xml = ET.tostring(root, encoding='utf8', method='xml')
             content_xml = content_xml[38:]
             content_xml = b'<!DOCTYPE html>\n'+content_xml
@@ -83,7 +89,9 @@ class oneNoteApiInterface (baseApiInterface):
                 'Authorization' : 'Bearer ' + client.office365_token['access_token'],
                 'Content-Type' : 'application/xhtml+xml'
             }
-            add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))          
+            add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))
+        else:
+            print("No dataObject given")
     
     def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
@@ -153,6 +161,7 @@ test = oneNoteApiInterface('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
-result = test.extractFromAPI()
-for res in result:
-    print(res)
+#result = test.extractFromAPI()
+#for res in result:
+    #print(res)
+test.requestInjectionInAPI()

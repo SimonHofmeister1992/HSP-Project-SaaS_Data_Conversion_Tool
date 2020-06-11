@@ -19,17 +19,25 @@ class notionApiInterface (baseApiInterface):
         """provide the login information with object generation"""
         self.token = token
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
+        
+    def requestInjectionInAPI (self, filter = None):
+        """requests the data for Injection into the service and provides the methode to do so"""
+        if filter  is None:
+            filter = self.id_tag
+        self.get(notionDataObject.__class__.__name__, filter, self)
     
-    def injectInAPI (self, dataObjects):
+    def injectInAPI (self, dataObject):
         """function for the injection of given data from JSON into the service"""
-        client = self.login()
-        notes = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
-        for objects in dataObjects:
+        if dataObject != None:
+            client = self.login()
+            notes = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
             child = notes.children.add_new(PageBlock, title=objects.title, created_time=objects.created)
             child.created_time = objects.created
             text = objects.text.split("\n")
             for line in text:
                 child.children.add_new(TextBlock, title=line)
+        else:
+            print("No dataObject given")
             
     
     def extractFromAPI (self):

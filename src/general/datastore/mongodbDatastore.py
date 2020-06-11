@@ -20,7 +20,7 @@ class mongodbDatastore(datastore.datastore):
         dictObject = dataObject.__dict__
         collection.replace_one({'_id': dataObject._id}, dictObject, True)
 
-    def get(self, dataObjectClass, substrIdTag):
+    def get(self, dataObjectClass, substrIdTag, serviceObject):
         """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects"""
         # filteredIdTag is a substring of the id_tag value, like a split to the first or second # to retrieve all entries of a category like calendar / notes or of a concrete service
         db = self.login()
@@ -44,6 +44,7 @@ class mongodbDatastore(datastore.datastore):
             dO._id=entry["id"]
             dO.__dict__.pop('id')
             objectList.append(dO)
+            serviceObject.injectInAPI(dO)
         return objectList
         
         

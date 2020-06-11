@@ -18,16 +18,24 @@ class keepApiInterface (baseApiInterface):
         self.username = username
         self.password = password
         self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
+        
+    def requestInjectionInAPI (self, filter = None):
+        """requests the data for Injection into the service and provides the methode to do so"""
+        if filter  is None:
+            filter = self.id_tag
+        self.get(keepDataObject.__class__.__name__, filter, self)
     
-    def injectiInAPI (self, dataObjects):
+    def injectInAPI (self, dataObject):
         """function for the injection of given data from JSON into the service"""
-        k = self.login()
-        for dataObject in dataObjects:
+        if dataObject != None:
+            k = self.login()
             gnote = k.createNote(dataObject.title, dataObject.text)
             gnote.timestamps._created = dataObject.created
             gnote.timestamps._edited = dataObject.edited
             k.sync()  
             return gnote
+        else:
+            print("No dataObject given")
     
     def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
@@ -89,7 +97,9 @@ test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #elem.created = "
 #elem.edited = "
 #print(test.injectInAPI(elem))
-result = test.extractFromAPI()
+#result = test.extractFromAPI()
 #for res in result:
     #print(res)
     #print()
+    
+test.requestInjectionInAPI()
