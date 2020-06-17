@@ -51,8 +51,8 @@ class notionApiInterface (baseApiInterface):
             notionNote = {
             "title" : note.title,
             "text" : text,
-            "edited" : datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S"), 
-            "created" : datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S"),
+            "edited" : datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
+            "created" : datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "version" : data.get('version'),
             "type" : data.get('type'),
             "parent" : data.get('parent_id'), 
@@ -70,8 +70,8 @@ class notionApiInterface (baseApiInterface):
             dataObject = notionDataObject()
             dataObject.title = note.title
             dataObject.text = text
-            dataObject.edited = datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S")
-            dataObject.created = datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S")
+            dataObject.edited = datetime.fromtimestamp(data.get('last_edited_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            dataObject.created = datetime.fromtimestamp(data.get('created_time')/1e3).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             dataObject.version = data.get('version')
             dataObject.type = data.get('type')
             dataObject.parent = data.get('parent_id')

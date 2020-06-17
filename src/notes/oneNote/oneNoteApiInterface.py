@@ -7,6 +7,7 @@ import socketserver
 import webbrowser
 import requests
 from datetime import datetime
+from pytz import timezone
 from xml.etree import cElementTree as ET
 from microsoftgraph.client import Client
 sys.path.append("../../general/")
@@ -97,14 +98,16 @@ class oneNoteApiInterface (baseApiInterface):
         client = self.login()
         pages = client.list_pages()
         
+        timezone = datetime.now().strftime("%fZ")
+        
         objectStore = []
         for page in pages['value']:
             content = self.extractContentFromPage(client._get(page['contentUrl']))
             oneNoteNote = {
             "title" : page['title'],
             "text" : content,
-            "edited" : page['lastModifiedDateTime'], 
-            "created" : page['createdDateTime'],
+            "edited" : datetime.strptime(page['lastModifiedDateTime'][:-1]+"."+timezone, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
+            "created" : datetime.strptime(page['createdDateTime'][:-1]+"."+timezone, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
             "parentSection" : page['parentSection'], 
             "links" : page['links'],
             "id" : page['id'], 
@@ -117,8 +120,8 @@ class oneNoteApiInterface (baseApiInterface):
             dataObject = oneNoteDataObject()
             dataObject.title = page['title']
             dataObject.text = content
-            dataObject.edited = page['lastModifiedDateTime']
-            dataObject.created = page['createdDateTime']
+            dataObject.edited = datetime.strptime(page['lastModifiedDateTime'][:-1]+"."+timezone, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            dataObject.created = datetime.strptime(page['createdDateTime'][:-1]+"."+timezone, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             dataObject.parentSection = page['parentSection']
             dataObject.links = page['links']
             dataObject._id = self.id_tag +str(page['id'])
@@ -160,6 +163,6 @@ test = oneNoteApiInterface('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
 result = test.extractFromAPI()
-#for res in result:
-    #print(res)
+for res in result:
+    print(res)
 #test.requestInjectionInAPI()
