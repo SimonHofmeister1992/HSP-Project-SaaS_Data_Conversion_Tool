@@ -11,7 +11,6 @@ class keepApiInterface (baseApiInterface):
 
     username = ""
     password = ""
-    id_tag = ""
     
     def __init__(self, username, password):
         """provide the login information with object generation"""
@@ -28,10 +27,36 @@ class keepApiInterface (baseApiInterface):
         """function for the injection of given data from JSON into the service"""
         if dataObject != None:
             k = self.login()
-            gnote = k.createNote(dataObject.title, dataObject.text)
-            gnote.timestamps._created = dataObject.created
-            gnote.timestamps._edited = dataObject.edited
-            k.sync()  
+            print("searching note")
+            print("_id: ", dataObject._id)
+            id_comp = dataObject._id.split("#")
+            print("id_comp: ", id_comp)
+            if id_comp[0] == "notes" and id_comp[1] == keepApiInterface.__name__:
+                print(k.find(func = lambda x: x.id == dataObject._id))
+                gnote = k.find(func = lambda x: x.id == dataObject._id)
+                for elem in gnote:
+                    gnote.title = dataObject.title
+                    gnote.text = dataObject.text
+                    #gnote._color = dataObject.color
+                    gnote._archived = dataObject.archived
+                    gnote.parent = dataObject.parent
+                    gnote.parent_id = dataObject.parent_id
+                    gnote.server_id = dataObject.server_id
+                    gnote.version = dataObject.version
+                    gnote._pinned = dataObject.pinned
+                    gnote._moved = dataObject.moved
+                    gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject.created)
+                    gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject.edited)
+                    gnote.timestamps._trashed = gnote.timestamps.str_to_dt(dataObject.trashed)
+                    gnote.timestamps._updated = gnote.timestamps.str_to_dt(dataObject.updated)
+                
+            else:
+                print("not found")
+                gnote = k.createNote(dataObject.title, dataObject.text)
+                gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject.created)
+                gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject.edited)
+                k.sync()  
+                
             return gnote
         else:
             print("No dataObject given")
@@ -100,5 +125,5 @@ test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #for res in result:
     #print(res)
     #print()
-    
-test.requestInjection()
+ 
+test.requestInjection("notes#")

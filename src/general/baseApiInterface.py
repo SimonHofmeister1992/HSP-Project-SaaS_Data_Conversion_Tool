@@ -5,6 +5,7 @@ from datastore.mongodbDatastore import mongodbDatastore
 class baseApiInterface:
 
     db = mongodbDatastore()
+    id_tag = ""
     
     def requestInjectionInAPI (self, dataObject ,substrIdTag = None):
         """requests the data for Injection into the service and provides the methode to do so"""

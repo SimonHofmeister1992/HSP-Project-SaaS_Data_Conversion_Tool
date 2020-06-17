@@ -13,18 +13,16 @@ from baseApiInterface import baseApiInterface
 class notionApiInterface (baseApiInterface):
     
     token = ""
-    id_tag = ""
     
     def __init__(self, token):
         """provide the login information with object generation"""
         self.token = token
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
         
-    def requestInjectionInAPI (self, filter = None):
+    def requestInjection (self, substrIdTag = None):
         """requests the data for Injection into the service and provides the methode to do so"""
-        if filter  is None:
-            filter = self.id_tag
-        self.get(notionDataObject.__class__.__name__, filter, self)
+        
+        self.requestInjectionInAPI(notionDataObject, substrIdTag)
     
     def injectInAPI (self, dataObject):
         """function for the injection of given data from JSON into the service"""

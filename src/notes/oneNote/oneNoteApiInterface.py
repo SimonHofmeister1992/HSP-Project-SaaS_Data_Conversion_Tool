@@ -27,7 +27,6 @@ class oneNoteApiInterface (baseApiInterface):
 
     azureID = ""
     azureSecret = ""
-    id_tag = ""
     
     def __init__(self, azureID, azureSecret):
         """provide the login information with object generation"""
@@ -61,11 +60,10 @@ class oneNoteApiInterface (baseApiInterface):
                 content = content
         return content
         
-    def requestInjectionInAPI (self, filter = None):
+    def requestInjection (self, substrIdTag = None):
         """requests the data for Injection into the service and provides the methode to do so"""
-        if filter  is None:
-            filter = self.id_tag
-        self.get(oneNoteDataObject.__class__.__name__, filter, self)
+        
+        self.requestInjectionInAPI(oneNoteDataObject, substrIdTag)
         
     def injectInAPI (self, dataObject, section_id = '0-84C461DF521C020F!116'):
         """function for the injection of given data from JSON into the service"""
@@ -161,7 +159,7 @@ test = oneNoteApiInterface('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/
 #dictionary = {"title" : "test", "text" : "testtext"}
 #liste = [dictionary]
 #print(test.inject_in_API(liste))
-#result = test.extractFromAPI()
+result = test.extractFromAPI()
 #for res in result:
     #print(res)
-test.requestInjectionInAPI()
+#test.requestInjectionInAPI()
