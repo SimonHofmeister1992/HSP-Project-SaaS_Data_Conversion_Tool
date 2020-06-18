@@ -15,7 +15,7 @@ class baseApiInterface:
         self.get(dataObject, substrIdTag, self)
     
     def injectInAPI (self, dataObject):
-        """function for the injection of given data from dataObject into the service"""
+        """function for the injection of given data from dict into the service"""
         #defines the logic how the dataObject is transformed and persisted in the service api, called automatically by wrapper methods
         #get attribute data from JSON and inject it into the service
         print("hello")

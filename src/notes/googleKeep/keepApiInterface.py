@@ -11,6 +11,8 @@ class keepApiInterface (baseApiInterface):
 
     username = ""
     password = ""
+    errorCount = 0
+    successCount = 0
     
     def __init__(self, username, password):
         """provide the login information with object generation"""
@@ -19,45 +21,57 @@ class keepApiInterface (baseApiInterface):
         self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
         
     def requestInjection (self, substrIdTag = None):
-        """requests the data for Injection into the service and provides the methode to do so"""
+        """requests the data for Injection into the service and keeps track of the result"""
         
+        self.errorCount = 0
+        self.successCount = 0
         self.requestInjectionInAPI(keepDataObject, substrIdTag)
+        print()
+        print("Results: ")
+        print("Notes failed to inject: ", self.errorCount)
+        print("Notes successfully injected: ", self.successCount)
     
     def injectInAPI (self, dataObject):
-        """function for the injection of given data from JSON into the service"""
+        """function for the injection of given data from dict into the service"""
+        
         if dataObject != None:
             k = self.login()
-            print("searching note")
-            print("_id: ", dataObject._id)
-            id_comp = dataObject._id.split("#")
-            print("id_comp: ", id_comp)
-            if id_comp[0] == "notes" and id_comp[1] == keepApiInterface.__name__:
-                print(k.find(func = lambda x: x.id == dataObject._id))
-                gnote = k.find(func = lambda x: x.id == dataObject._id)
+            #notes = k.find()
+            #for n in notes:
+                #print(n.id, " :: ", n.title)
+            try:
+                keepId = dataObject["_id"].split("#")[2]
+                #print(keepId)
+                gnote = k.find(func = lambda x: x.id == keepId)
+                note = None
                 for elem in gnote:
-                    gnote.title = dataObject.title
-                    gnote.text = dataObject.text
-                    #gnote._color = dataObject.color
-                    gnote._archived = dataObject.archived
-                    gnote.parent = dataObject.parent
-                    gnote.parent_id = dataObject.parent_id
-                    gnote.server_id = dataObject.server_id
-                    gnote.version = dataObject.version
-                    gnote._pinned = dataObject.pinned
-                    gnote._moved = dataObject.moved
-                    gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject.created)
-                    gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject.edited)
-                    gnote.timestamps._trashed = gnote.timestamps.str_to_dt(dataObject.trashed)
-                    gnote.timestamps._updated = gnote.timestamps.str_to_dt(dataObject.updated)
+                    note = elem
+                if note is not None:
+                    print("Found preexisting Note")
+                    gnote = note
+                    gnote.title = dataObject["title"]
+                    gnote.text = dataObject["text"]
+                else:
+                    print("Not found. Creating new note")
+                    gnote = k.createNote(dataObject["title"], dataObject["text"])
                 
-            else:
-                print("not found")
-                gnote = k.createNote(dataObject.title, dataObject.text)
-                gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject.created)
-                gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject.edited)
-                k.sync()  
+                gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
+                gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])            
+                if "parent" in dataObject:
+                    gnote.parent = dataObject["parent"]
+                if "parent_id" in dataObject:
+                    gnote.parent_id = dataObject["parent_id"]
+                if "trashed" in dataObject:
+                    gnote.timestamps._trashed = gnote.timestamps.str_to_dt(dataObject["trashed"])
+                if "updated" in dataObject:
+                    gnote.timestamps._updated = gnote.timestamps.str_to_dt(dataObject["updated"])
                 
-            return gnote
+                k.sync()
+                self.successCount += 1                 
+                return gnote
+            except Exception as exception:
+                print("Unexpected error:", sys.exc_info())
+                self.errorCount += 1
         else:
             print("No dataObject given")
     
@@ -121,9 +135,9 @@ test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #elem.created = "
 #elem.edited = "
 #print(test.injectInAPI(elem))
-#result = test.extractFromAPI()
+result = test.extractFromAPI()
 #for res in result:
     #print(res)
     #print()
  
-test.requestInjection("notes#")
+#test.requestInjection("notes#keepApiInterface#")

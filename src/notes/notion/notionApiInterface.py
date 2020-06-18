@@ -13,6 +13,8 @@ from baseApiInterface import baseApiInterface
 class notionApiInterface (baseApiInterface):
     
     token = ""
+    errorCount = 0
+    successCount = 0
     
     def __init__(self, token):
         """provide the login information with object generation"""
@@ -20,23 +22,67 @@ class notionApiInterface (baseApiInterface):
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
         
     def requestInjection (self, substrIdTag = None):
-        """requests the data for Injection into the service and provides the methode to do so"""
+        """requests the data for Injection into the service and keeps track of the results"""
         
+        self.errorCount = 0
+        self.successCount = 0
         self.requestInjectionInAPI(notionDataObject, substrIdTag)
+        print()
+        print("Results: ")
+        print("Notes failed to inject: ", self.errorCount)
+        print("Notes successfully injected: ", self.successCount)
     
     def injectInAPI (self, dataObject):
-        """function for the injection of given data from JSON into the service"""
+        """function for the injection of given data from dict into the service"""
+        
         if dataObject != None:
             client = self.login()
+            #try:
+            notionId = dataObject["_id"].split("#")[2]
+            #print(keepId)
             notes = client.get_block("d04fb298-0f05-451f-b42c-35f623042d2d")
-            child = notes.children.add_new(PageBlock, title=objects.title, created_time=objects.created)
-            child.created_time = objects.created
-            text = objects.text.split("\n")
-            for line in text:
-                child.children.add_new(TextBlock, title=line)
-        else:
-            print("No dataObject given")
+            note = None
+            for child in notes.children:
+                if child.id == notionId:
+                    note = child
+                    break
+                    
+            if note is not None:
+                print("Found preexisting Note")
+                note.title = dataObject["title"]
+            else:
+                print("Not found. Creating new note")
+                note = child = notes.children.add_new(PageBlock, title=dataObject["title"])
             
+            for child in note.children:
+                child.remove()
+            note.children.add_new(TextBlock, title=dataObject["text"])
+            
+            with note._client.as_atomic_transaction():
+                if hasattr(note, "created_time"):
+                    setattr(note, "created_time", datetime.timestamp(datetime.strptime(dataObject["created"], "%Y-%m-%dT%H:%M:%S.%fZ")))
+                if hasattr(note, "last_edited_time"):
+                    setattr(note, "last_edited_time", datetime.timestamp(datetime.strptime(dataObject["edited"], "%Y-%m-%dT%H:%M:%S.%fZ")))         
+                if "last_edited_by" in dataObject:
+                    if hasattr(note, "last_edited_by"):
+                        setattr(note, "last_edited_by", dataObject["last_edited_by"])
+                if "created_by_table" in dataObject:
+                    if hasattr(note, "created_by_table"):
+                        setattr(note, "created_by_table", dataObject["created_by_table"])
+                if "created_by_id" in dataObject:
+                    if hasattr(note, "created_by_id"):
+                        setattr(note, "created_by_id", dataObject["created_by_id"])
+                if "last_edited_by_id" in dataObject:
+                    if hasattr(note, "last_edited_by_id"):
+                        setattr(note, "last_edited_by_id", dataObject["last_edited_by_id"])
+            
+            self.successCount += 1                 
+            return note
+            #except Exception as exception:
+                #print("Unexpected error:", sys.exc_info())
+                #self.errorCount += 1
+        else:
+            print("No dataObject given")        
     
     def extractFromAPI (self):
         """function for the injection of given data from the service into JSON"""
@@ -103,7 +149,9 @@ test = notionApiInterface("2ba3f0ef5acbfc6296cda29c01958e6ce8558cc6386ce6bc823b6
 #elem.edited = 1589969512218
 #elemList = [elem]
 #test.injectInAPI(elemList)
-result = test.extractFromAPI()
-for res in result:
-    print(res)
-    print()
+#result = test.extractFromAPI()
+#for res in result:
+    #print(res)
+    #print()
+    
+test.requestInjection("notes#notionApiInterface#")

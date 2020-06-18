@@ -27,31 +27,31 @@ class mongodbDatastore(datastore.datastore):
         collection=db.SaaSCollection
         filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
         entries = collection.find({'_id': {'$regex':filterOption}})
-        print("filterOption: ", filterOption, "substrIdTag: ", substrIdTag, "entries: ", entries)
-        print("Class: ", dataObjectClass, "serviceObject: ", serviceObject)
-        print("start")
+        #print("filterOption: ", filterOption, "substrIdTag: ", substrIdTag, "entries: ", entries)
+        #print("Class: ", dataObjectClass, "serviceObject: ", serviceObject)
+        #print("start")
         for entry in entries:
             #print("first loop")
             #print(entry)
-            entry['id'] = entry.pop('_id')
-            obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
-            print("obj: ", obj)
-            i=0
-            print("dataObject: ", dataObjectClass)
+            #entry['id'] = entry.pop('_id')
+            #obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
+            #print("obj: ", obj)
+            #i=0
+            #print("dataObject: ", dataObjectClass)
             # go dataObject hierarchy upwards until the id_tags at the viewed position matches, or at a maximum up to the dataObject class, to know the least common interface to fill in the data
-            while '#'.join(reversed(obj._id.split('#')))[1:].split('#')[i] != '#'.join(reversed(dataObjectClass()._id.split('#')))[1:].split('#')[i]:
-                dataObjectClass=dataObjectClass.__mro__[i]
-                i=i+1
-                if dataObjectClass.__name__ == "dataObject":
+            #while '#'.join(reversed(obj._id.split('#')))[1:].split('#')[i] != '#'.join(reversed(dataObjectClass()._id.split('#')))[1:].split('#')[i]:
+                #dataObjectClass=dataObjectClass.__mro__[i]
+                #i=i+1
+                #if dataObjectClass.__name__ == "dataObject":
                     #break;
             #print(dataObjectClass)
-            dO = dataObjectClass()
+            #dO = dataObjectClass()
             #print(type(dO))
             #dO.__dict__ = entry.copy()
-            dO.copyValues(entry)
-            dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
-            dO._id = obj[-1]
-            dO.__dict__.pop('id')
+            #dO.copyValues(entry)
+            #dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
+            #dO._id = obj[-1]
+            #dO.__dict__.pop('id')
             #print("dataObject: ", type(dO), "do: ", dO)
             #print("values: ")
             #print(dO._id)
@@ -62,8 +62,9 @@ class mongodbDatastore(datastore.datastore):
             #print(dO.version)
             #print(dO.color)
             #print(dO.parent_id)
-            
-            serviceObject.injectInAPI(dO)
+            print()
+            print(entry)
+            serviceObject.injectInAPI(entry)
         return
         
         
