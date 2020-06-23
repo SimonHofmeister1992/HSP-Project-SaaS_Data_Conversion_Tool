@@ -54,6 +54,7 @@ class keepApiInterface (baseApiInterface):
                 else:
                     print("Not found. Creating new note")
                     gnote = k.createNote(dataObject["title"], dataObject["text"])
+                    gnote.id = keepId
                 
                 gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
                 gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])            
@@ -129,15 +130,5 @@ class keepApiInterface (baseApiInterface):
 
 
 test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
-#elem = dataObject()
-#elem.title = "InjectionTest"
-#elem.text = "Injectiontext"
-#elem.created = "
-#elem.edited = "
-#print(test.injectInAPI(elem))
-result = test.extractFromAPI()
-#for res in result:
-    #print(res)
-    #print()
- 
-#test.requestInjection("notes#keepApiInterface#")
+#result = test.extractFromAPI()
+test.requestInjection("notes#keepApiInterface#")
