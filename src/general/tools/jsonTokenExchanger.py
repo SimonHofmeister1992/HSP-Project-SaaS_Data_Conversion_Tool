@@ -22,6 +22,7 @@ class jsonTokenExchanger:
         return jsonobject
     
     def convertJSONTokensFromObjectAsJSONToAPI(self, jsonobject):
+        print(jsonobject)
         listOfNonExistingKeys = dict()
         for key in self.bidirectionalDictionaryOfTokensAPIvsObject.inverse:
             value = jsonobject.pop(key)

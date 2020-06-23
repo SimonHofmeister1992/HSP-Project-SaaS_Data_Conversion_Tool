@@ -62,8 +62,8 @@ class mongodbDatastore(datastore.datastore):
             #print(dO.version)
             #print(dO.color)
             #print(dO.parent_id)
-            print()
-            print(entry)
+            #print()
+            #print(entry)
             serviceObject.injectInAPI(entry)
         return
         
