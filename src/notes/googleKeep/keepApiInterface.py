@@ -40,11 +40,10 @@ class keepApiInterface (baseApiInterface):
         
         if dataObject != None:
             k = self.login()
-            #notes = k.find()
-            #for n in notes:
-                #print(n.id, " :: ", n.title)
+            print(dataObject)
             try:
                 keepId = dataObject["_id"].split("#")[2]
+                service = dataObject["_id"].split("#")[1]
                 #print(keepId)
                 gnote = k.find(func = lambda x: x.id == keepId)
                 note = None
@@ -58,7 +57,8 @@ class keepApiInterface (baseApiInterface):
                 else:
                     print("Not found. Creating new note")
                     gnote = k.createNote(dataObject["title"])
-                    gnote.id = keepId
+                    if service != "oneNoteApiInterface":
+                        gnote.id = keepId
                     gnote.text = dataObject["text"]
                 
                 gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
