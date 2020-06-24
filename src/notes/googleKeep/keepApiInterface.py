@@ -1,8 +1,12 @@
 #KeepServiceAPI
 #gkeepapi version 0.11.16
+#Keep User Name: thsp006@gmail.com
+#Password: TestHSPT3st534
+
 import sys
 import os
 import gkeepapi
+import traceback
 sys.path.append("../../general/")
 from baseApiInterface import baseApiInterface
 from keepDataObject import keepDataObject
@@ -53,8 +57,9 @@ class keepApiInterface (baseApiInterface):
                     gnote.text = dataObject["text"]
                 else:
                     print("Not found. Creating new note")
-                    gnote = k.createNote(dataObject["title"], dataObject["text"])
+                    gnote = k.createNote(dataObject["title"])
                     gnote.id = keepId
+                    gnote.text = dataObject["text"]
                 
                 gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
                 gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])            
@@ -71,7 +76,7 @@ class keepApiInterface (baseApiInterface):
                 self.successCount += 1                 
                 return gnote
             except Exception as exception:
-                print("Unexpected error:", sys.exc_info())
+                traceback.print_exc()
                 self.errorCount += 1
         else:
             print("No dataObject given")
@@ -131,4 +136,4 @@ class keepApiInterface (baseApiInterface):
 
 test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #result = test.extractFromAPI()
-test.requestInjection("notes#keepApiInterface#")
+test.requestInjection("notes")##keepApiInterface#")

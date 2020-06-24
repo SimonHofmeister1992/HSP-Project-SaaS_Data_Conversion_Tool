@@ -1,4 +1,7 @@
 #NotionServiceAPI
+#User Name: hspSaaS@gmx.de
+#Password: hspTest354
+
 import sys
 from datetime import datetime
 from notion.client import NotionClient
