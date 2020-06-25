@@ -32,6 +32,9 @@ class oneNoteApiInterface (baseApiInterface):
 
     azureID = ""
     azureSecret = ""
+    errorCount = 0
+    successCount = 0
+    errorCount = 0
     client = None
     httpd = None
     
@@ -73,47 +76,13 @@ class oneNoteApiInterface (baseApiInterface):
         
         self.errorCount = 0
         self.successCount = 0
+        self.ignoredCount= 0
         self.requestInjectionInAPI(oneNoteDataObject, substrIdTag)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)
+        print("Notes ignored: ", self.ignoredCount)
         print("Notes successfully injected: ", self.successCount)
-        
-    def addNote (self, dataObject, client):
-        """creates a new note with dataObject and inserts it into OneNote"""
-        
-        root = ET.Element("html", {"lang" : "de-DE"})
-        head = ET.SubElement(root, "head")
-        body = ET.SubElement(root, "body", {"style" : "font-family:Calibri;font-size:11pt", "data-absolute-enabled" : "true"})
-        ET.SubElement(head, "title").text = dataObject.title
-        ET.SubElement(head, "meta", {"content" : "text/html; charset=utf-8", "http-equiv" : "Content-Type"})
-        ET.SubElement(head, "meta", {"content" : dataObject.created, "name" : "created"})
-        div = ET.SubElement(body, "div", {"style" : "position:absolute;left:48px;top:115px;width:624px"})
-        ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = dataObject.text
-        content_xml = ET.tostring(root, encoding='utf8', method='xml')
-        content_xml = content_xml[38:]
-        content_xml = b'<!DOCTYPE html>\n'+content_xml
-        
-        _headers = {
-            'Accept': 'application/json',
-            'Authorization' : 'Bearer ' + self.client.office365_token['access_token'],
-            'Content-Type' : 'application/xhtml+xml'
-        }
-        
-        add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))
-        
-    def patchNote(self, dataObject, client):
-        """patches a note with dataObject and inserts changes it into OneNote"""
-        
-        content_json = "["
-        title = "{'target':'title','action':'replace','content':'"+dataObject["title"]+"'}"
-        text = "{'target':'#para1','action':'replace','content':'"+dataObject["text"]+"'}"
-        createdDateTime = "{'target':'createdDateTime','action':'replace','content':'"+dataObject["created"]+"'}"
-        lastModifiedDateTime = "{'target':'lastModifiedDateTime','action':'replace','content':'"+dataObject["edited"]+"'}"
-        
-        content_json = content_json + title + text + createdDateTime + lastModifiedDateTime + "]"
-        
-        patch_page = client._patch(client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), data=content_json)
         
     def injectInAPI (self, dataObject, section_id = '0-84C461DF521C020F!116'):
         """function for the injection of given data from JSON into the service"""
@@ -126,28 +95,49 @@ class oneNoteApiInterface (baseApiInterface):
                 
                 if note is not None:
                     print("Found preexisting Note")
-                    content_json = "["
-                    title = "{'target':'title','action':'replace','content':'"+dataObject["title"]+"'},"
-                    #text = "{'target':'#para1','action':'replace','content':'"+dataObject["text"]+"'},"
-                    #createdDateTime = "{'target':'createdDateTime','action':'replace','content':'"+dataObject["created"]+"'},"
-                    #lastModifiedDateTime = "{'target':'lastModifiedDateTime','action':'replace','content':'"+dataObject["edited"]+"'}"
-                    
-                    content_json = content_json + title + "]"#+ text + createdDateTime + lastModifiedDateTime + "]"
-                    
-                    #print(client._get(client.base_url + 'me/onenote/sections/{0}/pages/content?incluedIDs=true'.format(section_id)))
-                    
-                    patch_page = client._patch(client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), data=content_json)
+                    #print(note)
+                    #print(client._get(client.base_url + 'me/onenote/sections/{0}/pages/{1}'.format(section_id, oneNoteId))) #/content?incluedIDs=true
+                    editedService = note['value']
+                    editedService = editedService[0]
+                    editedService = editedService['lastModifiedDateTime'][:-1]
+                    editedService = datetime.strptime(editedService, "%Y-%m-%dT%H:%M:%S")
+                    editedDB = datetime.strptime(dataObject["edited"][:-8], "%Y-%m-%dT%H:%M:%S")
+                    #print(editedService, ", ", editedDB)
+                    if editedService >= editedDB:
+                        self.ignoredCount += 1
+                    else:
+                        print("Outdated Note in Service. Creating new note")
+                        root = ET.Element("html", {"lang" : "de-DE"})
+                        head = ET.SubElement(root, "head")
+                        body = ET.SubElement(root, "body", {"style" : "font-family:Calibri;font-size:11pt", "data-absolute-enabled" : "true"})
+                        ET.SubElement(head, "title").text = dataObject.title
+                        ET.SubElement(head, "meta", {"content" : "text/html; charset=utf-8", "http-equiv" : "Content-Type"})
+                        ET.SubElement(head, "meta", {"content" : dataObject.created, "name" : "created"})
+                        div = ET.SubElement(body, "div", {"style" : "position:absolute;left:48px;top:115px;width:624px"})
+                        ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = dataObject.text
+                        content_xml = ET.tostring(root, encoding='utf8', method='xml')
+                        content_xml = content_xml[38:]
+                        content_xml = b'<!DOCTYPE html>\n'+content_xml
+                        
+                        _headers = {
+                            'Accept': 'application/json',
+                            'Authorization' : 'Bearer ' + self.client.office365_token['access_token'],
+                            'Content-Type' : 'application/xhtml+xml'
+                        }
+                        
+                        add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))
+                        self.successCount += 1 
                     
                 else:
                     print("Not found. Creating new note")
                     root = ET.Element("html", {"lang" : "de-DE"})
                     head = ET.SubElement(root, "head")
                     body = ET.SubElement(root, "body", {"style" : "font-family:Calibri;font-size:11pt", "data-absolute-enabled" : "true"})
-                    ET.SubElement(head, "title").text = dataObject.title
+                    ET.SubElement(head, "title").text = dataObject["title"]
                     ET.SubElement(head, "meta", {"content" : "text/html; charset=utf-8", "http-equiv" : "Content-Type"})
-                    ET.SubElement(head, "meta", {"content" : dataObject.created, "name" : "created"})
+                    ET.SubElement(head, "meta", {"content" : dataObject["created"], "name" : "created"})
                     div = ET.SubElement(body, "div", {"style" : "position:absolute;left:48px;top:115px;width:624px"})
-                    ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = dataObject.text
+                    ET.SubElement(div, "p", {"style" : "margin-top:0pt;margin-bottom:0pt"}).text = dataObject["text"]
                     content_xml = ET.tostring(root, encoding='utf8', method='xml')
                     content_xml = content_xml[38:]
                     content_xml = b'<!DOCTYPE html>\n'+content_xml
@@ -159,9 +149,8 @@ class oneNoteApiInterface (baseApiInterface):
                     }
                     
                     add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))
-                    
-
-                self.successCount += 1                 
+                    self.successCount += 1 
+                
                 return note
             except Exception as exception:
                 traceback.print_exc()
@@ -170,20 +159,22 @@ class oneNoteApiInterface (baseApiInterface):
                 self.errorCount += 1
         else:
             print("No dataObject given")        
-        
-        
-        
-        
-        
-        
-        #add_page = client._parse(requests.request('POST', client.base_url + '/me/onenote/sections/{}/pages'.format(section_id), headers=_headers, data=content_xml))
+
     
     def extractFromAPI (self, section_id = '0-84C461DF521C020F!116'):
         """function for the injection of given data from the service into JSON"""
         
         client = self.login()
-        pages = client._get(client.base_url + 'me/onenote/sections/{}/pages'.format(section_id))
-        #pages = client.list_pages()
+        try:
+            #print("deleting DeleteTest")
+            #deleteNote = client._get(client.base_url + 'me/onenote/pages/{1}'.format(section_id, '0-f5322cee10074764bad44cb6d68926a3!30-84C461DF521C020F!116')) #/sections/{0}
+            #print("successfully")
+            pages = client._get(client.base_url + 'me/onenote/sections/{}/pages'.format(section_id))
+            #pages = client.list_pages()
+        except Exception as exception:
+            traceback.print_exc()
+            self.httpd.server_close()
+            raise exception
         
         timezone = datetime.now().strftime("%fZ")
         
@@ -217,7 +208,7 @@ class oneNoteApiInterface (baseApiInterface):
             
             objectStore.append(dataObject)
             self.persist(dataObject)
-            
+        
         return objectStore
         
     def login (self):
