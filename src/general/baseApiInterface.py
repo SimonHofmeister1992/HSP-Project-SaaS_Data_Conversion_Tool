@@ -1,12 +1,16 @@
 import sys
 from dataObject import dataObject
 from datastore.mongodbDatastore import mongodbDatastore
+import logging
 
 class baseApiInterface:
 
     db = mongodbDatastore()
     id_tag = ""
-    
+
+    def __init__():
+        logging.basicConfig(filename='not.log',level=logging.DEBUG)
+
     def requestInjectionInAPI (self, dataObject ,substrIdTag = None):
         """requests the data for Injection into the service and provides the methode to do so"""
         #usually called to request data (calendarEvents, notes) from the database and persist it in the service api

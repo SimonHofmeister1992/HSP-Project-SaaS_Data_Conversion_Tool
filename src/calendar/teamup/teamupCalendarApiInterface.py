@@ -78,21 +78,21 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
     
     def injectInAPI (self, dictionary):
         adaptedDictionary=self.adaptDictionaryForAPI(dictionary)
-        #if adaptedDictionary != None:
-        #    print(adaptedDictionary)
-        #    response = requests.post('https://api.teamup.com/' + self.uniqueCalendarId + '/events', headers={
-        #        'Teamup-Token': crd.teamupApiKey,
-        #    }, json=adaptedDictionary)
-        #    print(response.text)
+        if adaptedDictionary != None:
+            print(adaptedDictionary)
+            response = requests.post('https://api.teamup.com/' + self.uniqueCalendarId + '/events', headers={
+                'Teamup-Token': crd.teamupApiKey,
+            }, json=adaptedDictionary)
+            print(response.text)
         return
 
     def adaptDictionaryForAPI(self, dictionary):
         newdict= dict()
         ##### subcalendar to write to #####
-        if not hasattr(dictionary, 'st_subcalendarId'):
+        if 'st_subcalendarId' in dictionary and dictionary['st_subcalendarId'] != None:
             newdict['subcalendar_id'] = dictionary['st_subcalendarId']
             self.lastValidSubCalendarId=dictionary['st_subcalendarId']
-        elif not hasattr(dictionary, 'st_subcalendarIds'):
+        elif 'st_subcalendarIds' in dictionary and dictionary['st_subcalendarIds'] != None:
             newdict['subcalendar_id'] = dictionary['st_subcalendarIds'].split(',')[0]
             self.lastValidSubCalendarId=dictionary['st_subcalendarIds'][0].split(',')[0]
         elif self.subCalendarId != None:
@@ -104,22 +104,57 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             ### remove event if no subcalendar is known where to write the event data ### 
             return None
         ##### start date #######
+        print(dictionary['dt_startTime']['st_timezone'])
         startDate=datetime.fromisoformat(dictionary['dt_startTime']['st_date']+'T'+dictionary['dt_startTime']['st_time']+dictionary['dt_startTime']['st_timezone'])
         now=datetime.utcnow()
-        now=str(now.year)+'-'+str("{:02d}".format(now.month))+'-'+str("{:02d}".format(now.day))+'T'+str("{:02d}".format(now.hour))+':'+str("{:02d}".format(now.minute))+':'+str("{:02d}".format(now.second))+'+00:00'
-        now=datetime.fromisoformat(now)
+        now=str(now.year)+'-'+str("{:02d}".format(now.month))+'-'+str("{:02d}".format(now.day))+'T'+str("{:02d}".format(now.hour))+':'+str("{:02d}".format(now.minute))+':'+str("{:02d}".format(now.second))
+        nowDt=datetime.fromisoformat(now)
             ### filter and remove past events ###
-        if not now < startDate:
-            return None
-        newdict['dt_start'] = startDate
+        print('now: ' + str(nowDt) + ',startDate:' + str(startDate))
+        try:
+            if not nowDt < startDate:
+                return None
+        except:
+            now = now + '+00:00'
+            nowDt=datetime.fromisoformat(now)
+            if not nowDt < startDate:
+                return None
+        newdict['start_dt'] = dictionary['dt_startTime']['st_date']+'T'+dictionary['dt_startTime']['st_time']+dictionary['dt_startTime']['st_timezone']
         ##### end date ####
-        if 'dt_endTime' in dictionary:
-            newdict['end_dt'] = datetime.fromisoformat(dictionary['dt_endTime']['st_date']+'T'+dictionary['dt_endTime']['st_time']+dictionary['dt_endTime']['st_timezone'])
-        
+        if 'dt_endTime' in dictionary and dictionary['dt_endTime'] != None:
+            newdict['end_dt'] = dictionary['dt_endTime']['st_date']+'T'+dictionary['dt_endTime']['st_time']+dictionary['dt_endTime']['st_timezone']
+        ##### 
+        if 'f_status' in dictionary and dictionary['f_status'] != None:
+            return None
+        if 'rg_attendees' in dictionary and dictionary['rg_attendees'] != None:
+            who=''
+            for attendee in dictionary['rg_attendees']:
+                who=who+','+attendee['st_email'].replace(',','')
+            newdict['who']=who
+        if 'dt_originalStartTime' in dictionary and dictionary['dt_originalStartTime'] != None:
+            newdict['rsstart_dt'] = datetime.fromisoformat(dictionary['dt_originalStartTime']['st_date']+'T'+dictionary['dt_originalStartTime']['st_time']+dictionary['dt_originalStartTime']['st_timezone'])
+            newdict['tz'] = dictionary['dt_originalStartTime']['st_timezone']
         ###### trivial attributes ######
-        newdict['title'] = dictionary['title']
-        newdict['notes'] = dictionary['text']
+        if 'title' in dictionary and dictionary['title'] != None:
+            newdict['title'] = dictionary['title']
+        if 'text' in dictionary and dictionary['text'] != None:
+            newdict['notes'] = dictionary['text']
+        if 'st_subcalendarIds' in dictionary and dictionary['st_subcalendarIds'] != None:
+            newdict['subcalendar_ids'] = dictionary['st_subcalendarIds']
+        if 'st_seriesId' in dictionary and dictionary['st_seriesId'] != None:
+            newdict['series_id'] = dictionary['st_seriesId']
+        if 'f_endTimeUnspecified' in dictionary and dictionary['f_endTimeUnspecified'] != None:
+            newdict['all_day'] = dictionary['f_endTimeUnspecified']
+        if 'created' in dictionary and dictionary['created'] != None:
+            newdict['creation_dt'] = dictionary['created']
+        if 'edited' in dictionary and dictionary['edited'] != None:
+            newdict['update_dt'] = dictionary['edited']
+        if 'f_guestsCanModify' in dictionary and dictionary['f_guestsCanModify'] != None:
+            newdict['readonly'] = dictionary['f_guestsCanModify']
+        if 'st_location' in dictionary and dictionary['st_location'] != None:
+            newdict['location'] = dictionary['st_location']
         print(newdict)
+
         return newdict
 
     def timeConverterApiToObject(datetime):
@@ -154,7 +189,7 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             dataObject.st_status='confirmed'
         for attendee in parsedEvent["who"].split("; "):
             att=teamupCalendarDataObject.teamupCalendarDataObject.attendee()
-            att["st_email"]=attendee
+            att["st_email"]=attendee.replace(',','')
             dataObject.rg_attendees.append(att)
         dataObject.dt_endTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["end_dt"])
         dataObject.dt_startTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["start_dt"])
@@ -166,6 +201,6 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
 ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
-#parsedEvents=ti.extractFromApi()
+parsedEvents=ti.extractFromApi()
 events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject,teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
 
