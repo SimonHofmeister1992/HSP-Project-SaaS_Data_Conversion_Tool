@@ -7,6 +7,7 @@ import sys
 import os
 import gkeepapi
 import traceback
+import time
 sys.path.append("../../general/")
 from baseApiInterface import baseApiInterface
 from keepDataObject import keepDataObject
@@ -34,50 +35,82 @@ class keepApiInterface (baseApiInterface):
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)
         print("Notes successfully injected: ", self.successCount)
+        
+    def idCheck(self, keepId):
+        """checks the length off the id and cuts everything beyond 50 chars"""
+            
+        if(len(keepId) > 50):
+            keepId = keepId[0:50]
+        return keepId
     
     def injectInAPI (self, dataObject):
         """function for the injection of given data from dict into the service"""
         
         if dataObject != None:
             k = self.login()
-            print(dataObject)
-            try:
-                keepId = dataObject["_id"].split("#")[2]
-                service = dataObject["_id"].split("#")[1]
-                #print(keepId)
-                gnote = k.find(func = lambda x: x.id == keepId)
-                note = None
-                for elem in gnote:
-                    note = elem
-                if note is not None:
-                    print("Found preexisting Note")
-                    gnote = note
-                    gnote.title = dataObject["title"]
-                    gnote.text = dataObject["text"]
-                else:
-                    print("Not found. Creating new note")
-                    gnote = k.createNote(dataObject["title"])
-                    if service != "oneNoteApiInterface":
-                        gnote.id = keepId
-                    gnote.text = dataObject["text"]
-                
-                gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
-                gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])            
-                if "parent" in dataObject:
-                    gnote.parent = dataObject["parent"]
-                if "parent_id" in dataObject:
-                    gnote.parent_id = dataObject["parent_id"]
-                if "trashed" in dataObject:
-                    gnote.timestamps._trashed = gnote.timestamps.str_to_dt(dataObject["trashed"])
-                if "updated" in dataObject:
-                    gnote.timestamps._updated = gnote.timestamps.str_to_dt(dataObject["updated"])
-                
-                k.sync()
-                self.successCount += 1                 
-                return gnote
-            except Exception as exception:
-                traceback.print_exc()
-                self.errorCount += 1
+            #print(dataObject)
+            #try:
+            keepId = dataObject["_id"].split("#")[2]
+            keepId = self.idCheck(keepId)
+            service = dataObject["_id"].split("#")[1]
+            #print(keepId)
+            #gnote = k.find(func = lambda x: x.id == keepId)
+            gnote = None
+            note = k.get(keepId)
+            if note is not None:
+                print("Found preexisting Note")
+                gnote = note
+                gnote.title = dataObject["title"]
+                gnote.text = dataObject["text"]
+            else:
+                print("Not found. Creating new note")
+                gnote = k.createNote(dataObject["title"])
+                gnote.id = keepId
+                gnote.text = dataObject["text"]
+            
+            gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
+            gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])   
+            if "color" in dataObject:
+                gnote._color = gkeepapi.node.ColorValue[dataObject["color"]]
+            if "parent" in dataObject:
+                gnote.parent = dataObject["parent"]
+            if "parent_id" in dataObject:
+                gnote.parent_id = dataObject["parent_id"]
+            if "trashed" in dataObject:
+                gnote.timestamps._trashed = gnote.timestamps.str_to_dt(dataObject["trashed"])
+            if "updated" in dataObject:
+                gnote.timestamps._updated = gnote.timestamps.str_to_dt(dataObject["updated"])
+            
+            """print(gnote.type, ", ", type(gnote))
+            keepNote = {
+            "title" : gnote.title, 
+            "parent" : gnote.parent, 
+            "id" : gnote.id, 
+            "server_id" : gnote.server_id, 
+            "parent_id" : gnote.parent_id, 
+            "version" : gnote.version, 
+            "text" : gnote.text, 
+            "color" : gnote._color.name, 
+            "archived" : gnote._archived, 
+            "pinned" : gnote._pinned, 
+            "moved" : gnote._moved, 
+            "created" : gnote.timestamps.dt_to_str(gnote.timestamps._created), 
+            #"deleted" : gnote.timestamps.dt_to_str(gnote.timestamps._deleted), 
+            "trashed" : gnote.timestamps.dt_to_str(gnote.timestamps._trashed), 
+            "updated" : gnote.timestamps.dt_to_str(gnote.timestamps._updated), 
+            "edited" : gnote.timestamps.dt_to_str(gnote.timestamps._edited),
+            "parent" : gnote.parent, 
+            "children" : gnote._children
+            }
+            #print(gnote)
+            print(keepNote)
+            #print()"""
+            k.sync()
+            self.successCount += 1     
+            time.sleep(10)
+            #except Exception as exception:
+                #traceback.print_exc()
+                #self.errorCount += 1
         else:
             print("No dataObject given")
     
@@ -136,4 +169,4 @@ class keepApiInterface (baseApiInterface):
 
 test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #result = test.extractFromAPI()
-test.requestInjection("notes")##keepApiInterface#")
+test.requestInjection("notes")#oneNoteApiInterface#")
