@@ -25,12 +25,12 @@ class notionApiInterface (baseApiInterface):
         self.token = token
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
         
-    def requestInjection (self, substrIdTag = None):
+    def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
         """requests the data for Injection into the service and keeps track of the results"""
         
         self.errorCount = 0
         self.successCount = 0
-        self.requestInjectionInAPI(notionDataObject, substrIdTag)
+        self.requestInjectionInAPI(notionDataObject, substrIdTag, filterOptions, transformationOptions, addAggOptions)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)

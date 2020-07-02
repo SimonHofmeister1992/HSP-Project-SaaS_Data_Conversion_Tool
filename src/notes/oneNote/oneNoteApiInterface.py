@@ -71,13 +71,13 @@ class oneNoteApiInterface (baseApiInterface):
                 content = content
         return content
         
-    def requestInjection (self, substrIdTag = None):
+    def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
         """requests the data for Injection into the service and provides the methode to do so"""
         
         self.errorCount = 0
         self.successCount = 0
         self.ignoredCount= 0
-        self.requestInjectionInAPI(oneNoteDataObject, substrIdTag)
+        self.requestInjectionInAPI(oneNoteDataObject, substrIdTag, filterOptions, transformationOptions, addAggOptions)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)

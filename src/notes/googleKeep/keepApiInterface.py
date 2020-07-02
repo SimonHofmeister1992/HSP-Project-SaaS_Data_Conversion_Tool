@@ -25,12 +25,12 @@ class keepApiInterface (baseApiInterface):
         self.password = password
         self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
         
-    def requestInjection (self, substrIdTag = None):
+    def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
         """requests the data for Injection into the service and keeps track of the result"""
         
         self.errorCount = 0
         self.successCount = 0
-        self.requestInjectionInAPI(keepDataObject, substrIdTag)
+        self.requestInjectionInAPI(keepDataObject, substrIdTag, filterOptions, transformationOptions, addAggOptions)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)
@@ -65,8 +65,8 @@ class keepApiInterface (baseApiInterface):
                 else:
                     print("Not found. Creating new note")
                     gnote = k.createNote(dataObject["title"])
-                    gnote.id = keepId
                     gnote.text = dataObject["text"]
+                    #gnote.id = keepId
                 
                 gnote.timestamps._created = gnote.timestamps.str_to_dt(dataObject["created"])
                 gnote.timestamps._edited = gnote.timestamps.str_to_dt(dataObject["edited"])   
@@ -145,4 +145,16 @@ class keepApiInterface (baseApiInterface):
 
 test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
 #result = test.extractFromAPI()
-test.requestInjection("")#notes#oneNoteApiInterface#")
+filterOptions = [
+    {'updated': { '$gt': '2020-06-30T09:55:23.247000Z'}}#,
+    #{'title': 'Keep1'}
+    ]
+transformationOptions = [
+    {'otitle' : '$title'},
+    {'title': '$text'}, 
+    {'text' : '$otitle'},
+]
+addAggOptions = [
+    {'$unset': 'otitle'}
+]
+test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")

@@ -20,50 +20,39 @@ class mongodbDatastore(datastore.datastore):
         dictObject = dataObject.__dict__
         collection.replace_one({'_id': dataObject._id}, dictObject, True)
 
-    def get(self, dataObjectClass, substrIdTag, serviceObject):
-        """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects"""
+    def get(self, dataObjectClass, substrIdTag, serviceObject, filterOptions, transformationOptions, addAggOptions):
+        """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects
+        Also filters and transforms the data according to the given filter and transformation options.
+        filterOptions = list with filter expressions
+        transformationOptions = list with transformation expressions ($set)
+        addAggOptions = list with all additional stages for the aggregation (example: $unset)"""
         # filteredIdTag is a substring of the id_tag value, like a split to the first or second # to retrieve all entries of a category like calendar / notes or of a concrete service
         db = self.login()
         collection=db.SaaSCollection
-        filterOption=re.compile("^" + substrIdTag, re.IGNORECASE)
-        entries = collection.find({'_id': {'$regex':filterOption}})
-        #print("filterOption: ", filterOption, "substrIdTag: ", substrIdTag, "entries: ", entries)
-        #print("Class: ", dataObjectClass, "serviceObject: ", serviceObject)
-        #print("start")
+        idFilter=re.compile("^" + substrIdTag, re.IGNORECASE)
+        pipeline = [
+            {'$match': {'_id': {'$regex':idFilter}}},
+        ]
+        #add filterOptions
+        print("given filOps: ", filterOptions)
+        for filOp in filterOptions:
+            print("filOp: ", filOp)
+            pipeline.append({'$match':  filOp })
+        #add transformationOptions
+        print("given transOps: ", transformationOptions)
+        for transOp in transformationOptions:
+            pipeline.append({'$set':  transOp })
+        #add additional pipeline stages
+        print("given addOps: ", addAggOptions)
+        for addOp in addAggOptions:
+            pipeline.append(addOp)
+        
+        print("pipeline: ", pipeline)
+        print()
+        entries = collection.aggregate(pipeline)
+        
         for entry in entries:
-            #print("first loop")
-            #print(entry)
-            #entry['id'] = entry.pop('_id')
-            #obj=json.loads(json.dumps(entry),object_hook=self.jsonObjectHook)
-            #print("obj: ", obj)
-            #i=0
-            #print("dataObject: ", dataObjectClass)
-            # go dataObject hierarchy upwards until the id_tags at the viewed position matches, or at a maximum up to the dataObject class, to know the least common interface to fill in the data
-            #while '#'.join(reversed(obj._id.split('#')))[1:].split('#')[i] != '#'.join(reversed(dataObjectClass()._id.split('#')))[1:].split('#')[i]:
-                #dataObjectClass=dataObjectClass.__mro__[i]
-                #i=i+1
-                #if dataObjectClass.__name__ == "dataObject":
-                    #break;
-            #print(dataObjectClass)
-            #dO = dataObjectClass()
-            #print(type(dO))
-            #dO.__dict__ = entry.copy()
-            #dO.copyValues(entry)
-            #dO=dO.execCorrectSubclassCastsByNamedTuple(dO)
-            #dO._id = obj[-1]
-            #dO.__dict__.pop('id')
-            #print("dataObject: ", type(dO), "do: ", dO)
-            #print("values: ")
-            #print(dO._id)
-            #print(dO.text)
-            #print(dO.title)
-            #print(dO.created)
-            #print(dO.edited)
-            #print(dO.version)
-            #print(dO.color)
-            #print(dO.parent_id)
-            #print()
-            #print(entry)
+            print(entry)
             serviceObject.injectInAPI(entry)
         return
         
