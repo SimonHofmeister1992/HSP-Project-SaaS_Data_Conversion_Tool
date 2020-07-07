@@ -1,4 +1,5 @@
 \documentclass[11pt,a4paper, parskip=half]{scrbook}
+%\documentclass[11pt,a4paper, parskip=half]{article}
 % one page view
 %\documentclass[11pt,a4paper, parskip=half]{scrreprt}
 \usepackage[utf8]{inputenc} %Codierung
@@ -100,7 +101,7 @@
 \ifpdf % if pdflatex is used
 
 % Mehr Platz zwischen Tabelle und Untertitel
-\usepackage{caption}
+%\usepackage{caption}
 \captionsetup[table]{skip=10pt}
 
 %% Zeilenumbruch fuer lange Links optimieren
@@ -128,16 +129,16 @@
 \end{figure}
 }
 
-\usepackage[ngerman]{cleveref}
+%\usepackage[ngerman]{cleveref}
 
 %--------------------------------------------%
 
 \begin{document}
 %% Titelseite
-\input{titelseite} 
+\input{Kapitel/titelseite} 
 
 %% Reset page counter
-\clearpage
+%\clearpage
 %% Page numbering Roman
 %\pagenumbering{Roman}
 
@@ -149,12 +150,12 @@
 \cleardoublepage
 
 %% Set page numbering to arabic
-%\pagenumbering{arabic}
+\pagenumbering{arabic}
 
 %%Main text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+\input{Kapitel/einleitung}
+\input{Kapitel/umsetzung}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,7 +167,7 @@
 %% Abbildungsverzeichnis
 \listoffigures
 
-\listoftables
+%\listoftables
 
 %% Literaturverzeichnis
 \bibliographystyle{babunsrt}

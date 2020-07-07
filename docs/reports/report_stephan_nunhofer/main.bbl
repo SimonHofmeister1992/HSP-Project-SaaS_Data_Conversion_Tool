@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+  \providebibliographyfont{name}{}%
+  \providebibliographyfont{lastname}{}%
+  \providebibliographyfont{title}{\emph}%
+  \providebibliographyfont{jtitle}{\btxtitlefont}%
+  \providebibliographyfont{etal}{\emph}%
+  \providebibliographyfont{journal}{}%
+  \providebibliographyfont{volume}{}%
+  \providebibliographyfont{ISBN}{\MakeUppercase}%
+  \providebibliographyfont{ISSN}{\MakeUppercase}%
+  \providebibliographyfont{url}{\url}%
+  \providebibliographyfont{numeral}{}%
+  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+
+\expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\bibitem {McNee2007}
+\btxnamefont {\btxlastnamefont {McNee}, W}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {Saas 2.0}{SaaS 2.0}}.
+\newblock \btxjournalfont {Journal of Digital Asset Management}, 3:209--214,
+  \btxprintmonthyear{.}{08}{2007}{long}.
+\newblock {\latintext
+  \btxurlfont{https://link.springer.com/article/10.1057/palgrave.dam.3650088#citeas}}.
+
+\bibitem {Gartner2020}
+\btxnamefont {\btxlastnamefont {Gartner}}\btxauthorcolon\ \btxtitlefont
+  {\btxifchangecase {Umsatz mit software-as-a-service (saas) weltweit von 2010
+  bis 2018 und prognose bis 2022 (in milliarden us-dollar)}{Umsatz mit
+  Software-as-a-Service (SaaS) weltweit von 2010 bis 2018 und Prognose bis 2022
+  (in Milliarden US-Dollar)}}, \btxprintmonthyear{.}{7}{2020}{long}.
+\newblock {\latintext
+  \btxurlfont{https://de.statista.com/statistik/daten/studie/194117/umfrage/umsatz-mit-software-as-a-service-weltweit-seit-2010/}}.
+
+\bibitem {Gartner2019}
+\btxtitlefont {Gartner Forecasts Worldwide Public Cloud Revenue to Grow 17% in
+  2020}, \btxprintmonthyear{.}{11}{2019}{long}.
+\newblock {\latintext
+  \btxurlfont{https://www.gartner.com/en/newsroom/press-releases/2019-11-13-gartner-forecasts-worldwide-public-cloud-revenue-to-grow-17-percent-in-2020}}.
+
+\end{thebibliography}
