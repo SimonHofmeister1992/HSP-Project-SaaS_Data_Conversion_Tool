@@ -3,8 +3,12 @@
 \contentsline {chapter}{\numberline {1}Aktuelle Bedeutung der SaaS-Anwendungen}{1}{chapter.1}
 \contentsline {chapter}{\numberline {2}Umsetzung des Datentransformations- und Verteilungssystems}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Zusammenf\IeC {\"u}hrung der Daten}{3}{section.2.1}
-\contentsline {chapter}{Abbildungsverzeichnis}{5}{chapter*.4}
-\contentsline {chapter}{Literaturverzeichnis}{7}{chapter*.5}
+\contentsline {section}{\numberline {2.2}Festlegung der Klassenstruktur}{5}{section.2.2}
+\contentsline {section}{\numberline {2.3}Umsetzung des Speichervorganges}{6}{section.2.3}
+\contentsline {section}{\numberline {2.4}Definition des Extraktionsvorganges aus der Datenbank und der Datenr\IeC {\"u}ckf\IeC {\"u}hrung in einen Dienst}{6}{section.2.4}
+\contentsline {chapter}{Abbildungsverzeichnis}{7}{chapter*.7}
+\contentsline {chapter}{Tabellenverzeichnis}{9}{chapter*.8}
+\contentsline {chapter}{Literaturverzeichnis}{11}{chapter*.9}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}

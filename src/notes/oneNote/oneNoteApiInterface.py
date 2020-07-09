@@ -77,7 +77,7 @@ class oneNoteApiInterface (baseApiInterface):
         self.errorCount = 0
         self.successCount = 0
         self.ignoredCount= 0
-        self.requestInjectionInAPI(oneNoteDataObject, substrIdTag, filterOptions, transformationOptions, addAggOptions)
+        self.requestInjectionInAPI(substrIdTag, filterOptions, transformationOptions, addAggOptions)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)

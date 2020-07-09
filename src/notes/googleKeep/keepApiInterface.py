@@ -30,7 +30,7 @@ class keepApiInterface (baseApiInterface):
         
         self.errorCount = 0
         self.successCount = 0
-        self.requestInjectionInAPI(keepDataObject, substrIdTag, filterOptions, transformationOptions, addAggOptions)
+        self.requestInjectionInAPI(substrIdTag, filterOptions, transformationOptions, addAggOptions)
         print()
         print("Results: ")
         print("Notes failed to inject: ", self.errorCount)

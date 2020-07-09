@@ -20,7 +20,7 @@ class mongodbDatastore(datastore.datastore):
         dictObject = dataObject.__dict__
         collection.replace_one({'_id': dataObject._id}, dictObject, True)
 
-    def get(self, dataObjectClass, substrIdTag, serviceObject, filterOptions, transformationOptions, addAggOptions):
+    def get(self, substrIdTag, serviceObject, filterOptions, transformationOptions, addAggOptions):
         """abstract function to get persisted objects in a concrete datastore. Returns a list of dataObjects
         Also filters and transforms the data according to the given filter and transformation options.
         filterOptions = list with filter expressions
