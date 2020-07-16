@@ -14,15 +14,12 @@ from keepDataObject import keepDataObject
 
 class keepApiInterface (baseApiInterface):
 
-    username = ""
-    password = ""
+    authInfo = {"username" : "", "password" : ""}
     errorCount = 0
     successCount = 0
     
-    def __init__(self, username, password):
+    def __init__(self):
         """provide the login information with object generation"""
-        self.username = username
-        self.password = password
         self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
         
     def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
@@ -138,12 +135,17 @@ class keepApiInterface (baseApiInterface):
     def login (self):
         print("Starting login")
         k = gkeepapi.Keep()
-        k.login(self.username, self.password)
+        k.login(self.authInfo["username"], self.authInfo["password"])
         print("login successfull")
         return k
 
 
-test = keepApiInterface('thsp006@gmail.com', 'TestHSPT3st534')
+test = keepApiInterface()
+print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
+test.authInfo["username"] = 'thsp006@gmail.com'
+print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
+test.authInfo["password"] = 'TestHSPT3st534'
+print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
 #result = test.extractFromAPI()
 filterOptions = [
     {'updated': { '$gt': '2020-06-30T09:55:23.247000Z'}}#,
@@ -157,4 +159,5 @@ transformationOptions = [
 addAggOptions = [
     {'$unset': 'otitle'}
 ]
-test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")
+#test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")
+test.login()

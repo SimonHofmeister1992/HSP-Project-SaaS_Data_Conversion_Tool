@@ -32,17 +32,17 @@ class oneNoteApiInterface (baseApiInterface):
 
     azureID = ""
     azureSecret = ""
+    authInfo = {"azureID" : "", "azureSecret" : ""}
     errorCount = 0
     successCount = 0
     errorCount = 0
     client = None
     httpd = None
     
-    def __init__(self, azureID, azureSecret):
+    def __init__(self, authInfoParas):
         """provide the login information with object generation"""
-        self.azureID = azureID
-        self.azureSecret = azureSecret
         self.id_tag = "notes#" + oneNoteApiInterface.__name__ + "#"
+        self.authInfo = authInfoParas
         self.login()
     
     def getAnwser(self, httpd):
@@ -217,7 +217,7 @@ class oneNoteApiInterface (baseApiInterface):
             self.httpd = socketserver.TCPServer(("", 5000), SimpleHTTPRequestHandler)
             print("Starting login")
             #start login
-            self.client = Client(self.azureID, self.azureSecret, account_type='by defect common', office365=True)
+            self.client = Client(self.authInfo["azureID"], self.authInfo["azureSecret"], account_type='by defect common', office365=True)
             scope = {'offline_access', 'user.read', 'notes.read', 'notes.readwrite'}
             url = self.client.authorization_url('http://localhost:5000', scope, state=None)
             
@@ -235,6 +235,7 @@ class oneNoteApiInterface (baseApiInterface):
         return self.client
 
 
-test = oneNoteApiInterface('07ce1641-3699-492a-ac5d-901b8309bfc0', 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg')
+test = oneNoteApiInterface({"azureID": '07ce1641-3699-492a-ac5d-901b8309bfc0', "azureSecret" : 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg'})
 #result = test.extractFromAPI()
-test.requestInjection()
+#test.requestInjection()
+test.login()

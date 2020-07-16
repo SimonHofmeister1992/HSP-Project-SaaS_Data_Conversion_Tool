@@ -16,13 +16,13 @@ from baseApiInterface import baseApiInterface
 class notionApiInterface (baseApiInterface):
     
     token = ""
+    authInfo = {"token" : ""}
     errorCount = 0
     successCount = 0
     client = None
     
-    def __init__(self, token):
+    def __init__(self):
         """provide the login information with object generation"""
-        self.token = token
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
         
     def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
@@ -141,11 +141,13 @@ class notionApiInterface (baseApiInterface):
     def login (self):
         print("Starting login")
         if self.client is None:
-            self.client = NotionClient(token_v2=self.token)
+            self.client = NotionClient(token_v2=self.authInfo["token"])
         print("login successfull")
         return self.client
 
 
-test = notionApiInterface("2ba3f0ef5acbfc6296cda29c01958e6ce8558cc6386ce6bc823b6ec952fa63082898567715b0013359a7f60dc7664b8f7acab4988105eb3d68c9e5951349ef6da8bd073d00735102cfbd79ba18de")
+test = notionApiInterface()
+test.authInfo["token"] = "2ba3f0ef5acbfc6296cda29c01958e6ce8558cc6386ce6bc823b6ec952fa63082898567715b0013359a7f60dc7664b8f7acab4988105eb3d68c9e5951349ef6da8bd073d00735102cfbd79ba18de"
 #result = test.extractFromAPI()   
-test.requestInjection("notes#notionApiInterface#")
+#test.requestInjection("notes#notionApiInterface#")
+test.login()
