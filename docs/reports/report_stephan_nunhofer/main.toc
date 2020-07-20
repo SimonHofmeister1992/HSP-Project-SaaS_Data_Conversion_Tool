@@ -1,16 +1,15 @@
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}
-\contentsline {chapter}{\numberline {1}Aktuelle Bedeutung der SaaS-Anwendungen}{1}{chapter.1}
+\thispagestyle {empty}
+\contentsline {chapter}{\numberline {1}Aktuelle Bedeutung von Software-as-a-Service-Anwendungen}{1}{chapter.1}
 \contentsline {chapter}{\numberline {2}Umsetzung des Datentransformations- und Verteilungssystems}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Zusammenf\IeC {\"u}hrung der Daten}{3}{section.2.1}
+\contentsline {section}{\numberline {2.1}Zusammenf\IeC {\"u}hrung der Daten und Metadaten}{3}{section.2.1}
 \contentsline {section}{\numberline {2.2}Festlegung der Klassenstruktur}{5}{section.2.2}
 \contentsline {section}{\numberline {2.3}Umsetzung des Speichervorganges}{6}{section.2.3}
 \contentsline {section}{\numberline {2.4}Definition des Extraktionsvorganges aus der Datenbank und der Datenr\IeC {\"u}ckf\IeC {\"u}hrung in einen Dienst}{7}{section.2.4}
 \contentsline {section}{\numberline {2.5}Aufbau der graphischen Oberfl\IeC {\"a}che}{8}{section.2.5}
 \contentsline {chapter}{\numberline {3}M\IeC {\"o}gliche zuk\IeC {\"u}nftige Anwendungen des Datentransformations- und Verteilungssystems}{9}{chapter.3}
-\contentsline {chapter}{Abbildungsverzeichnis}{11}{chapter*.9}
-\contentsline {chapter}{Tabellenverzeichnis}{13}{chapter*.10}
-\contentsline {chapter}{Literaturverzeichnis}{15}{chapter*.11}
+\contentsline {chapter}{Literaturverzeichnis}{10}{chapter*.7}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}

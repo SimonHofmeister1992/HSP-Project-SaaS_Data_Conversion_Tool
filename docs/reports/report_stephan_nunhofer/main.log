@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.4.9)  14 JUL 2020 12:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.4.9)  20 JUL 2020 12:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -45,6 +45,12 @@ Package scrbook Info: You've used standard option `11pt'.
 (scrbook)             If you'd like to set the option with \KOMAoptions,
 (scrbook)             you'd have to use `fontsize=11pt' there
 (scrbook)             instead of `11pt', too.
+Class scrbook Info: You've used standard option `oneside'.
+(scrbook)           This is correct!
+(scrbook)           Internally I'm using `twoside=false'.
+(scrbook)           If you'd like to set the option with \KOMAoptions,
+(scrbook)           you'd have to use `twoside=false' there
+(scrbook)           instead of `oneside', too.
 Class scrbook Info: File `scrsize11pt.clo' used to setup font sizes on input li
 ne 2296.
 
@@ -62,6 +68,12 @@ Package typearea Info: You've used standard option `a4paper'.
 (typearea)             If you'd like to set the option with \KOMAoptions,
 (typearea)             you'd have to use `paper=a4' there
 (typearea)             instead of `a4paper', too.
+Package typearea Info: You've used standard option `oneside'.
+(typearea)             This is correct!
+(typearea)             Internally I'm using `twoside=false'.
+(typearea)             If you'd like to set the option with \KOMAoptions,
+(typearea)             you'd have to use `twoside=false' there
+(typearea)             instead of `oneside', too.
 \ta@hblk=\skip43
 \ta@vblk=\skip44
 \ta@temp=\skip45
@@ -72,8 +84,8 @@ Package typearea Info: These are the values describing the layout:
 (typearea)             \paperwidth      = 597.50793pt
 (typearea)              \textwidth      = 418.25555pt
 (typearea)              DIV departure   = -6%
-(typearea)              \evensidemargin = 47.2316pt
-(typearea)              \oddsidemargin  = -12.5192pt
+(typearea)              \evensidemargin = 17.3562pt
+(typearea)              \oddsidemargin  = 17.3562pt
 (typearea)             \paperheight     = 845.04694pt
 (typearea)              \textheight     = 595.80026pt
 (typearea)              \topmargin      = -25.16531pt
@@ -1183,16 +1195,12 @@ LaTeX Info: Redefining \Ref on input line 136.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
-
-Package geometry Warning: The marginal notes overrun the paper.
-     Add 17.10803pt and more to the right margin.
-
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: twoside 
+* modes: 
 * h-part:(L,W,R)=(85.35826pt, 426.79135pt, 85.35826pt)
 * v-part:(T,H,B)=(56.9055pt, 702.78308pt, 85.35826pt)
 * \paperwidth=597.50787pt
@@ -1206,7 +1214,7 @@ Package geometry Warning: The marginal notes overrun the paper.
 * \headsep=20.40001pt
 * \topskip=11.0pt
 * \footskip=47.6pt
-* \marginparwidth=89.62619pt
+* \marginparwidth=59.7508pt
 * \marginparsep=12.8401pt
 * \columnsep=10.0pt
 * \skip\footins=10.0pt plus 4.0pt minus 2.0pt
@@ -1214,8 +1222,8 @@ Package geometry Warning: The marginal notes overrun the paper.
 * \voffset=0.0pt
 * \mag=1000
 * \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
+* \@twosidefalse
+* \@mparswitchfalse
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
@@ -1311,7 +1319,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (c:/texlive/2017/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<Bilder/Titel/OTH_Logo_3line_pos_b.png, id=48, 1091.5179pt x 189.5883pt>
+<Bilder/Titel/OTH_Logo_3line_pos_b.png, id=40, 1091.5179pt x 189.5883pt>
 File: Bilder/Titel/OTH_Logo_3line_pos_b.png Graphic file (type png)
 <use Bilder/Titel/OTH_Logo_3line_pos_b.png>
 Package pdftex.def Info: Bilder/Titel/OTH_Logo_3line_pos_b.png  used on input l
@@ -1319,30 +1327,17 @@ ine 12.
 (pdftex.def)             Requested size: 229.32545pt x 39.83368pt.
 )
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 141.
+(babel)             in language  on input line 145.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 141.
+(babel)             in language  on input line 145.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 141.
+(babel)             in language  on input line 145.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 141.
+(babel)             in language  on input line 145.
  [1
 
 {c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Bilder/Titel/
 OTH_Logo_3line_pos_b.png>]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 145.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 145.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 145.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 145.
- [2
-
-
-
-]
 LaTeX Font Info:    Try loading font information for T1+lmss on input line 145.
 
  (c:/texlive/2017/texmf-dist/tex/latex/lm/t1lmss.fd
@@ -1366,17 +1361,8 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 148.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 148.
-[3]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 149.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 149.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 149.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 149.
- [4
 
+[2
 
 
 ] (./Kapitel/einleitung.tex
@@ -1400,45 +1386,26 @@ Class scrbook Warning: \float@addtolists detected!
 (scrbook)              a package that still implements the
 (scrbook)              deprecated \float@addtolist interface .
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
- []
-
-<Bilder/einleitung/SaaSUmsatzentwicklung.pdf, id=88, 1003.6105pt x 745.68283pt>
-
-File: Bilder/einleitung/SaaSUmsatzentwicklung.pdf Graphic file (type pdf)
-<use Bilder/einleitung/SaaSUmsatzentwicklung.pdf>
-Package pdftex.def Info: Bilder/einleitung/SaaSUmsatzentwicklung.pdf  used on i
-nput line 11.
-(pdftex.def)             Requested size: 426.79135pt x 317.11012pt.
+) (./Kapitel/umsetzung.tex
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 17.
+(babel)             in language  on input line 1.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 17.
+(babel)             in language  on input line 1.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 17.
+(babel)             in language  on input line 1.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 17.
+(babel)             in language  on input line 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.17 
-      [1
+l.1 \chapter
+            {Umsetzung des Datentransformations- und Verteilungssystems}
+[1
 
 
- <./Bilder/einleitung/SaaSUmsatzentwicklung.pdf>]
 
-pdfTeX warning: pdflatex.exe (file ./Bilder/einleitung/Gartner1.pdf): PDF inclu
-sion: found PDF version <1.7>, but at most version <1.5> allowed
-<Bilder/einleitung/Gartner1.pdf, id=105, 597.55246pt x 845.07724pt>
-File: Bilder/einleitung/Gartner1.pdf Graphic file (type pdf)
-<use Bilder/einleitung/Gartner1.pdf>
-Package pdftex.def Info: Bilder/einleitung/Gartner1.pdf  used on input line 20.
-
-(pdftex.def)             Requested size: 597.551pt x 845.07518pt.
-) (./Kapitel/umsetzung.tex
+]
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1453,7 +1420,7 @@ been already used, duplicate ignored
                    \relax 
 l.1 \chapter
             {Umsetzung des Datentransformations- und Verteilungssystems}
-[2 <./Bilder/einleitung/Gartner1.pdf>]
+[2]
 chapter 2.
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 1.
@@ -1468,15 +1435,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
-<Bilder/umsetzung/attributeUnion.pdf, id=115, 549.97469pt x 825.0825pt>
+<Bilder/umsetzung/attributeUnion.pdf, id=80, 549.97469pt x 825.0825pt>
 File: Bilder/umsetzung/attributeUnion.pdf Graphic file (type pdf)
 <use Bilder/umsetzung/attributeUnion.pdf>
 Package pdftex.def Info: Bilder/umsetzung/attributeUnion.pdf  used on input lin
 e 11.
 (pdftex.def)             Requested size: 426.79135pt x 640.27585pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 15.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1485,12 +1449,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 15.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 15.
-pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.15 \clearpage
-                [3
+[3
 
 
 ]
@@ -1502,12 +1461,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 15.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 15.
-pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.15 \clearpage
-                [4 <./Bilder/umsetzung/attributeUnion.pdf>]
+ [4 <./Bilder/umsetzung/attributeUnion.pdf>]
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 37.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1517,41 +1471,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
  []
 
-<Bilder/umsetzung/classDiagramm.pdf, id=139, 599.35919pt x 412.4208pt>
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 40.
+[5
+
+]
+<Bilder/umsetzung/classDiagramm.pdf, id=114, 599.35919pt x 395.55779pt>
 File: Bilder/umsetzung/classDiagramm.pdf Graphic file (type pdf)
 <use Bilder/umsetzung/classDiagramm.pdf>
 Package pdftex.def Info: Bilder/umsetzung/classDiagramm.pdf  used on input line
  43.
-(pdftex.def)             Requested size: 426.79135pt x 293.68295pt.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 47.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 47.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 47.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 47.
-[5
-
-]
+(pdftex.def)             Requested size: 426.79135pt x 281.67488pt.
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 48.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 48.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 52.
+(babel)             in language  on input line 51.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 52.
+(babel)             in language  on input line 51.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 51.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 55.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 55.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 51.
  [6 <./Bilder/umsetzung/classDiagramm.pdf>]
-Overfull \hbox (2.05061pt too wide) in paragraph at lines 58--72
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 52.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 52.
+
+Overfull \hbox (38.39368pt too wide) in paragraph at lines 58--72
 [][]
  []
 
@@ -1564,7 +1519,7 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 75.
 [7]
-<Bilder/umsetzung/BeispielInject.png, id=172, 756.25392pt x 350.16536pt>
+<Bilder/umsetzung/BeispielInject.png, id=140, 756.25392pt x 350.16536pt>
 File: Bilder/umsetzung/BeispielInject.png Graphic file (type png)
 <use Bilder/umsetzung/BeispielInject.png>
 Package pdftex.def Info: Bilder/umsetzung/BeispielInject.png  used on input lin
@@ -1591,89 +1546,17 @@ Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 1.
 )
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 166.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 166.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 166.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 166.
  [9
 
 
-]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 167.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 167.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 167.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 167.
- [10
-
-
-
-]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 167.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 167.
- (./main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
- [11]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
- [12
-
-
-]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
- (./main.lot)
-\tf@lot=\write7
-\openout7 = `main.lot'.
-
- (./main.bbl
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 1.
- [13]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 1.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 1.
- [14
-
-
-]
+] (./main.bbl
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1725,31 +1608,35 @@ leases / 2019 -[] 11 -[] 13 -[] gartner -[]
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 180.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 181.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 180.
+(babel)             in language  on input line 181.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 180.
+(babel)             in language  on input line 181.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 180.
+(babel)             in language  on input line 181.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 180.
- [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 180.
+(babel)             in language  on input line 181.
+ [10
+
+
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 181.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 180.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 180.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 181.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 181.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8AD0A220CD7B610CC3AE33E45BFF73C4;915.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 180.
+(rerunfilecheck)             Checksum: 58E9914312EF683026B35C5C09A149B4;830.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 181.
  )
 (\end occurred when \iftrue on line 101 was incomplete) 
 Here is how much of TeX's memory you used:
- 15985 strings out of 492982
- 251727 string characters out of 6136226
- 481790 words of memory out of 5000000
- 19069 multiletter control sequences out of 15000+600000
- 60074 words of font info for 99 fonts, out of 8000000 for 9000
+ 15957 strings out of 492982
+ 251113 string characters out of 6136226
+ 482608 words of memory out of 5000000
+ 19058 multiletter control sequences out of 15000+600000
+ 55764 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,77p,8855b,695s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2017/texmf-d
@@ -1761,10 +1648,10 @@ f-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2017/texmf-dist/fonts/type1
 b><c:/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/texlive/2017
 /texmf-dist/fonts/type1/public/lm/lmssbx10.pfb><c:/texlive/2017/texmf-dist/font
 s/type1/public/lm/lmtt10.pfb>
-Output written on main.pdf (19 pages, 569142 bytes).
+Output written on main.pdf (12 pages, 425033 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 217 compressed objects within 3 object streams
- 38 named destinations out of 1000 (max. 500000)
- 17527 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 202 PDF objects out of 1000 (max. 8388607)
+ 164 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 15453 words of extra memory for PDF output out of 17280 (max. 10000000)
 

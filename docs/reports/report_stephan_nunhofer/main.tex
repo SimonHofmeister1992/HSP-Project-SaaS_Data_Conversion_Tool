@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper, parskip=half]{scrbook}
+\documentclass[11pt,a4paper, parskip=half, oneside]{scrbook}  %%oneside = pdf pagecounting
 %\documentclass[11pt,a4paper, parskip=half]{article}
 % one page view
 %\documentclass[11pt,a4paper, parskip=half]{scrreprt}
@@ -138,7 +138,7 @@
 \input{Kapitel/titelseite} 
 
 %% Reset page counter
-\clearpage
+%%\clearpage
 %% Page numbering Roman
 %\pagenumbering{Roman}
 %% Inhaltsverzeichnis
@@ -146,13 +146,14 @@
 
 %% Reset page counter
 \clearpage
-\cleardoublepage
+%%\cleardoublepage
 
 %% Set page numbering to arabic
 \pagenumbering{arabic}
 
 %%Main text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addtocontents{toc}{\protect\thispagestyle{empty}}
 \input{Kapitel/einleitung}
 \input{Kapitel/umsetzung}
 \input{Kapitel/abschluss}
@@ -164,9 +165,9 @@
 %\input{Kapitel/acronyms}
 \clearpage
 %% Abbildungsverzeichnis
-\listoffigures
+%\listoffigures
 
-\listoftables
+%\listoftables
 
 %% Literaturverzeichnis
 \bibliographystyle{babunsrt}
