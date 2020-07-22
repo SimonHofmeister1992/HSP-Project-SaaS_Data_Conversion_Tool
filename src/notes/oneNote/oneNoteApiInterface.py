@@ -235,7 +235,7 @@ class oneNoteApiInterface (baseApiInterface):
         return self.client
 
 
-test = oneNoteApiInterface({"azureID": '07ce1641-3699-492a-ac5d-901b8309bfc0', "azureSecret" : 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg'})
+"""test = oneNoteApiInterface({"azureID": '07ce1641-3699-492a-ac5d-901b8309bfc0', "azureSecret" : 'sNCs_0@11N]/ocLdc2S/2sv_bi6xS/hg'})
 #result = test.extractFromAPI()
 #test.requestInjection()
-test.login()
+test.login()"""

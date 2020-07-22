@@ -140,7 +140,7 @@ class keepApiInterface (baseApiInterface):
         return k
 
 
-test = keepApiInterface()
+"""test = keepApiInterface()
 print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
 test.authInfo["username"] = 'thsp006@gmail.com'
 print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
@@ -160,4 +160,4 @@ addAggOptions = [
     {'$unset': 'otitle'}
 ]
 #test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")
-test.login()
+test.login()"""

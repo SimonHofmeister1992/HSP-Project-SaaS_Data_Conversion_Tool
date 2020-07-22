@@ -146,8 +146,8 @@ class notionApiInterface (baseApiInterface):
         return self.client
 
 
-test = notionApiInterface()
+"""test = notionApiInterface()
 test.authInfo["token"] = "2ba3f0ef5acbfc6296cda29c01958e6ce8558cc6386ce6bc823b6ec952fa63082898567715b0013359a7f60dc7664b8f7acab4988105eb3d68c9e5951349ef6da8bd073d00735102cfbd79ba18de"
 #result = test.extractFromAPI()   
 #test.requestInjection("notes#notionApiInterface#")
-test.login()
+test.login()"""
