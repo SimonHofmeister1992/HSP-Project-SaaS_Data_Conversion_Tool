@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.4.9)  20 JUL 2020 12:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.4.9)  27 JUL 2020 11:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1545,6 +1545,10 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 1.
 )
+Underfull \hbox (badness 10000) in paragraph at lines 3--160
+
+ []
+
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 166.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1553,7 +1557,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 166.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 166.
- [9
+[9
 
 
 ] (./main.bbl
@@ -1632,13 +1636,13 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 181.
  )
 (\end occurred when \iftrue on line 101 was incomplete) 
 Here is how much of TeX's memory you used:
- 15957 strings out of 492982
- 251113 string characters out of 6136226
+ 15969 strings out of 492982
+ 251241 string characters out of 6136226
  482608 words of memory out of 5000000
  19058 multiletter control sequences out of 15000+600000
- 55764 words of font info for 98 fonts, out of 8000000 for 9000
+ 56309 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,10n,77p,8855b,695s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,10n,77p,8855b,697s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2017/texmf-d
 ist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2017/texmf-dist/fonts/enc/dvip
 s/lm/lm-ec.enc}<c:/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:
@@ -1648,7 +1652,7 @@ f-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2017/texmf-dist/fonts/type1
 b><c:/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/texlive/2017
 /texmf-dist/fonts/type1/public/lm/lmssbx10.pfb><c:/texlive/2017/texmf-dist/font
 s/type1/public/lm/lmtt10.pfb>
-Output written on main.pdf (12 pages, 425033 bytes).
+Output written on main.pdf (12 pages, 427450 bytes).
 PDF statistics:
  202 PDF objects out of 1000 (max. 8388607)
  164 compressed objects within 2 object streams
