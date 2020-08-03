@@ -55,7 +55,7 @@ Der Rückweg aus der Datenbank in die Dienste beginnt dabei ebenfalls in den Sch
 
 \begin {table}[H]
 \caption{Parameter der Methoden zur Rückholung der Daten aus der Datenbank}
-\begin{tabular}{|l|l|p{7.5cm}|}
+\begin{tabular}{|l|l|p{6.2cm}|}
 	\hline
 	\textbf{Parameter} & \textbf{Datentyp} & \textbf{Bedeutung}\\
 	\hline
@@ -80,4 +80,14 @@ Die Methode \textit{requestInjectionInApi} aus der Basis-Klasse leitet diese wie
 	\label{fig:bspInj}
 \end{figure}
 
-\section{Aufbau der graphischen Oberfläche}
+\newpage
+\section{Aufbau der grafischen Oberfläche}
+
+Bedient wird das System über eine einfache \textit{Python} Benutzeroberfläche. Diese besteht aus der Auswahl der Dienste für Eingabe und Ausgabe der Daten, sowie der Selektion und Zuordnung von deren Attributen. In Zweiteren kann auch den Attributen des Eingabedienstes eine anderes Attribut des Ausgabedienstes oder ein fester, eigener Wert zugewiesen werden. Diese Konfigurationen stellen dann die Parameter aus Tabelle \ref{tab:params}, welche für die \textit{pipeline} in der Datenbankklasse genutzt werden. Die Auswahl in den einzelnen Felder findet über ein \textit{Drop-Down} Menü statt. Bei den Attributen kann auch eine eigener Wert eingetragen werden. Zu sehen ist die Oberfläche in Abbildung \ref{fig:gui}. 
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=1\textwidth]{Bilder/umsetzung/BeispielInject.png}
+	\caption{Graphische Oberfläche des Systems}
+	\label{fig:gui}
+\end{figure}

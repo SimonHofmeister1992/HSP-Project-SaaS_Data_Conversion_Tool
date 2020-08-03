@@ -7,9 +7,11 @@
 \contentsline {section}{\numberline {2.2}Festlegung der Klassenstruktur}{5}{section.2.2}
 \contentsline {section}{\numberline {2.3}Umsetzung des Speichervorganges}{6}{section.2.3}
 \contentsline {section}{\numberline {2.4}Definition des Extraktionsvorganges aus der Datenbank und der Datenr\IeC {\"u}ckf\IeC {\"u}hrung in einen Dienst}{7}{section.2.4}
-\contentsline {section}{\numberline {2.5}Aufbau der graphischen Oberfl\IeC {\"a}che}{8}{section.2.5}
-\contentsline {chapter}{\numberline {3}M\IeC {\"o}gliche zuk\IeC {\"u}nftige Anwendungen des Datentransformations- und Verteilungssystems}{9}{chapter.3}
-\contentsline {chapter}{Literaturverzeichnis}{10}{chapter*.7}
+\contentsline {section}{\numberline {2.5}Aufbau der grafischen Oberfl\IeC {\"a}che}{9}{section.2.5}
+\contentsline {chapter}{\numberline {3}M\IeC {\"o}gliche zuk\IeC {\"u}nftige Anwendungen des Datentransformations- und Verteilungssystems}{10}{chapter.3}
+\contentsline {section}{\numberline {3.1}M\IeC {\"o}gliche Erweiterungen und Verbesserungen im jetzigen System}{10}{section.3.1}
+\contentsline {section}{\numberline {3.2}M\IeC {\"o}gliche weiterf\IeC {\"u}hrende Anwendungen und Erweiterungen des Systems}{11}{section.3.2}
+\contentsline {chapter}{Literaturverzeichnis}{12}{chapter*.8}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}
 \babel@toc {ngerman}{}
