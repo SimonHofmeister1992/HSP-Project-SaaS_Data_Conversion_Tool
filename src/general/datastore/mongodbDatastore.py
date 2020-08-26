@@ -29,6 +29,7 @@ class mongodbDatastore(datastore.datastore):
         # filteredIdTag is a substring of the id_tag value, like a split to the first or second # to retrieve all entries of a category like calendar / notes or of a concrete service
         db = self.login()
         collection=db.SaaSCollection
+        print("substringIdTag: "+ substrIdTag)
         idFilter=re.compile("^" + substrIdTag, re.IGNORECASE)
         pipeline = [
             {'$match': {'_id': {'$regex':idFilter}}},
@@ -38,6 +39,7 @@ class mongodbDatastore(datastore.datastore):
         for filOp in filterOptions:
             print("filOp: ", filOp)
             pipeline.append({'$match':  filOp })
+            
         #add transformationOptions
         print("given transOps: ", transformationOptions)
         for transOp in transformationOptions:
@@ -51,9 +53,17 @@ class mongodbDatastore(datastore.datastore):
         print()
         entries = collection.aggregate(pipeline)
         
+
         for entry in entries:
+            serviceObject.nrToInsert=serviceObject.nrToInsert+1
             print(entry)
-            serviceObject.injectInAPI(entry)
+            try:
+                serviceObject.injectInAPI(entry)
+            except:
+                print(str(sys.exc_info()[1]))
+
+        print()
+        print("Finished Task")
         return
         
         

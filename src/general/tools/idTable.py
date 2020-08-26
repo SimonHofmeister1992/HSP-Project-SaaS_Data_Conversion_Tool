@@ -7,7 +7,8 @@ class idTable:
         m=hashlib.sha256()
         message=uniqueIdToken.encode('utf-8')
         m.update(message)
-        self.prefetchedIdSet.add(m.hexdigest())
+        if not m.hexdigest() in self.prefetchedIdSet:
+            self.prefetchedIdSet.add(m.hexdigest())
         return
 
     def containsId(self, uniqueIdToken):

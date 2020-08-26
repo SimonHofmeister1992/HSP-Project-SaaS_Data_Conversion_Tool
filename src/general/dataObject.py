@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-class dataObject(object):
+class dataObject(dict):
     def copyValues(self, other):
         self.__dict__=other._asdict().copy()
     def execCorrectSubclassCastsByNamedTuple(self, dataObject):

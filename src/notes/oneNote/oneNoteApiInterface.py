@@ -38,12 +38,16 @@ class oneNoteApiInterface (baseApiInterface):
     errorCount = 0
     client = None
     httpd = None
+    correspondingDataObjectClass=oneNoteDataObject
+    name='One Note'
     
     def __init__(self, authInfoParas):
         """provide the login information with object generation"""
         self.id_tag = "notes#" + oneNoteApiInterface.__name__ + "#"
         self.authInfo = authInfoParas
         self.login()
+        self.correspondingDataObjectClass=oneNoteDataObject
+        self.name='One Note'
     
     def getAnwser(self, httpd):
         """get the answer from the webserver"""

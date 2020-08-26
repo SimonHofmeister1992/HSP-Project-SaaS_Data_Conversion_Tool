@@ -20,10 +20,14 @@ class notionApiInterface (baseApiInterface):
     errorCount = 0
     successCount = 0
     client = None
+    correspondingDataObjectClass=notionDataObject
+    name='Notion'
     
     def __init__(self):
         """provide the login information with object generation"""
         self.id_tag = "notes#" + notionApiInterface.__name__ + "#" 
+        self.correspondingDataObjectClass=notionDataObject
+        self.name='Notion'
         
     def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
         """requests the data for Injection into the service and keeps track of the results"""

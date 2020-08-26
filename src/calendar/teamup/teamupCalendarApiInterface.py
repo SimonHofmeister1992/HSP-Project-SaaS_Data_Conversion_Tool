@@ -1,15 +1,16 @@
 import requests
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timezone
+import sys
 
+sys.path.append("../../calendar/teamup/")
 import loginData as crd
 import teamupCalendarDataObject as teamupCalendarDataObject
 
-
-import sys
 sys.path.append("../../general/tools/")
 import jsonTokenExchanger as jsonTokenExchanger
+from idTable import idTable as idTable
 import bidict as bidict
 sys.path.append("../../general/")
 import baseApiInterface as baseApiInterface
@@ -19,10 +20,21 @@ import baseApiInterface as baseApiInterface
 class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExchanger.jsonTokenExchanger):
     
     lastValidSubCalendarId=None
+    idTable=idTable()
+    authInfo = {"teamupApiKey" : "", "calendarId" : ""}
+    id_tag = "calendar#teamupCalendarApiInterface#"
+    name = "Teamup" 
+    correspondingDataObjectClass = teamupCalendarDataObject.teamupCalendarDataObject()
 
-    def __init__(self, uniqueCalendarId, subCalendarId):
+    def __init__(self, uniqueCalendarId=None, subCalendarId=None):
+        
+        super().__init__()
         self.uniqueCalendarId=uniqueCalendarId
         self.subCalendarId=subCalendarId
+        self.idTable=idTable()
+        self.teamupApiKey = crd.teamupApiKey
+        self.id_tag = "calendar#" + self.__class__.__name__ + "#"
+        self.correspondingDataObjectClass = teamupCalendarDataObject.teamupCalendarDataObject()
 
     bidirectionalDictionaryOfTokensAPIvsObject = bidict.bidict(
         {
@@ -61,8 +73,13 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         }
     )
     
-    def extractFromApi(self):
-        response = requests.get('https://api.teamup.com/' + self.uniqueCalendarId + '/events?startDate=2017-08-01&endDate=2021-08-01', headers={
+    def extractFromAPI(self, shallPersist=True):
+        if self.authInfo["teamupApiKey"] != "" and self.authInfo["teamupApiKey"] != None:
+            self.teamupApiKey = self.authInfo["teamupApiKey"]
+        if self.authInfo["calendarId"] != "" and self.authInfo["calendarId"] != None:
+            self.uniqueCalendarId = self.authInfo["calendarId"]
+
+        response = requests.get('https://api.teamup.com/' + self.uniqueCalendarId + '/events?startDate=2017-08-01&endDate=2023-08-01', headers={
             'Teamup-Token': crd.teamupApiKey
         })
         if not response:
@@ -73,17 +90,34 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             for event in responseContentJson['events']:
                 parsedEvent = self.convertJSONTokensFromAPIToObjectAsJSON(event)
                 eventObject= self.createSingleObjectByJSON(parsedEvent)
-                self.persist(eventObject)
+                if shallPersist:
+                    self.persist(eventObject)
+                self.idTable.appendPrefetchedIdSet(eventObject._id)
             return
+
     
     def injectInAPI (self, dictionary):
+        if self.authInfo["teamupApiKey"] != "" and self.authInfo["teamupApiKey"] != None:
+            self.teamupApiKey = self.authInfo["teamupApiKey"]
+        if self.authInfo["calendarId"] != "" and self.authInfo["calendarId"] != None:
+            self.uniqueCalendarId = self.authInfo["calendarId"]
+        self.extractFromAPI(shallPersist=False)
         adaptedDictionary=self.adaptDictionaryForAPI(dictionary)
+        if adaptedDictionary == None:
+            print(dictionary["_id"])
         if adaptedDictionary != None:
-            print(adaptedDictionary)
-            response = requests.post('https://api.teamup.com/' + self.uniqueCalendarId + '/events', headers={
-                'Teamup-Token': crd.teamupApiKey,
-            }, json=adaptedDictionary)
-            print(response.text)
+            idTag=dictionary["_id"]
+            containsId= self.idTable.containsId(idTag)
+            if not containsId:
+                print("persist in api")
+                response = requests.post('https://api.teamup.com/' + self.uniqueCalendarId + '/events', headers={
+                    'Teamup-Token': self.teamupApiKey,
+                }, json=adaptedDictionary)
+                print(response.text)
+                self.nrInsertedSuccessfully=self.nrInsertedSuccessfully+1
+            else:
+                self.logger.info(self.__class__.__name__ + ": calendar already contains event: " + dictionary["_id"])
+                self.nrNotNeededToInsert=self.nrNotNeededToInsert+1
         return
 
     def adaptDictionaryForAPI(self, dictionary):
@@ -102,29 +136,21 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             newdict['subcalendar_id'] = self.lastValidSubCalendarId
         else:
             ### remove event if no subcalendar is known where to write the event data ### 
+            self.logger.info(self.__class__.__name__ + ": calendar event cannot be inserted in unknown subcalendar: " + dictionary["_id"])
             return None
         ##### start date #######
-        print(dictionary['dt_startTime']['st_timezone'])
         startDate=datetime.fromisoformat(dictionary['dt_startTime']['st_date']+'T'+dictionary['dt_startTime']['st_time']+dictionary['dt_startTime']['st_timezone'])
         now=datetime.utcnow()
         now=str(now.year)+'-'+str("{:02d}".format(now.month))+'-'+str("{:02d}".format(now.day))+'T'+str("{:02d}".format(now.hour))+':'+str("{:02d}".format(now.minute))+':'+str("{:02d}".format(now.second))
         nowDt=datetime.fromisoformat(now)
-            ### filter and remove past events ###
-        print('now: ' + str(nowDt) + ',startDate:' + str(startDate))
-        try:
-            if not nowDt < startDate:
-                return None
-        except:
-            now = now + '+00:00'
-            nowDt=datetime.fromisoformat(now)
-            if not nowDt < startDate:
-                return None
+
         newdict['start_dt'] = dictionary['dt_startTime']['st_date']+'T'+dictionary['dt_startTime']['st_time']+dictionary['dt_startTime']['st_timezone']
         ##### end date ####
         if 'dt_endTime' in dictionary and dictionary['dt_endTime'] != None:
             newdict['end_dt'] = dictionary['dt_endTime']['st_date']+'T'+dictionary['dt_endTime']['st_time']+dictionary['dt_endTime']['st_timezone']
         ##### 
         if 'f_status' in dictionary and dictionary['f_status'] != None:
+            self.logger.info(self.__class__.__name__ + ": calendar event is marked as deleted: " + dictionary["_id"])
             return None
         if 'rg_attendees' in dictionary and dictionary['rg_attendees'] != None:
             who=''
@@ -146,15 +172,28 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if 'f_endTimeUnspecified' in dictionary and dictionary['f_endTimeUnspecified'] != None:
             newdict['all_day'] = dictionary['f_endTimeUnspecified']
         if 'created' in dictionary and dictionary['created'] != None:
-            newdict['creation_dt'] = dictionary['created']
+            newdict['creation_dt'] = dictionary['created'].replace(tzinfo=timezone.utc).isoformat()
         if 'edited' in dictionary and dictionary['edited'] != None:
-            newdict['update_dt'] = dictionary['edited']
+            newdict['update_dt'] = dictionary['edited'].replace(tzinfo=timezone.utc).isoformat()
         if 'f_guestsCanModify' in dictionary and dictionary['f_guestsCanModify'] != None:
             newdict['readonly'] = dictionary['f_guestsCanModify']
         if 'st_location' in dictionary and dictionary['st_location'] != None:
             newdict['location'] = dictionary['st_location']
-        print(newdict)
 
+
+            ### filter and remove past events ###
+        try:
+            if not nowDt < startDate:
+                self.logger.info(self.__class__.__name__ + ": calendar event is in the past: " + dictionary["_id"])
+                self.nrNotNeededToInsert=self.nrNotNeededToInsert+1
+                return None
+        except:
+            now = now + '+00:00'
+            nowDt=datetime.fromisoformat(now)
+            if not nowDt < startDate:
+                self.logger.info(self.__class__.__name__ + ": calendar event is in the past: " + dictionary["_id"])
+                self.nrNotNeededToInsert=self.nrNotNeededToInsert+1
+                return None
         return newdict
 
     def timeConverterApiToObject(datetime):
@@ -171,8 +210,9 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         dataObject.title=parsedEvent["title"]
         if parsedEvent["text"] != None:
             dataObject.text=parsedEvent["text"].replace("<p>","",1).replace("</p>","",1)
-        dataObject.created=parsedEvent["created"]
-        dataObject.edited=parsedEvent["edited"]
+        dataObject.created=datetime.fromisoformat(str(parsedEvent["created"])).replace(tzinfo=timezone.utc)
+        if parsedEvent["edited"] != None:
+            dataObject.edited=datetime.fromisoformat(str(parsedEvent["edited"])).replace(tzinfo=timezone.utc)
         dataObject.st_version=parsedEvent["st_version"]
         #dataObject.ul_duration=parsedEvent["ul_duration"]
         dataObject.st_subcalendarId=parsedEvent["st_subcalendarId"]
@@ -194,13 +234,17 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         dataObject.dt_endTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["end_dt"])
         dataObject.dt_startTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["start_dt"])
         dataObject.dt_originalStartTime=teamupCalendarApiInterface.timeConverterApiToObject(parsedEvent["rsstart_dt"])
-        dataObject._id = dataObject.id_tag + dataObject.st_id
-        if dataObject._id == dataObject.id_tag:
-            dataObject._id = dataObject.id_tag + "altKey_" + str(dataObject.st_subcalendarIds[0]) + '_' + parsedEvent["start_dt"] + '_' + dataObject.title
+        dataObject._id = self.id_tag + dataObject.st_id
+        if dataObject._id == self.id_tag:
+            dataObject._id = self.id_tag + "altKey_" + str(dataObject.st_subcalendarIds[0]) + '_' + parsedEvent["start_dt"] + '_' + dataObject.title
         return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
-ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
-parsedEvents=ti.extractFromApi()
-events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject,teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
+#ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
+#parsedEvents=ti.extractFromAPI()
+#events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
+
+
+
+
 

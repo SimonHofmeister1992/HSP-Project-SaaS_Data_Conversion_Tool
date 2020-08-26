@@ -1,5 +1,6 @@
 import sys
 sys.path.append("../general/")
+sys.path.append("../../calendar/general/")
 import calendarDataObject as calendarDataObject
 
 class teamupCalendarDataObject(calendarDataObject.calendarDataObject):

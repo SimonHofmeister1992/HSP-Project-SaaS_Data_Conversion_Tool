@@ -17,11 +17,16 @@ class keepApiInterface (baseApiInterface):
     authInfo = {"username" : "", "password" : ""}
     errorCount = 0
     successCount = 0
-    
+    correspondingDataObjectClass=keepDataObject
+    name='Google Keep'
+    id_tag = "notes#keepApiInterface#"
+
     def __init__(self):
         """provide the login information with object generation"""
-        self.id_tag = "notes#" + keepApiInterface.__name__ + "#"
-        
+        self.id_tag = "notes#" + self.__class__.__name__ + "#"
+        self.correspondingDataObjectClass=keepDataObject
+        self.name='Google Keep'
+
     def requestInjection (self, substrIdTag = None, filterOptions = [], transformationOptions = [], addAggOptions = []):
         """requests the data for Injection into the service and keeps track of the result"""
         

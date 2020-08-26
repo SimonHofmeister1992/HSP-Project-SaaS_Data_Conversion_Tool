@@ -1,0 +1,1 @@
+-r calendar/install_calendar_teamup.txt -r calendar/install_calendar_googlecalendar.txt -r calendar/install_calendar_microsoft_exchange.txt

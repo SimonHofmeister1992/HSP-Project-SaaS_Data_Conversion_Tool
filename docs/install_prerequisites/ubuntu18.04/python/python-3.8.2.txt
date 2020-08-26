@@ -34,3 +34,8 @@ logout & login needed
 // testing the installation of jupyter notebook
 jupyter notebook
 
+
+//qt for gui
+pip install PyQt5
+
+
