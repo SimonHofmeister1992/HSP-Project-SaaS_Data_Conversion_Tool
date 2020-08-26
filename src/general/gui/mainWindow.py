@@ -68,7 +68,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tb_value_matching.update()
 
         for service in baseApiInterface.baseApiInterface.__subclasses__():
+            print(service.name + " " + service.id_tag + " ")
             if combobox.currentText().lower() in service.id_tag.split('#'):
+                print("is in tag " + combobox.currentText().lower())
                 serviceCombobox.addItem(service.name)
         serviceCombobox.update()
 

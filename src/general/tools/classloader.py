@@ -23,7 +23,8 @@ class classloader():
                 for item in reversed(pyfile.split(os.path.sep)):
                     try:
                         mod = __import__(item.replace('.py',''))
-                    except:
+                    except Exception as e:
+                        print(str(e))
                         print("Module " + item + " couldn't be imported")
                     break
             

@@ -97,7 +97,7 @@
     <property name="geometry">
      <rect>
       <x>7</x>
-      <y>700</y>
+      <y>710</y>
       <width>631</width>
       <height>20</height>
      </rect>
@@ -110,7 +110,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>250</y>
+      <y>260</y>
       <width>631</width>
       <height>20</height>
      </rect>
@@ -123,9 +123,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>170</y>
       <width>281</width>
-      <height>71</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="autoScrollMargin">
@@ -169,9 +169,9 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>180</y>
+      <y>170</y>
       <width>281</width>
-      <height>71</height>
+      <height>91</height>
      </rect>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
@@ -219,7 +219,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>720</y>
+      <y>730</y>
       <width>166</width>
       <height>25</height>
      </rect>
@@ -232,7 +232,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>280</y>
       <width>621</width>
       <height>421</height>
      </rect>

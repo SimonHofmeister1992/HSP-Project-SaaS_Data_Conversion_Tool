@@ -40,6 +40,7 @@ class oneNoteApiInterface (baseApiInterface):
     httpd = None
     correspondingDataObjectClass=oneNoteDataObject
     name='One Note'
+    id_tag = "notes#oneNoteApiInterface#"
     
     def __init__(self, authInfoParas):
         """provide the login information with object generation"""

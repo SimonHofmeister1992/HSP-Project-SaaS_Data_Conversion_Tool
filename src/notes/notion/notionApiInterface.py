@@ -22,6 +22,7 @@ class notionApiInterface (baseApiInterface):
     client = None
     correspondingDataObjectClass=notionDataObject
     name='Notion'
+    id_tag = "notes#notionApiInterface#"
     
     def __init__(self):
         """provide the login information with object generation"""
