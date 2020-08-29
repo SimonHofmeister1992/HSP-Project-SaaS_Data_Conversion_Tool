@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 import sys
 
 sys.path.append("../../calendar/teamup/")
-import loginData as crd
 import teamupCalendarDataObject as teamupCalendarDataObject
 
 sys.path.append("../../general/tools/")
@@ -32,7 +31,6 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         self.uniqueCalendarId=uniqueCalendarId
         self.subCalendarId=subCalendarId
         self.idTable=idTable()
-        self.teamupApiKey = crd.teamupApiKey
         self.id_tag = "calendar#" + self.__class__.__name__ + "#"
         self.correspondingDataObjectClass = teamupCalendarDataObject.teamupCalendarDataObject()
 
@@ -79,9 +77,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         if self.authInfo["calendarId"] != "" and self.authInfo["calendarId"] != None:
             self.uniqueCalendarId = self.authInfo["calendarId"]
 
-        response = requests.get('https://api.teamup.com/' + self.uniqueCalendarId + '/events?startDate=2017-08-01&endDate=2023-08-01', headers={
-            'Teamup-Token': crd.teamupApiKey
+        response = requests.get('https://api.teamup.com/' + self.uniqueCalendarId + '/events?startDate=01.01.1975&endDate=31.12.2500', headers={
+            'Teamup-Token': self.authInfo["teamupApiKey"]
         })
+        #print(response.text)
         if not response:
             return 'an error occured requesting the teamup api'
         if response:
@@ -109,11 +108,9 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
             idTag=dictionary["_id"]
             containsId= self.idTable.containsId(idTag)
             if not containsId:
-                print("persist in api")
                 response = requests.post('https://api.teamup.com/' + self.uniqueCalendarId + '/events', headers={
                     'Teamup-Token': self.teamupApiKey,
                 }, json=adaptedDictionary)
-                print(response.text)
                 self.nrInsertedSuccessfully=self.nrInsertedSuccessfully+1
             else:
                 self.logger.info(self.__class__.__name__ + ": calendar already contains event: " + dictionary["_id"])
@@ -240,8 +237,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
-#ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
-#parsedEvents=ti.extractFromAPI()
+ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
+ti.authInfo["teamupApiKey"]="a23e749b14acda2f61fde476dba9f317abb9d5425fc13a542b535239a6a77515"
+ti.authInfo["calendarId"]=ti.uniqueCalendarId
+parsedEvents=ti.extractFromAPI()
 #events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
 
 

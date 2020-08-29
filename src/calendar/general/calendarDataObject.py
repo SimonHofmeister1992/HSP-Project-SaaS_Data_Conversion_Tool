@@ -6,19 +6,20 @@ class calendarDataObject(dataObject.dataObject):
     '''interface which contains attributes defined in all calendars'''
     # the variables prefixes are defined as in the Hungarian Apps Style, Extension: dt=Date
 
-    class attendee(dict):
-        '''person, room or thing attending the event'''
-        st_displayName=''
-        st_email=''
-    
-    class recurrence(dict):
-        '''recurrence information of the event'''
-        st_pattern=''
-        st_recurringEventId=''
-        
     class attachment(dict):
         st_fileUrl=''
         st_title=''
+
+    class attendee(dict):
+        '''person, room or thing attending the event'''
+        f_optional=''
+        f_resource=''     
+        st_responseStatus=''
+        st_displayName=''
+        st_email=''
+        st_organizer=''
+        f_self=''
+             
     
     class conferenceData(dict):
         class conferenceSolution(dict):
@@ -26,8 +27,30 @@ class calendarDataObject(dataObject.dataObject):
             
         class entryPoint(dict):
             st_uri=''
-        rg_conferenceSolution=conferenceSolution()
-        rg_entryPoint=entryPoint()
+            st_netShowUrl=''
+
+        rg_conferenceSolution=''
+        rg_entryPoint=''
+
+        def __init__(self):
+            rg_conferenceSolution=self.conferenceSolution()
+            rg_entryPoint=self.entryPoint()
+
+    class datetime(dict):
+        st_date=''
+        st_time=''
+        st_timezone=''
+
+    class recurrence(dict):
+        '''recurrence information of the event'''
+        dt_firstOccurence=''
+        dt_lastOccurence=''
+        rg_delOccuriencies=[]
+        st_pattern=''
+        st_recurringEventId=''
+        
+        def __init__(self):
+            rg_delOccurencies=[]
             
     class reminder(dict):
         class override(dict):
@@ -35,13 +58,10 @@ class calendarDataObject(dataObject.dataObject):
         rg_overrides=list()
 
         def __init__(self):
-            self.rg_overrides=list()
-        
-    
-    class datetime(dict):
-        st_date=''
-        st_time=''
-        st_timezone=''
+            self.rg_overrides=list()    
+
+    class uniqueBody(dict):
+        st_bodyType=''
     
     dt_endTime=datetime()
     dt_originalStartTime=datetime()
@@ -56,13 +76,15 @@ class calendarDataObject(dataObject.dataObject):
     rg_attendees=dict() # structure defining attendees of the event
     rg_conferenceData=conferenceData()
     rg_reminder=reminder()
-    rg_recurrence= recurrence() # structure defining recurrence patterns
+    rg_recurrence=recurrence() # structure defining recurrence patterns
+    rg_uniqueBody=uniqueBody()
    
     st_iCalUid='' #calendar_internal id to be identified outside the calendar    
     st_id='' # calendar_internal id
     st_htmlLink='' # link to the calendar event
     st_kind='' # calendar_internal kind of the event
     st_location=''   
+    st_transparency=''
     st_visibility='' # text value indicating the privacy level, if the event shall be shown to others
 
     ul_duration=0 # duration of the event in minutes    
@@ -121,6 +143,22 @@ class calendarDataObject(dataObject.dataObject):
                     att["st_displayName"]=attendee.st_displayName
                 if hasattr(attendee, 'st_email'):
                     att["st_email"]=attendee.st_email
+                if hasattr(attendee, 'st_organizer'):
+                    att["st_organizer"]=attendee.organizer
+                if hasattr(attendee, 'st_self'):
+                    att["st_self"]=attendee.st_self
+                if hasattr(attendee, 'f_optional'):
+                    att["f_optional"]=attendee.f_optional
+                if hasattr(attendee, 'f_resource'):
+                    att["f_resource"]=attendee.f_resource
+                if hasattr(attendee, 'st_responseStatus'):
+                    att["st_responseStatus"]=attendee.st_responseStatus
+                if hasattr(attendee, 'st_responseStatus'):
+                    att["st_responseStatus"]=attendee.st_responseStatus
+                if hasattr(attendee, 'st_organizer'):
+                    att["st_organizer"]=attendee.st_organizer
+                if hasattr(attendee, 'f_self'):
+                    att["f_self"]=attendee.f_self
                 attList.append(att)
             dataObject.rg_attendees=attList
         #conferenceData
@@ -158,11 +196,28 @@ class calendarDataObject(dataObject.dataObject):
                 recurrence["st_pattern"]=dataObject.recurrence.st_pattern
             if hasattr(dataObject.rg_recurrence, 'st_recurringEventId'):
                 recurrence["st_recurringEventId"]=dataObject.recurrence.st_recurringEventId
+            if hasattr(dataObject.rg_recurrence, 'st_firstOccurence'):
+                recurrence["st_firstOccurence"]=dataObject.recurrence.st_firstOccurence
+            if hasattr(dataObject.rg_recurrence, 'st_lastOccurence'):
+                recurrence["st_lastOccurence"]=dataObject.recurrence.st_lastOccurence
+            if hasattr(dataObject.rg_recurrence, "rg_delOccurencies"):
+                delOcc=list()
+                for occ in dataObject.rg_attendee.rg_delOccurencies:
+                    delOcc.append(occ)
+                recurrence["rg_delOccurencies"]=delOcc
             dataObject.rg_recurrence=recurrence
+        #uniqueBody
+        if hasattr(dataObject, 'rg_uniqueBody'):
+            uniqueBody=calendarDataObject.uniqueBody()
+            dataObject.rg_uniqueBody=uniqueBody
         return dataObject
 
     def __init__(self):
         self.rg_attendees=[]
         self.rg_attachments=[]
+        self.dt_startTime=self.datetime()
+        self.dt_endTime=self.datetime()
+        self.dt_originalStartTime=self.datetime()
         self.id_tag = "calendar#" + self.__class__.__name__ + "#" 
+
 

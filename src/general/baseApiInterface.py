@@ -34,7 +34,7 @@ class baseApiInterface:
         """function for the injection of given data from dict into the service"""
         #defines the logic how the dataObject is transformed and persisted in the service api, called automatically by wrapper methods
         #get attribute data from JSON and inject it into the service
-        print(dictionary)
+        #print(dictionary)
         return     
     
     def extractFromAPI (self):

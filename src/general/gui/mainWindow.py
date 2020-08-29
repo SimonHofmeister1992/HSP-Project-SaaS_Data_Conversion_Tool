@@ -70,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for service in baseApiInterface.baseApiInterface.__subclasses__():
             print(service.name + " " + service.id_tag + " ")
             if combobox.currentText().lower() in service.id_tag.split('#'):
-                print("is in tag " + combobox.currentText().lower())
+                #print("is in tag " + combobox.currentText().lower())
                 serviceCombobox.addItem(service.name)
         serviceCombobox.update()
 

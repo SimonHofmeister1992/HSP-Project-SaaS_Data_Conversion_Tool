@@ -56,7 +56,7 @@ class mongodbDatastore(datastore.datastore):
 
         for entry in entries:
             serviceObject.nrToInsert=serviceObject.nrToInsert+1
-            print(entry)
+            #print(entry)
             try:
                 serviceObject.injectInAPI(entry)
             except:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>813</height>
+    <width>996</width>
+    <height>827</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QComboBox" name="cb_output_category">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>700</x>
       <y>80</y>
       <width>281</width>
       <height>25</height>
@@ -47,7 +47,7 @@
    <widget class="QComboBox" name="cb_output_service">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>700</x>
       <y>110</y>
       <width>281</width>
       <height>25</height>
@@ -57,7 +57,7 @@
    <widget class="QLabel" name="lb_serviceselection">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>420</x>
       <y>30</y>
       <width>141</width>
       <height>17</height>
@@ -83,7 +83,7 @@
    <widget class="QLabel" name="lb_service_output">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>800</x>
       <y>40</y>
       <width>111</width>
       <height>17</height>
@@ -168,7 +168,7 @@
    <widget class="QTableWidget" name="tb_output_auth">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>700</x>
       <y>170</y>
       <width>281</width>
       <height>91</height>
@@ -205,7 +205,7 @@
    <widget class="QLabel" name="lb_authentication">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>420</x>
       <y>140</y>
       <width>141</width>
       <height>20</height>
@@ -218,7 +218,7 @@
    <widget class="QDialogButtonBox" name="buttonBox">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>400</x>
       <y>730</y>
       <width>166</width>
       <height>25</height>
@@ -233,7 +233,7 @@
      <rect>
       <x>10</x>
       <y>280</y>
-      <width>621</width>
+      <width>971</width>
       <height>421</height>
      </rect>
     </property>
@@ -241,7 +241,7 @@
      <bool>true</bool>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>190</number>
+     <number>320</number>
     </attribute>
     <column>
      <property name="text">
@@ -265,10 +265,16 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>646</width>
+     <width>996</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuService_Converter">
+    <property name="title">
+     <string>Service-Converter</string>
+    </property>
+   </widget>
+   <addaction name="menuService_Converter"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
