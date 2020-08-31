@@ -11,15 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Service-Converter</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QComboBox" name="cb_output_category">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>550</x>
       <y>80</y>
-      <width>281</width>
+      <width>431</width>
       <height>25</height>
      </rect>
     </property>
@@ -29,7 +29,7 @@
      <rect>
       <x>10</x>
       <y>80</y>
-      <width>281</width>
+      <width>381</width>
       <height>25</height>
      </rect>
     </property>
@@ -39,7 +39,7 @@
      <rect>
       <x>10</x>
       <y>110</y>
-      <width>281</width>
+      <width>381</width>
       <height>25</height>
      </rect>
     </property>
@@ -47,9 +47,9 @@
    <widget class="QComboBox" name="cb_output_service">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>550</x>
       <y>110</y>
-      <width>281</width>
+      <width>431</width>
       <height>25</height>
      </rect>
     </property>
@@ -70,7 +70,7 @@
    <widget class="QLabel" name="lb_service_input">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>150</x>
       <y>40</y>
       <width>131</width>
       <height>17</height>
@@ -83,7 +83,7 @@
    <widget class="QLabel" name="lb_service_output">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>710</x>
       <y>40</y>
       <width>111</width>
       <height>17</height>
@@ -124,12 +124,21 @@
      <rect>
       <x>10</x>
       <y>170</y>
-      <width>281</width>
+      <width>381</width>
       <height>91</height>
      </rect>
     </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+    </property>
     <property name="autoScrollMargin">
      <number>16</number>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>true</bool>
@@ -168,11 +177,14 @@
    <widget class="QTableWidget" name="tb_output_auth">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>550</x>
       <y>170</y>
-      <width>281</width>
+      <width>431</width>
       <height>91</height>
      </rect>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
     </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>true</bool>
@@ -237,6 +249,9 @@
       <height>421</height>
      </rect>
     </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>true</bool>
     </attribute>
@@ -269,12 +284,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuService_Converter">
-    <property name="title">
-     <string>Service-Converter</string>
-    </property>
-   </widget>
-   <addaction name="menuService_Converter"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

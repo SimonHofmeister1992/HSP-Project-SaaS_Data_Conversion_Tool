@@ -9,6 +9,9 @@ class calendarDataObject(dataObject.dataObject):
     class attachment(dict):
         st_fileUrl=''
         st_title=''
+        st_fileId=''
+        st_iconLink=''
+        st_mimeType=''
 
     class attendee(dict):
         '''person, room or thing attending the event'''
@@ -19,22 +22,59 @@ class calendarDataObject(dataObject.dataObject):
         st_email=''
         st_organizer=''
         f_self=''
+        ul_additionalGuests=0
+        st_comment=''
+        st_id=''
              
     
     class conferenceData(dict):
         class conferenceSolution(dict):
+            class key(dict):
+                st_keyType=''
+
             st_name=''
+            st_iconUri=''
+            rg_key=key()
+            
+            def __init__(self):
+                rg_key=self.key()
+
+        class createRequest(dict):
+            class conferenceSolutionKey(dict):
+                st_type=''
+            class status(dict):
+                st_statusCode=''
+
+            st_requestId=''
+            rg_conferenceSolutionKey=conferenceSolutionKey()
+            rg_status=status()
+            
+            def __init__(self):
+                rg_conferenceSolutionKey=self.conferenceSolutionKey()
+                rg_status=self.status()
             
         class entryPoint(dict):
             st_uri=''
             st_netShowUrl=''
+            st_accessCode=''
+            st_entryPointType=''
+            st_label=''
+            st_meetingCode=''
+            st_passcode=''
+            st_password=''
+            st_pin=''
 
+
+        st_notes=''
+        st_signature=''
         rg_conferenceSolution=''
-        rg_entryPoint=''
+        rg_entryPoints=[]
+        rg_createRequest=''
 
         def __init__(self):
             rg_conferenceSolution=self.conferenceSolution()
-            rg_entryPoint=self.entryPoint()
+            rg_entryPoints=[]
+            rg_createRequest=self.createRequest()
 
     class datetime(dict):
         st_date=''
@@ -55,8 +95,9 @@ class calendarDataObject(dataObject.dataObject):
     class reminder(dict):
         class override(dict):
             ul_minutes=0
+            st_method=''
         rg_overrides=list()
-
+        f_useDefault=''
         def __init__(self):
             self.rg_overrides=list()    
 
@@ -72,8 +113,8 @@ class calendarDataObject(dataObject.dataObject):
     f_status=False # true if meeting is declined or deleted
     f_transparency=False # true if event blocks time-span of duration in calendar
     
-    rg_attachments=dict()
-    rg_attendees=dict() # structure defining attendees of the event
+    rg_attachments=[]
+    rg_attendees=[] # structure defining attendees of the event
     rg_conferenceData=conferenceData()
     rg_reminder=reminder()
     rg_recurrence=recurrence() # structure defining recurrence patterns

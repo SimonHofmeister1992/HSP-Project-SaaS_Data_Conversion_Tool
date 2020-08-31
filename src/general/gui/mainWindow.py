@@ -99,7 +99,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 rowPosition=authbox.rowCount()
                 authbox.insertRow(rowPosition)
                 item=QTableWidgetItem(str(entry))
+                value=QTableWidgetItem(str(service.authInfo[entry]))
                 authbox.setItem(rowPosition, 0, item)
+                authbox.setItem(rowPosition, 1, value)
                 item.setFlags(QtCore.Qt.ItemIsEditable)
             authbox.update()
 

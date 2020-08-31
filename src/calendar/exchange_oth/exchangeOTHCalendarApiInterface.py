@@ -104,10 +104,11 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
                  is_all_day=dictionary["f_endTimeUnspecified"] if "f_endTimeUnspecified" in dictionary else False,
                  is_cancelled=True if dictionary["st_status"] == "cancelled" else False,
 
-                 meeting_workspace_url=dictionary["st_uri"] if "rg_conferenceData" in dictionary and "rg_entryPoint" in dictionary["rg_conferenceData"] else '',
-                 net_show_url=dictionary["st_netShowUrl"] if "rg_conferenceData" in dictionary and "rg_entryPoint" in dictionary["rg_conferenceData"] else '',
+                 meeting_workspace_url=dictionary["rg_conferenceData"]["rg_entryPoints"][0]["st_uri"] if "rg_conferenceData" in dictionary and "rg_entryPoints" in dictionary["rg_conferenceData"] and len(dictionary["rg_conferenceData"]["rg_entryPoints"])>=1 else '',
 
-                 reminder_minutes_before_start=dictionary["st_netShowUrl"] if "rg_reminder" in dictionary and "rg_override" in dictionary["rg_reminder"] else 0,
+                 net_show_url=dictionary["rg_conferenceData"]["rg_entryPoints"][0]["st_netShowUrl"] if "rg_conferenceData" in dictionary and "rg_entryPoints" in dictionary["rg_conferenceData"] and len(dictionary["rg_conferenceData"]["rg_entryPoints"])>=1 else '',
+
+                 reminder_minutes_before_start=dictionary["rg_reminder"]["rg_overrides"]["st_netShowUrl"] if "rg_reminder" in dictionary and "rg_overrides" in dictionary["rg_reminder"] else 0,
                  
                   start=EWSDateTime.from_datetime(datetime(int(dictionary["dt_startTime"]["st_date"].split('-')[0]), int(dictionary["dt_startTime"]["st_date"].split('-')[1]), int(dictionary["dt_startTime"]["st_date"].split('-')[2]), int(dictionary["dt_startTime"]["st_time"].split(':')[0]), int(dictionary["dt_startTime"]["st_time"].split(':')[1]), int(dictionary["dt_startTime"]["st_time"].split(':')[2]), 0, pytz.UTC)) if "dt_startTime" in dictionary else None,
                   end=EWSDateTime.from_datetime(datetime(int(dictionary["dt_endTime"]["st_date"].split('-')[0]), int(dictionary["dt_endTime"]["st_date"].split('-')[1]), int(dictionary["dt_endTime"]["st_date"].split('-')[2]), int(dictionary["dt_endTime"]["st_time"].split(':')[0]), int(dictionary["dt_endTime"]["st_time"].split(':')[1]), int(dictionary["dt_endTime"]["st_time"].split(':')[2]), 0, pytz.UTC)) if "dt_endTime" in dictionary else None,
@@ -332,23 +333,24 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
                     attendee["st_responseStatus"]=att.response_type
                 attList.append(attendee)
         dataObject.rg_attendees=attList
-          
-        entryPoints=[]
-        cd = dataObject.rg_conferenceData
+        
+        entryPoints=[]  
+        cd = dataObject.rg_conferenceData()
         eP = calendarDataObject.calendarDataObject.conferenceData.entryPoint()
         if hasattr(calendarItem, "meeting_workspace_url"):
             eP["st_uri"]=calendarItem.meeting_workspace_url
         if hasattr(calendarItem, "net_show_url"):
             eP["st_netShowUrl"]=calendarItem.net_show_url
-        cd.rg_entryPoint=eP
+        entryPoints.append(eP)
+        cd.rg_entryPoints=entryPoints
 
         if hasattr(calendarItem, "reminder_minutes_before_start"):
-            rem=dataObject.rg_reminder
+            rem=dataObject.rg_reminder()
             ovr=calendarDataObject.calendarDataObject.reminder.override()
             ovr["ul_minutes"]=str(calendarItem.reminder_minutes_before_start)
             rem.rg_overrides.append(ovr)
 
-        recurrence=dataObject.rg_recurrence
+        recurrence=dataObject.rg_recurrence()
         delOccurences=list()
         if hasattr(calendarItem, "recurrence") and hasattr(calendarItem.recurrence, "id"):
             recurrence["st_recurringEventId"]=calendarItem.recurrence.id       
@@ -511,3 +513,6 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
 #exchApi.authInfo["email"]="simon1.hofmeister@st.othr.de"
 #exchApi.extractFromAPI(True)
 #exchApi.requestInjectionInAPI (substrIdTag = exchApi.id_tag)
+
+
+
