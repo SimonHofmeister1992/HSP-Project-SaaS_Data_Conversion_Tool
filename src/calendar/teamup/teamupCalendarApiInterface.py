@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import datetime
 from datetime import datetime, timezone
 import sys
 
@@ -237,10 +238,10 @@ class teamupCalendarApiInterface(baseApiInterface.baseApiInterface,jsonTokenExch
         return dataObject
 #TODO: TEST-CODE ONLY, REMOVE BEFORE PRODUCTION USE
 
-ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
-ti.authInfo["teamupApiKey"]="a23e749b14acda2f61fde476dba9f317abb9d5425fc13a542b535239a6a77515"
-ti.authInfo["calendarId"]=ti.uniqueCalendarId
-parsedEvents=ti.extractFromAPI()
+#ti=teamupCalendarApiInterface('kst496bmane3rty9b7', None)
+#ti.authInfo["teamupApiKey"]="a23e749b14acda2f61fde476dba9f317abb9d5425fc13a542b535239a6a77515"
+#ti.authInfo["calendarId"]=ti.uniqueCalendarId
+#parsedEvents=ti.extractFromAPI()
 #events=ti.requestInjectionInAPI(teamupCalendarDataObject.teamupCalendarDataObject().id_tag.split('#')[0])
 
 

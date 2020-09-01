@@ -5,7 +5,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import file_cache
+#import file_cache #optonal
 
 import sys
 import pytz
@@ -635,6 +635,6 @@ class googleCalendarApiInterface (baseApiInterface.baseApiInterface):
   
 
 
-gcal = googleCalendarApiInterface()
-gcal.extractFromAPI(True)
-gcal.requestInjectionInAPI(substrIdTag = gcal.id_tag)
+#gcal = googleCalendarApiInterface()
+#gcal.extractFromAPI(True)
+#gcal.requestInjectionInAPI(substrIdTag = gcal.id_tag)

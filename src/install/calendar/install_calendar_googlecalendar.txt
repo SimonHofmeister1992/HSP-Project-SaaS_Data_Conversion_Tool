@@ -1,1 +1,4 @@
---upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib httplib2 file_cache pandas sklearn
+google-api-python-client 
+google-auth-httplib2 
+google-auth-oauthlib 
+httplib2

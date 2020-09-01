@@ -1,1 +1,3 @@
--r notes/install_notes_notion.txt -r notes/install_notes_oneNote.txt -r notes/install_notes_keep.txt
+-r notes/install_notes_notion.txt 
+-r notes/install_notes_oneNote.txt 
+-r notes/install_notes_keep.txt
