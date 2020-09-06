@@ -111,7 +111,6 @@ class calendarDataObject(dataObject.dataObject):
     f_endTimeUnspecified=False # true if the event is all day
     f_guestsCanModify=False # true if guests are able to modify the event
     f_status=False # true if meeting is declined or deleted
-    f_transparency=False # true if event blocks time-span of duration in calendar
     
     rg_attachments=[]
     rg_attendees=[] # structure defining attendees of the event

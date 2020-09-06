@@ -7,7 +7,7 @@ import time
 from pytz import timezone as tz
 from datetime import datetime, timezone
 sys.path.append('../exchange_oth/')
-import exchangeOTHCalendarDataObject as exchangeOTHCalendarDataObject
+import microsoftExchangeCalendarDataObject as microsoftExchangeCalendarDataObject
 sys.path.append('../general/')
 import calendarDataObject as calendarDataObject
 sys.path.append("../../general/tools/")
@@ -17,20 +17,20 @@ import bidict as bidict
 sys.path.append("../../general/")
 import baseApiInterface as baseApiInterface
 
-class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenExchanger.jsonTokenExchanger):
+class microsoftExchangeCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenExchanger.jsonTokenExchanger):
 
     idTable=idTable()
     authInfo={"server": "exchange.othr.de", "username_with_domain":"", "password":"", "email":""}
 
-    id_tag= "calendar#exchangeOTHCalendarApiInterface#"
+    id_tag= "calendar#microsoftExchangeCalendarApiInterface#"
     name="OTH Exchange"
-    correspondingDataObjectClass=exchangeOTHCalendarDataObject.exchangeOTHCalendarDataObject()
+    correspondingDataObjectClass=microsoftExchangeCalendarDataObject.microsoftExchangeCalendarDataObject()
 
     def __init__(self):
         super().__init__()
         self.idTable=idTable()
         self.id_tag="calendar#" + self.__class__.__name__ + "#"
-        self.correspondingDataObjectClass=exchangeOTHCalendarDataObject.exchangeOTHCalendarDataObject()
+        self.correspondingDataObjectClass=microsoftExchangeCalendarDataObject.microsoftExchangeCalendarDataObject()
     
     def extractFromAPI(self, shallPersist=True):
         if self.authInfo["server"] != "" and self.authInfo["server"] != None and self.authInfo["username_with_domain"] != "" and \
@@ -131,7 +131,7 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
 
                  organizer = Organizer(email_address=dictionary["organizer"]) if "organizer" in dictionary else None,
 
-                 #exchangeOTHCalendarObject
+                 #microsoftExchangeCalendarObject
                  appointment_sequence_number=dictionary["st_appointmentSequenceNumber"] if "st_appointmentSequenceNumber" in dictionary else '',
                  conference_type=dictionary["st_conference_type"] if "st_conference_type" in dictionary else '',
                  culture=dictionary["st_culture"] if "st_culture" in dictionary else '',
@@ -212,7 +212,7 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
 
     def handleGetCalendarItem(self, calendarItem, shallPersist):
         utctz=tz('Etc/UTC')
-        dataObject=exchangeOTHCalendarDataObject.exchangeOTHCalendarDataObject()
+        dataObject=microsoftExchangeCalendarDataObject.microsoftExchangeCalendarDataObject()
         #dataObject
         if hasattr(calendarItem, "subject"):
             dataObject.title=calendarItem.subject
@@ -506,7 +506,7 @@ class exchangeOTHCalendarInterface(baseApiInterface.baseApiInterface, jsonTokenE
         self.idTable.appendPrefetchedIdSet(dataObject._id)
                 
 
-#exchApi=exchangeOTHCalendarInterface()
+#exchApi=microsoftExchangeCalendarInterface()
 #exchApi.authInfo["server"]="exchange.othr.de"
 #exchApi.authInfo["username_with_domain"]="hsr\hos47096"
 #exchApi.authInfo["password"]="16Emimon04*"

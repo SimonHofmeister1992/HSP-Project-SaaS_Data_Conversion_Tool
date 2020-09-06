@@ -1,20 +1,28 @@
 % [12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
 \documentclass[12pt,a4paper]{article}
+%\documentclass[12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
 \usepackage{mathtools}
 \input{includes}
+\input{commands}
+\addbibresource{literatur.bib}
 
 \begin{document}
-\input{commands}
+
 
 % ----------------------------------------------------------------------------------------------------------
 % Titelseite
 % ----------------------------------------------------------------------------------------------------------
+
 \MyTitlepage{}{
-\texttt{simon1.hofmeister@st.oth-regensburg.de}\\
+
+\texttt{Simon Hofmeister}\\
+\texttt{Studiengang: Informatik M.Sc.(SE)}\\
+
+}
 {\today}
 
+
 \setcounter{page}{1} 
-% -------------------
 
 % ----------------------------------------------------------------------------------------------------------
 % Inhaltsverzeichnis
@@ -23,13 +31,11 @@
 \pagebreak
 
 
-% ----------------------------------------------------------------------------------------------------------
-% Inhalt
-% ----------------------------------------------------------------------------------------------------------
+% 
 % Abstände Überschrift
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
 
 % Kopfzeile
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -45,22 +51,172 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% ----------------------------------------------------------------------------------
-% Kapitel: Einleitung
-% ----------------------------------------------------------------------------------
 
-% hier die sections inkludieren
+\pagebreak
 
+----------------------------------------------------------------------------------------------------------
+% Inhalt
+%
+
+
+\input{chapters/abstract.tex} \pagebreak
+\input{chapters/introduction.tex} \pagebreak
+\input{chapters/organization.tex} \pagebreak
+
+\input{chapters/konfigmanagement} \pagebreak
+\input{chapters/overview.tex} \pagebreak
+\input{chapters/google.tex} \pagebreak
+\input{chapters/exchange.tex} \pagebreak
+\input{chapters/teamup.tex} \pagebreak
+\input{chapters/gui.tex} \pagebreak
+\input{chapters/mongo.tex} \pagebreak
+\input{chapters/outlook.tex} \pagebreak
+%\input{chapters/fazit.tex} \pagebreak
+%----------------------------------------------------------------------------------------------------------
+
+%\newpage
+% ----------------------------------------------------------------------------------
+% Kleine Einführung in LaTeX-Elemente
+% ----------------------------------------------------------------------------------
+% \section{\LaTeX-Elemente}
+% Dieser Abschnitt soll nicht Bestandteil des Projektberichtes sein, sondern beinhaltet lediglich einige
+% Informationen über \LaTeX-Distributionen, Editoren und \LaTeX-Elemente, die Ihnen beim Einstieg in das
+% \LaTeX-Textsatzsystem helfen sollen.
+
+% \subsection{\LaTeX-Distributionen nach Betriebssystemen}
+
+% \subsubsection{\LaTeX-Distributionen}
+
+% Folgende Haupt-\LaTeX-Distributionen stehen Ihnen zur Verfügung:
+% \begin{itemize}
+%  \item Windows:\quad \texttt{MiKTeX}\quad Webseite:\quad\url{http://www.miktex.org}
+%  \item Linux/Unix:\quad \texttt{TeX Live}\quad Webseite:\quad\url{http://tug.org/texlive/}
+%  \item Mac OS:\quad \texttt{MacTeX}\quad Webseite:\quad\url{http://www.tug.org/mactex/}
+% \end{itemize}
+
+% \subsubsection{\LaTeX-Editoren}
+% Auf folgenden Webseiten können Sie einige hilfreiche \LaTeX-Editoren finden:
+% \begin{itemize}
+%  \item Windows/Linux/Mac OS: \url{http://www.xm1math.net/texmaker/}
+%  \item Windiws: \url{http://www.texniccenter.org/}
+%  \item Mac OS: \url{http://pages.uoregon.edu/koch/texshop/}
+% \end{itemize}
+
+%Falls bei den oben genannten Editoren kein passender vorhanden war, findet sich auf Wikipedia eine  %Zusammenstellung vieler weiterer \LaTeX-Editoren:\\[1em]
+%\hspace*{3cm}\url{https://en.wikipedia.org/wiki/Comparison_of_TeX_editors}
+
+
+%\subsection{Unterabschnitt}
+%Zum Einfügen eines Bildes, siehe Abbildung \ref{fig:reversi01}, wird die
+% \textit{minipage}-Umgebung 
+%genutzt, da die Bilder so gut positioniert werden können.
+
+%\vspace{1em}
+%\begin{minipage}{\linewidth}
+%	\centering
+%	\includegraphics[width=0.6\linewidth]{pics/gamefield01.png}
+%	\captionof{figure}[Spielfeld 01]{Unbespieltes Spielfeld\footnotemark }
+%	\label{fig:reversi01}
+%\end{minipage}
+%\footnotetext{Diesem Spielfeld wurden noch keine Spieler zugewiesen (daher die
+% dunklen Spielsteine)}
+
+%Nachdem das Spiel gestartet wurde und beiden Spielphasen durchlaufen wurden, siegt
+% schließlich der %Spieler mit der Farbe rot.
+
+%\vspace{1em}
+%\begin{minipage}{\linewidth}
+%	\centering
+%	\includegraphics[width=0.6\linewidth]{pics/gamefield02.png}
+%	\captionof{figure}[Spielfeld 02]{Finales Spielfeld\footnotemark }
+%	\label{fig:reversi2}
+%\end{minipage}
+%\footnotetext{Das Spielfeld nach der Zug- und Bombenphase. Spieler rot gewinnt
+% eindeutig.}
+
+%\subsection{Tabellen}
+%In diesem Abschnitt wird eine Tabelle (siehe Tabelle \ref{tab:beispiel}) dargestellt.
+
+%\vspace{1em}
+%\begin{table}[!h]
+%	\centering
+%	\begin{tabular}{|l|l|l|}
+%		\hline
+%		\textbf{Name} & \textbf{Name} & \textbf{Name}\\
+%		\hline
+%		1 & 2 & 3\\
+%		\hline
+%		4 & 5 & 6\\
+%		\hline
+%		7 & 8 & 9\\
+%		\hline
+%	\end{tabular}
+%	\caption{Beispieltabelle}
+%	\label{tab:beispiel}
+%\end{table}
+
+
+%\subsection{Auflistung}
+%Für Auflistungen wird die \textit{enumerate}- oder \textit{itemize}-Umgebung genutzt.
+%
+%\begin{itemize}
+%	\item Nur
+%	\item ein
+%	\item Beispiel.
+%\end{itemize}
+%
+%\subsection{Listings}
+%Zuletzt ein Beispiel für ein Listing, in dem Quellcode eingebunden werden kann, siehe Listing \ref{lst:arduino}.
+%
+%\vspace{1em}
+%\begin{lstlisting}[caption=Arduino Beispielprogramm, label=lst:arduino]
+%int ledPin = 13;
+%void setup() {
+%    pinMode(ledPin, OUTPUT);
+%}
+%void loop() {
+%    digitalWrite(ledPin, HIGH);
+%    delay(500);
+%    digitalWrite(ledPin, LOW);
+%    delay(500);
+%}
+%\end{lstlisting}
+%
+%\subsection{Tipps}
+%Die Quellen befinden sich in der Datei \textit{quellen.bib}. Eine Buch- und eine Online-Quelle sind beispielhaft eingefügt. [Vgl. \cite{buch}, \cite{online}]
+%
+%\pagebreak
+% ----------------------------------------------------------------------------------------------------------
+% Filter fuer Literatur und Quellen definieren
+% ----------------------------------------------------------------------------------------------------------
+
+\defbibheading{Literatur}{\section*{Literaturverzeichnis}} 
+\defbibheading{Quellen}{\section*{Quellenverzeichnis}} 
+
+\defbibfilter{Literatur}{\not\keyword{online}} 
+\defbibfilter{Quellen}{\keyword{online}} 
+%\defbibfilter{Literatur}{keyword=trusted} 
+%\defbibfilter{Quellen}{keyword=untrusted} 
 % ----------------------------------------------------------------------------------------------------------
 % Literatur
 % ----------------------------------------------------------------------------------------------------------
-\renewcommand\refname{Literatur}
-\bibliographystyle{alpha}
-\bibliography{literatur}
-
-%\printbibliography
-
+\addcontentsline{toc}{section}{Literaturverzeichnis}
+\addtocontents{toc}{\vspace{-0.5em}}
+\lhead{Literaturverzeichnis} 
+\rhead{} 
+\printbibliography[heading=Literatur,filter=Literatur] 
 \pagebreak
+
+
+% ---------------------------------------------------------------------------------------------------------- 
+% Quellen 
+% ---------------------------------------------------------------------------------------------------------- 
+\addcontentsline{toc}{section}{Quellenverzeichnis}
+\addtocontents{toc}{\vspace{-0.5em}}
+\lhead{Quellenverzeichnis} 
+\rhead{} 
+\printbibliography[title = {Quellen}, heading=Quellen,filter=Quellen] 
+\pagebreak 
 
 % ----------------------------------------------------------------------------------------------------------
 % Anhang
@@ -69,13 +225,12 @@
 \setcounter{page}{1}
 %\lhead{Anhang \thesection}
 
-\begin{appendix}
-\section*{Anhang}
-%\phantomsection
-\addcontentsline{toc}{section}{Anhang}
-\addtocontents{toc}{\vspace{-0.5em}}
-
-\end{appendix}
+%\begin{appendix}
+%\section*{Anhang}
+%%\phantomsection
+%\addcontentsline{toc}{section}{Anhang}
+%\addtocontents{toc}{\vspace{-0.5em}}
+%
+%\end{appendix}
 
 \end{document}
-
