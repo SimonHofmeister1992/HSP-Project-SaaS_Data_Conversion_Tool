@@ -1,7 +1,7 @@
 #KeepServiceAPI
 #gkeepapi version 0.11.16
 #Keep User Name: thsp006@gmail.com
-#Password: TestHSPT3st534
+#Password: TestHSPT3st535
 
 import sys
 import os
@@ -144,13 +144,13 @@ class keepApiInterface (baseApiInterface):
         print("login successfull")
         return k
 
-
-"""test = keepApiInterface()
+test = keepApiInterface()
 print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
 test.authInfo["username"] = 'thsp006@gmail.com'
 print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
-test.authInfo["password"] = 'TestHSPT3st534'
+test.authInfo["password"] = 'TestHSPT3st535'
 print("authInfo: ", keepApiInterface.authInfo, "; keys: ", keepApiInterface.authInfo.keys())
+"""
 #result = test.extractFromAPI()
 filterOptions = [
     {'updated': { '$gt': '2020-06-30T09:55:23.247000Z'}}#,
@@ -164,5 +164,5 @@ transformationOptions = [
 addAggOptions = [
     {'$unset': 'otitle'}
 ]
-#test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")
-test.login()"""
+#test.requestInjection("notes", filterOptions, transformationOptions, addAggOptions)##oneNoteApiInterface#")"""
+test.login()
