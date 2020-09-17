@@ -211,7 +211,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             errOccuredExtract=True
         
         try:
-            lservice.requestInjectionInAPI(transformationOptions=transformationOptions, filterOptions=filterOptions)
+            lservice.requestInjectionInAPI(substrIdTag=rservice.id_tag,transformationOptions=transformationOptions, filterOptions=filterOptions)
         except:
             errMsgInject=errMsgInject+str(sys.exc_info()[1])
             errOccuredInject=True
